@@ -9,7 +9,6 @@ const bcrypt = require('bcrypt')
 // Sign up controller
 const signup = async (req, res) => {
 
-    console.log(req.body)
     if (!req.body) return responseHandler.incompleteFields(res) // -- check body first
     let {Email, Password, Username, Fname, Sname, IsAdmin} = req.body
 
@@ -37,8 +36,27 @@ const signup = async (req, res) => {
     return responseHandler.userCreatedSuccessfully(res, token)
 }
 
+// Sign in controller
 const signin = async (req, res) => {
 
+    if (!req.body) return responseHandler.incompleteFields(res) // -- check body first
+    let {Username, Password} = req.body
+
+    // vaildate fields
+    const {error} = signinSchema.validate(req.body)
+    if (error) return responseHandler.incompleteFields(res)
+    
+    // search db for existing account
+    const result = await authRequests.getUserByField({Username})
+    if (!result) return responseHandler.incorrectCredentials(res)
+    
+    // compare hashed passwords
+    const match = await bcrypt.compare(Password, result.Password)
+    if (!match) return responseHandler.incorrectCredentials(res)
+
+    // generate token
+    const token = jwt.sign(JSON.stringify(result), process.env.TOKEN_SECRET)
+    return responseHandler.loggedInSuccessfully(res, token)
 }
 
 module.exports = {signin, signup}
