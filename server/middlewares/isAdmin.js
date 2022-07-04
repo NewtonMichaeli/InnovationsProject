@@ -14,6 +14,11 @@ const isAdmin = async (req, res, next) => {
     try {
         // extract token - verify admin
         const verified = jwt.verify(token, process.env.TOKEN_SECRET)
+        if (!verified) {
+            req.IsAdmin = false
+            return next()
+        }
+        
         const result = await authRequests.getUserByField({_id: verified.id})
         req.IsAdmin = result?.role ? true : false
         return next()

@@ -2,15 +2,13 @@
 
 const User = require('../../models/User')
 
-// Signup a new account
+// Signup a new account (returns the new user)
 const signup = async (data) => {
 
     const user = new User(data)
-    user.save((err, newUser) => {
-        if (err) return null
-        console.log(newUser)
-    })
-    return true
+    const result = await user.save()
+    console.log('aftermath', result)
+    return result
 }
 
 // Get user by id

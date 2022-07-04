@@ -20,7 +20,6 @@ const signup = async (req, res) => {
 
     // check if username or email are occupied
     const checkOccupiedFields = await authRequests.getUserByField({$or: [{Username}, {Email}]})
-    console.log(checkOccupiedFields)
     if (checkOccupiedFields) {
         const emailOccupied = checkOccupiedFields.Email === Email
         const usernameOccupied = checkOccupiedFields.Username === Username
@@ -29,7 +28,7 @@ const signup = async (req, res) => {
 
     // signing up
     const result = await authRequests.signup({Email, Password, Fname, Sname, Username, IsAdmin})
-    if (!result) return responseHandler.failedCreatingUser(res, "Couldn't create user")
+    if (!result) return responseHandler.failedCreatingUser(res)
 
     // generating token
     const token = jwt.sign(JSON.stringify(result), process.env.TOKEN_SECRET)
@@ -56,7 +55,14 @@ const signin = async (req, res) => {
 
     // generate token
     const token = jwt.sign(JSON.stringify(result), process.env.TOKEN_SECRET)
+    console.log('----------encoding:\n', token, token.length,  process.env.TOKEN_SECRET)
     return responseHandler.loggedInSuccessfully(res, token)
 }
 
-module.exports = {signin, signup}
+// Get user data
+const getUserData = async (req, res) => {
+    return responseHandler.userSentSuccessfully(res, req.user)
+}
+
+
+module.exports = {signin, signup, getUserData}
