@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const InnovationSchema = require('./Innovation')
+const { PROFILE_PIC_ENUM_LENGTH } = require('../configs/_database')
 
 const UserSchema = mongoose.Schema({
 	Fname: {
@@ -24,6 +25,8 @@ const UserSchema = mongoose.Schema({
     },
 	Profile_Pic: {
         type: Number,
+        min: 1,
+        max: PROFILE_PIC_ENUM_LENGTH,
         default: 1
     },
     IsAdmin: {

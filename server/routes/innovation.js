@@ -13,9 +13,13 @@ const upload = multer({dest: 'uploads'})
 // @desc    Endpoint for uploading assets associated with an innovation
 router.post('/upload-file/:username/:project_id', userAndInnovationExists, upload.single('file'), innovationController.upload)
 
-// @route   POST /api/innovations/create/:username
+// @route   POST /api/innovations/:username
 // @desc    Endpoint for creating innovations for a specified user
-router.post('/create/:username', innovationController.createInnovation)
+router.post('/:username', innovationController.createInnovation)
+
+// @route   DELETE /api/innovations/:username
+// @desc    Endpoint for deleting innovations given it's id
+router.delete('/:username/:project_id', innovationController.deleteInnovation)
 
 
 // -- handle multer exceptions

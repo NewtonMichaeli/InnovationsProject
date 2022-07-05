@@ -26,19 +26,31 @@ const upload = async (req, res) => {
 
 // create a new innovation
 const createInnovation = async (req, res) => {
-    const {username} = req.params, {Name, Description, Tags, Roles, Status, Contributors, Assets} = req.body
+    const {username} = req.params, {Name, Description, Tags, Roles, Status, Contributors} = req.body
     const InnovationData = {
-        Name, Description, Tags, Roles, Status, Contributors, Assets, DoC: new Date().getTime()
+        Name, Description, Tags, Roles, Status, Contributors, Assets: [], DoC: new Date().getTime()
     }
 
+    // validate request data
     const {error} = Joi_InnovationSchema.validate(InnovationData)
     if (error) return responseHandler.incompleteFields(res)
     
+    // create innovation
     const result = await requestHandler.createInnovation(InnovationData, username)
-
-    if (result) responseHandler.innovationCreatedSuccessfully(res, InnovationData)
+    if (result) responseHandler.innovationCreatedSuccessfully(res, result)
     else responseHandler.failedCreatingInnovation(res, InnovationData)
 }
 
 
-module.exports = {upload, createInnovation}
+// delete an existing innovation
+const deleteInnovation = async (req, res) => {
+    const {username, project_id} = req.params
+
+    // delete innovation
+    const result = await requestHandler.deleteInnovation(username, project_id)
+    if (result) responseHandler.innovationDeletedSuccessfully(res)
+    else responseHandler.failedDeletingInnovation(res)
+}
+
+
+module.exports = {upload, createInnovation, deleteInnovation}
