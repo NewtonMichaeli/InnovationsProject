@@ -29,6 +29,10 @@ const InnovationSchema = new mongoose.Schema({
         required: true,
         default: 'open'
     },
+    Private: {
+        type: Boolean,
+        required: true
+    },
     DoC: {
         type: Number,
         default: new Date().getTime()

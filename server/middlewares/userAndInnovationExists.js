@@ -11,6 +11,7 @@ const userAndInnovationExists = async (req, res, next) => {
     const user = await authRequests.getUserByField({Username: username})
     if (!user) return responseHandler.incompleteFields(res)
     
+    // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
     if (index === -1) return responseHandler.incompleteFields(res)
 

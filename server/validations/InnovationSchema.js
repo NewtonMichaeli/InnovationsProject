@@ -9,6 +9,7 @@ const Joi_InnovationSchema = Joi.object({
     Roles: Joi.array().items(Joi.string()).required(),
     Assets: Joi.array().items(Joi_AssetSchema).required(),
     Status: Joi.valid('open', 'in development', 'finished').required(),
+    Private: Joi.bool().required(),
     DoC: Joi.number().required(),
     DoF: Joi.number().optional(),
     Contributors: Joi.array().items(Joi_ContributorSchema).required()

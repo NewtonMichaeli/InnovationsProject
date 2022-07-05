@@ -15,7 +15,8 @@ const authUser = async (req, res, next) => {
     {
         if (err) return responseHandler.accessDenied(res)
         // -- get user details
-        authRequests.getUserByField({_id: data._id})
+        const {Username, Email} = data
+        authRequests.getUserByField({Username, Email})
         .then(res => {
             req.user = res
             return next()
