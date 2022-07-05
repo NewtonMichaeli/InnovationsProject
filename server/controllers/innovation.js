@@ -8,33 +8,33 @@ const Joi_InnovationSchema = require('../validations/InnovationSchema')
 
 // upload asset data to associated user
 const upload = async (req, res) => {
-    console.log(req.file)
-    const {user_id, project_id} = req.params, fileData = {
-        path: req.file?.path,
-        originalName: req.file?.originalname
-    }
 
-    if (!fileData.path?.length || !fileData.originalName?.length || !user_id?.length || !project_id?.length)
-        return responseHandler.incompleteFields(res)
+    // extract req data
+    const {user, innovationIndex, file} = req
 
-    const result = requestHandler.uploadAsset(fileData, user_id, project_id)
+    // validate path variables
+    if (!file || !file?.path?.length || !file?.originalname?.length) return responseHandler.failedUploadingFile(res)
 
+    // extract file data
+    const { path, originalname } = file
+
+    const result = await requestHandler.uploadAsset(user, innovationIndex, {path, originalName: originalname})
     if (result) responseHandler.fileUploadedSuccessfully(res)
-    else responseHandler.failedUploadingFile(res)
+    else responseHandler.incompleteFields(res)
 }
 
 
 // create a new innovation
 const createInnovation = async (req, res) => {
-    const {user_id} = req.params, {Name, Description, Tags, Roles, Status, Contributers} = req.body
+    const {username} = req.params, {Name, Description, Tags, Roles, Status, Contributors, Assets} = req.body
     const InnovationData = {
-        Name, Description, Tags, Roles, Status, Contributers, Assets: [], DoC: new Date().getTime()
+        Name, Description, Tags, Roles, Status, Contributors, Assets, DoC: new Date().getTime()
     }
 
-    if (Joi_InnovationSchema.validate(InnovationData) === false)
-        return responseHandler.incompleteFields(res)
+    const {error} = Joi_InnovationSchema.validate(InnovationData)
+    if (error) return responseHandler.incompleteFields(res)
     
-    const result = requestHandler.createInnovation(InnovationData, user_id)
+    const result = await requestHandler.createInnovation(InnovationData, username)
 
     if (result) responseHandler.innovationCreatedSuccessfully(res, InnovationData)
     else responseHandler.failedCreatingInnovation(res, InnovationData)

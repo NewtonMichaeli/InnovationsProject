@@ -24,7 +24,8 @@ const InnovationSchema = new mongoose.Schema({
         type: [AssetSchema]
     },
     Status: {
-        type: ['open', 'in development', 'finished'],
+        type: String,
+        enum: ['open', 'in development', 'finished'],
         required: true,
         default: 'open'
     },
@@ -39,10 +40,6 @@ const InnovationSchema = new mongoose.Schema({
     Contributors: {
         type: [ContributorSchema],
         default: []
-    },
-    id: {
-        type: String,
-        default: v4()
     }
 })
 

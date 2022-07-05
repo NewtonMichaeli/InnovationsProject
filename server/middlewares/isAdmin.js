@@ -20,7 +20,7 @@ const isAdmin = async (req, res, next) => {
         }
         
         const result = await authRequests.getUserByField({_id: verified.id})
-        req.IsAdmin = result?.role ? true : false
+        req.IsAdmin = result?.IsAdmin
         return next()
     }
     catch(err) {

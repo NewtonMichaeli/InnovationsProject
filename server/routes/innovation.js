@@ -1,22 +1,25 @@
 const router = require('express').Router()
 const innovationController = require('../controllers/innovation')
 const responseHandler = require('../utils/responses/innovations')
+// middlewares
+const { userAndInnovationExists } = require('../middlewares/userAndInnovationExists')
 const multer = require('multer')
 
 const upload = multer({dest: 'uploads'})
 
-// routes
+// Routes:
 
-// @route   POST /api/innovations/upload-file/:user_id
+// @route   POST /api/innovations/upload-file/:username/:project_id
 // @desc    Endpoint for uploading assets associated with an innovation
-router.post('/upload-file/:user_id/:project_id', upload.single('file'), innovationController.upload)
+router.post('/upload-file/:username/:project_id', userAndInnovationExists, upload.single('file'), innovationController.upload)
+
+// @route   POST /api/innovations/create/:username
+// @desc    Endpoint for creating innovations for a specified user
+router.post('/create/:username', innovationController.createInnovation)
+
 
 // -- handle multer exceptions
 router.use((error, req, res, next) => responseHandler.failedUploadingFile(res))
-
-// @route   POST /api/innovations/create/:user_id
-// @desc    Endpoint for uploading assets associated with an innovation
-router.post('/create/:user_id', innovationController.createInnovation)
 
 
 module.exports = router

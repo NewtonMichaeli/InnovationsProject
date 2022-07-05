@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi')
 const Joi_AssetSchema = require('./AssetSchema')
 const Joi_ContributorSchema = require('./ContributorSchema')
 
-const Joi_InnovationSchema = Joi.object().valid({
+const Joi_InnovationSchema = Joi.object({
     Name: Joi.string().required(),
     Description: Joi.string().required(),
     Tags: Joi.array().items(Joi.string()).required(),
@@ -10,7 +10,7 @@ const Joi_InnovationSchema = Joi.object().valid({
     Assets: Joi.array().items(Joi_AssetSchema).required(),
     Status: Joi.valid('open', 'in development', 'finished').required(),
     DoC: Joi.number().required(),
-    DoF: Joi.number(),
+    DoF: Joi.number().optional(),
     Contributors: Joi.array().items(Joi_ContributorSchema).required()
 })
 

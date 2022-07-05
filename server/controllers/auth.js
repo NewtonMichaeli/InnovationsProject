@@ -15,15 +15,16 @@ const signup = async (req, res) => {
     const {error} = signupSchema.validate(req.body)
     if (error) return responseHandler.incompleteFields(res)
 
-    Role = req.isAdmin ? true : false           // -- determine target role
+    Role = req.IsAdmin ? true : false           // -- determine target role
     Password = await bcrypt.hash(Password, 10)  // -- hash password
 
     // check if username or email are occupied
     const checkOccupiedFields = await authRequests.getUserByField({$or: [{Username}, {Email}]})
     if (checkOccupiedFields) {
-        const emailOccupied = checkOccupiedFields.Email === Email
-        const usernameOccupied = checkOccupiedFields.Username === Username
-        return responseHandler.failedCreatingUser(res, {occupiedFields: {emailOccupied, usernameOccupied}})
+        let occupiedFields = []
+        if (checkOccupiedFields.Email === Email) occupiedFields.push('Email')
+        if (checkOccupiedFields.Username === Username) occupiedFields.push('Username')
+        return responseHandler.failedCreatingUser(res, {occupiedFields})
     }
 
     // signing up
@@ -55,7 +56,6 @@ const signin = async (req, res) => {
 
     // generate token
     const token = jwt.sign(JSON.stringify(result), process.env.TOKEN_SECRET)
-    console.log('----------encoding:\n', token, token.length,  process.env.TOKEN_SECRET)
     return responseHandler.loggedInSuccessfully(res, token)
 }
 
