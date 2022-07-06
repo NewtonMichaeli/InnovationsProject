@@ -18,7 +18,8 @@ const authInnovationPrivacy = async (req, res, next) => {
 
     if (user.Innovations[index].Private) {
         // verification process - requested innovation is private
-        const token = req.header(AUTH_TOKEN)
+        // const token = req.header(AUTH_TOKEN)
+        const token = req.cookies[AUTH_TOKEN]
         if (!token) return authResponseHandler.accessDenied(res)
         
         // extract token - verify user

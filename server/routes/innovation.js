@@ -1,7 +1,6 @@
 const multer = require('multer')
 const router = require('express').Router()
 const innovationController = require('../controllers/innovation')
-const responseHandler = require('../utils/responses/innovations')
 const errorController = require('../controllers/_errors')
 const {ASSETS_FOLDER_NAME, FILE_SIZE_LIMIT} = require('../configs/_server')
 // middlewares
@@ -33,7 +32,7 @@ router.patch('/:project_id', authUser, innovationController.updateInnovationData
 router.delete('/:project_id', authUser, innovationController.deleteInnovation)
 
 // @route   GET /api/innovations/assets/:username/:project_id/:filename/
-// @desc    Endpoint for sending assets
+// @desc    Endpoint for sending back assets
 router.get('/assets/:username/:project_id/:filename', authInnovationPrivacy, innovationController.sendAsset)
 
 // @route   POST /api/innovations/assets/:project_id/
@@ -46,7 +45,7 @@ router.post(
     errorController.fileUploadError
 )
 
-// @route   DELETE /api/innovations/assets/:project_id/
+// @route   DELETE /api/innovations/assets/:project_id/:asset_id/
 // @desc    Endpoint for deleting assets associated with an innovation
 router.delete('/assets/:project_id/:asset_id', authUser, innovationController.deleteAsset)
 

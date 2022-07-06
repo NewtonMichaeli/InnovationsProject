@@ -36,6 +36,7 @@ const signup = async (req, res) => {
     return responseHandler.userCreatedSuccessfully(res, token)
 }
 
+
 // Sign in controller
 const signin = async (req, res) => {
 
@@ -59,10 +60,17 @@ const signin = async (req, res) => {
     return responseHandler.loggedInSuccessfully(res, token)
 }
 
+
 // Get user data
 const getUserData = async (req, res) => {
     return responseHandler.userSentSuccessfully(res, req.user)
 }
 
 
-module.exports = {signin, signup, getUserData}
+// Update user data
+const updateUserData = async (req, res) => {
+    
+}
+
+
+module.exports = {signin, signup, getUserData, updateUserData}

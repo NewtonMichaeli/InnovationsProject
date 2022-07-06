@@ -14,10 +14,13 @@ mongoose.connect(process.env.DB_CONNECTION)
 .then(() => console.log('successfully connected to db'))
 
 // middlewares
-app.use(cors())
-// app.use(cookieParser())
+app.use(cookieParser())
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended: true}))
+app.use(cors({
+    credentials: true,
+    origin: ['http://127.0.0.1:8084', 'http://127.0.0.1:3000']
+}))
 
 // app routes
 app.use('/api/auth', authRoute)
