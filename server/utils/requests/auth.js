@@ -5,23 +5,28 @@ const User = require('../../models/User')
 // Signup a new account (returns the new user)
 const signup = async (data) => {
 
-    const user = new User(data)
-    const result = await user.save()
-    return result
-}
+    const {Email, Username} = data
+    // check if username or email are occupied
+    const checkOccupiedFields = await User.findOne({$or: [{Username}, {Email}]})
+    if (checkOccupiedFields) {
+        let occupiedFields = []
+        if (checkOccupiedFields.Email === Email) occupiedFields.push('Email')
+        if (checkOccupiedFields.Username === Username) occupiedFields.push('Username')
+        return {status: false, data: {occupiedFields}}
+    }
 
-// Get user by id
-const getUserByField = async (statement) => {
-    const result = await User.findOne(statement)
-    return result
+    // create user
+    const user = await new User(data).save()
+    return {status: user ? true : false, data: user}
 }
 
 // Update user data
-const updateUserData = async (user, data) => {
+const updateUserData = async (Username, data) => {
     
+    const user = await User.findOne({Username})
     // check username and email (must be unique)
     if (data.Username || data.Email) {
-        const result = await getUserByField({$or: [
+        const result = await User.findOne({$or: [
             {Email: data?.Email}, 
             {Username: data?.Username}
         ]})
@@ -30,7 +35,6 @@ const updateUserData = async (user, data) => {
     
     // assign new properties to innovation
     Object.entries(data).map(prop => {
-        console.log(prop[0] + ':', prop[1])
         if (user[prop[0]] !== undefined)
             user[prop[0]] = prop[1]
     })
@@ -44,10 +48,10 @@ const updateUserData = async (user, data) => {
 }
 
 // Delete user
-const deleteUser = async (Username, Email) => {
-    const result = await User.deleteOne({Username, Email})
+const deleteUser = async (Username) => {
+    const result = await User.deleteOne({Username})
     return result?.deletedCount === 1 ? true : false
 }
 
 
-module.exports = {signup, getUserByField, updateUserData, deleteUser}
+module.exports = {signup, updateUserData, deleteUser}

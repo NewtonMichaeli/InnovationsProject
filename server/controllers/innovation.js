@@ -18,7 +18,7 @@ const uploadAsset = async (req, res) => {
     // extract file data
     const { path, originalname } = file
 
-    const result = await requestHandler.uploadAsset(user, project_id, {path, originalName: originalname})
+    const result = await requestHandler.uploadAsset(user.Username, project_id, {path, originalName: originalname})
     if (result) responseHandler.fileUploadedSuccessfully(res)
     else responseHandler.incompleteFields(res)
 }
@@ -30,7 +30,7 @@ const deleteAsset = async (req, res) => {
     // extract req data
     const { user } = req, { project_id, asset_id } = req.params
 
-    const result = await requestHandler.deleteAsset(user, project_id, asset_id)
+    const result = await requestHandler.deleteAsset(user.Username, project_id, asset_id)
 
     if (result) responseHandler.fileDeletedSuccessfully(res)
     else responseHandler.fileNotfound(res)
@@ -71,7 +71,7 @@ const createInnovation = async (req, res) => {
     if (error) return responseHandler.incompleteFields(res)
     
     // create innovation
-    const result = await requestHandler.createInnovation(user, InnovationData)
+    const result = await requestHandler.createInnovation(user.Username, InnovationData)
     if (result) responseHandler.innovationCreatedSuccessfully(res, result)
     else responseHandler.failedCreatingInnovation(res, `Name \"${Name}\" is already occupied by another project`)
 }
@@ -83,9 +83,10 @@ const deleteInnovation = async (req, res) => {
     const {project_id} = req.params, {user} = req
 
     // delete innovation
-    const result = await requestHandler.deleteInnovation(user, project_id)
+    const result = await requestHandler.deleteInnovation(user.Username, project_id)
 
-    if (result) responseHandler.innovationDeletedSuccessfully(res)
+    if (result.status) responseHandler.innovationDeletedSuccessfully(res)
+    else if (result.data === 'INV_NOT_FOUND') responseHandler.innovationNotFound(res)
     else responseHandler.failedDeletingInnovation(res)
 }
 
@@ -103,7 +104,7 @@ const updateInnovationData = async (req, res) => {
     if (error) return responseHandler.incompleteFields(res)
 
     // update data
-    const result = await requestHandler.updateInnovation(user, project_id, new_data)
+    const result = await requestHandler.updateInnovation(user.Username, project_id, new_data)
     if (result.status) return responseHandler.innovationUpdatedSuccessfully(res, result.data)
     else if (result.data === 'INCOMPLETE_FIELDS') return responseHandler.incompleteFields(res)
     else return responseHandler.failedUpdatingInnovation(res)

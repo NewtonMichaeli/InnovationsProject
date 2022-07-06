@@ -16,4 +16,15 @@ const Joi_InnovationSchema = Joi.object({
     Contributors: Joi.array().items(Joi_ContributorSchema).required()
 })
 
-module.exports = {Joi_InnovationSchema}
+// <Updating> innovation schema - all fields are optional
+const Joi_InnovationSchema_UpdatingData = Joi.object({
+    Name: Joi.string().optional(),
+    Description: Joi.string().optional(),
+    Tags: Joi.array().items(Joi.string()).optional(),
+    Roles: Joi.array().items(Joi.string()).optional(),
+    Status: Joi.valid('open', 'in development', 'finished').optional(),
+    Private: Joi.bool().optional(),
+    Contributors: Joi.array().items(Joi_ContributorSchema).optional()
+})
+
+module.exports = {Joi_InnovationSchema, Joi_InnovationSchema_UpdatingData}

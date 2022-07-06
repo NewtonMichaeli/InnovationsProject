@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const authRequests = require('../utils/requests/auth')
+const User = require('../models/User')
 const { AUTH_TOKEN } = require('../configs/_server')
 
 
@@ -20,7 +20,7 @@ const isAdmin = async (req, res, next) => {
             return next()
         }
         
-        const result = await authRequests.getUserByField({_id: verified.id})
+        const result = await User.findOne({_id: verified.id})
         req.IsAdmin = result?.IsAdmin
         return next()
     }

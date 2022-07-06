@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const authRequests = require('../utils/requests/auth')
+const User = require('../models/User')
 const authResponseHandler = require('../utils/responses/auth')
 const innovationResponseHandler = require('../utils/responses/innovations')
 const { AUTH_TOKEN } = require('../configs/_server')
@@ -10,7 +10,7 @@ const { AUTH_TOKEN } = require('../configs/_server')
 const authInnovationPrivacy = async (req, res, next) => {
 
     const { username, project_id } = req.params
-    const user = await authRequests.getUserByField({Username: username})
+    const user = await User.findOne({Username: username})
     if (!user) return authResponseHandler.userNotFound(res)
     
     // find associated innovation index

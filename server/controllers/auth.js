@@ -1,9 +1,12 @@
 // Auth controller
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const fs = require('fs')
 const authRequests = require('../utils/requests/auth')
 const responseHandler = require('../utils/responses/auth')
 const {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema} = require('../validations/AuthSchema')
-const bcrypt = require('bcrypt')
+const { ASSETS_FOLDER_PATH } = require('../configs/_server')
+const User = require('../models/User')
 
 
 // Extract relevant fields and generate token
@@ -25,21 +28,12 @@ const signup = async (req, res) => {
     Role = req.IsAdmin ? true : false           // -- determine target role
     Password = await bcrypt.hash(Password, 10)  // -- hash password
 
-    // check if username or email are occupied
-    const checkOccupiedFields = await authRequests.getUserByField({$or: [{Username}, {Email}]})
-    if (checkOccupiedFields) {
-        let occupiedFields = []
-        if (checkOccupiedFields.Email === Email) occupiedFields.push('Email')
-        if (checkOccupiedFields.Username === Username) occupiedFields.push('Username')
-        return responseHandler.failedCreatingUser(res, {occupiedFields})
-    }
-
     // signing up
     const result = await authRequests.signup({Email, Password, Fname, Sname, Username, IsAdmin})
-    if (!result) return responseHandler.failedCreatingUser(res)
+    if (!result.status) return responseHandler.failedCreatingUser(res, result?.data)
 
     // generating token
-    const token = signNewUserToken(result)
+    const token = signNewUserToken(result.data)
     return responseHandler.userCreatedSuccessfully(res, token)
 }
 
@@ -55,7 +49,7 @@ const signin = async (req, res) => {
     if (error) return responseHandler.incompleteFields(res)
     
     // search db for existing account
-    const result = await authRequests.getUserByField({Username})
+    const result = await User.findOne({Username})
     if (!result) return responseHandler.incorrectCredentials(res)
     
     // compare hashed passwords
@@ -81,14 +75,13 @@ const updateUserData = async (req, res) => {
     if (!req.body || !Object.keys(req.body).length) return responseHandler.incompleteFields(res)
     // extract data from request body
     const new_data = req.body, {user} = req
-    console.log('user: ', user)
 
     // verify request data
     const {error} = Joi_UpdatingUserDataSchema.validate(new_data)
     if (error) return responseHandler.incompleteFields(res)
 
     // update data
-    const result = await authRequests.updateUserData(user, new_data)
+    const result = await authRequests.updateUserData(user.Username, new_data)
     if (result.status) {
         // -- generate new token and send it along with thenew data
         const new_token = signNewUserToken(result.data)
@@ -103,9 +96,24 @@ const updateUserData = async (req, res) => {
 // Update user data
 const deleteUser = async (req, res) => {
     
-    const {user} = req
+    const { user } = req
+    
+    // delete all assets related to all user's innovations
+    user.Innovations.map(inv => {
+        // -- iterate through innovations
+        inv.Assets.map(({path}) => {
+            // -- iterate through assets in each innovation
+            try {
+                fs.unlinkSync(`${ASSETS_FOLDER_PATH}/${path}`)
+            }
+            catch(err) {
+                if (err?.code !== 'ENOENT') return
+            }
+        })
+    })
+    
     // delete user
-    const result = await authRequests.deleteUser(user.Username, user.Email)
+    const result = await authRequests.deleteUser(user.Username)
     if (result) return responseHandler.userDeletedSuccessfully(res)
     else responseHandler.failedDeletingUser(res)
 }

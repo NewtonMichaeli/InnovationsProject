@@ -1,13 +1,15 @@
 // Innovations request handler
 
 const {ASSETS_FOLDER_PATH, ASSETS_FOLDER_NAME} = require('../../configs/_server')
+const User = require('../../models/User')
 // const User = require('../../models/User')
 const fs = require('fs')
 
 
 // Create (or add) a new innovation
-const createInnovation = async (user, data) => {
+const createInnovation = async (Username, data) => {
 
+    const user = await User.findOne({Username})
     // check if an equaly named project already exists
     if (user.Innovations.findIndex(inv => inv.Name === data.Name) !== -1) return false
 
@@ -19,8 +21,9 @@ const createInnovation = async (user, data) => {
 
 
 // Update innovation data
-const updateInnovation = async (user ,project_id, data) => {
+const updateInnovation = async (Username ,project_id, data) => {
 
+    const user = await User.findOne({Username})
     // find innovation index by id
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
     if (index === -1) return {status: false, data: 'INCOMPLETE_FIELDS'}
@@ -30,7 +33,6 @@ const updateInnovation = async (user ,project_id, data) => {
     
     // assign new properties to innovation
     Object.entries(data).map(prop => {
-        // console.log(prop[0] + ':', prop[1])
         if (data[prop[0]] !== undefined)
             user.Innovations[index][prop[0]] = prop[1]
     })
@@ -45,11 +47,12 @@ const updateInnovation = async (user ,project_id, data) => {
 
 
 // Delete an existing innovation
-const deleteInnovation = async (user, project_id) => {
+const deleteInnovation = async (Username, project_id) => {
     
+    const user = await User.findOne({Username})
     // find innovation index by id
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return false
+    if (index === -1) return {status: false, data: 'INV_NOT_FOUND'}
 
     // delete innovation assets
     user.Innovations[index].Assets.map(({path}) => {
@@ -64,13 +67,14 @@ const deleteInnovation = async (user, project_id) => {
     // delete innovation
     user.Innovations = user.Innovations.filter(inv => inv._id.toString() !== project_id)
     const result = await user.save()
-    return result ? true : false
+    return {status: result ? true : false}
 }
 
 
 // Upload asset and save asset-related data (path, etc)
-const uploadAsset = async (user, project_id, data) => {
+const uploadAsset = async (Username, project_id, data) => {
 
+    const user = await User.findOne({Username})
     // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
     if (index === -1) return false
@@ -83,8 +87,9 @@ const uploadAsset = async (user, project_id, data) => {
 
 
 // Upload asset and save asset-related data (path, etc)
-const deleteAsset = async (user, project_id, asset_id) => {
+const deleteAsset = async (Username, project_id, asset_id) => {
 
+    const user = await User.findOne({Username})
     let deleted = false
     // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)

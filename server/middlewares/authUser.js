@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const responseHandler = require('../utils/responses/auth')
-const authRequests = require('../utils/requests/auth')
+const User = require('../models/User')
 const { AUTH_TOKEN } = require('../configs/_server')
 
 
@@ -17,14 +17,13 @@ const authUser = async (req, res, next) => {
         if (err) return responseHandler.accessDenied(res)
         // -- get user details
         const {Username, Email} = data
-        authRequests.getUserByField({Username, Email})
+        User.findOne({Username, Email})
         .then(user => {
             if (!user) return responseHandler.userNotFound(res)
             req.user = user
             return next()
         })
         .catch(err => {
-            console.log(err)
             return responseHandler.accessDenied(res)
         })
 
