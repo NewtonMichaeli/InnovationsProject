@@ -16,8 +16,8 @@ const Joi_InnovationSchema = Joi.object({
     Contributors: Joi.array().items(Joi_ContributorSchema).required()
 })
 
-// <Updating> innovation schema - all fields are optional
-const Joi_InnovationSchema_UpdatingData = Joi.object({
+// <Updating> innovation schema (creator privilege) - all fields are optional
+const Joi_InnovationSchema_UpdatingData__creator = Joi.object({
     Name: Joi.string().optional(),
     Description: Joi.string().optional(),
     Tags: Joi.array().items(Joi.string()).optional(),
@@ -27,4 +27,13 @@ const Joi_InnovationSchema_UpdatingData = Joi.object({
     Contributors: Joi.array().items(Joi_ContributorSchema).optional()
 })
 
-module.exports = {Joi_InnovationSchema, Joi_InnovationSchema_UpdatingData}
+// <Updating> innovation schema (contributor privilege) - all fields are optional
+const Joi_InnovationSchema_UpdatingData__contributor = Joi.object({
+    // Name: Joi.string().optional(),
+    Description: Joi.string().optional(),
+    Tags: Joi.array().items(Joi.string()).optional(),
+    Roles: Joi.array().items(Joi.string()).optional(),
+    Status: Joi.valid('open', 'in development', 'finished').optional()
+})
+
+module.exports = {Joi_InnovationSchema, Joi_InnovationSchema_UpdatingData__creator, Joi_InnovationSchema_UpdatingData__contributor}

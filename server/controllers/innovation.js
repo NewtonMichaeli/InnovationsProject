@@ -1,9 +1,10 @@
 const { ASSETS_FOLDER_PATH } = require('../configs/_server')
 // handlers
 const requestHandler = require('../utils/requests/innovations')
-const responseHandler = require('../utils/responses/innovations')
+const innovationResponseHandler = require('../utils/responses/innovations')
+const authResponseHandler = require('../utils/responses/auth')
 // validations
-const {Joi_InnovationSchema, Joi_InnovationSchema_UpdatingData} = require('../validations/InnovationSchema')
+const {Joi_InnovationSchema, Joi_InnovationSchema_UpdatingData__creator, Joi_InnovationSchema_UpdatingData__contributor} = require('../validations/InnovationSchema')
 
 
 // upload asset data to associated user
@@ -13,14 +14,14 @@ const uploadAsset = async (req, res) => {
     const { user, file } = req, { project_id } = req.params
 
     // validate path variables
-    if (!file || !file?.path?.length || !file?.originalname?.length) return responseHandler.failedUploadingFile(res)
+    if (!file || !file?.path?.length || !file?.originalname?.length) return innovationResponseHandler.failedUploadingFile(res)
 
     // extract file data
     const { path, originalname } = file
 
     const result = await requestHandler.uploadAsset(user.Username, project_id, {path, originalName: originalname})
-    if (result) responseHandler.fileUploadedSuccessfully(res)
-    else responseHandler.failedUploadingFile(res)
+    if (result) innovationResponseHandler.fileUploadedSuccessfully(res)
+    else innovationResponseHandler.failedUploadingFile(res)
 }
 
 
@@ -31,8 +32,8 @@ const deleteAsset = async (req, res) => {
     const { user } = req, { project_id, asset_id } = req.params
 
     const result = await requestHandler.deleteAsset(user.Username, project_id, asset_id)
-    if (result) responseHandler.fileDeletedSuccessfully(res)
-    else responseHandler.fileNotfound(res)
+    if (result) innovationResponseHandler.fileDeletedSuccessfully(res)
+    else innovationResponseHandler.fileNotfound(res)
 }
 
 
@@ -44,15 +45,15 @@ const sendAsset = async (req, res) => {
 
     // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return responseHandler.innovationNotFound(res)
+    if (index === -1) return innovationResponseHandler.innovationNotFound(res)
 
     // validate filename
     if (!/^[0-9.a-zA-Z]+$/.test(filename))
-        return responseHandler.fileNotfound(res)
+        return innovationResponseHandler.fileNotfound(res)
 
     // check if user's innovation stores the given asset filename
-    if (user.Innovations[index].Assets.findIndex(a => a.path === filename) === -1) return responseHandler.fileNotfound(res)
-    else responseHandler.fileFoundAndTransfered(res, `${ASSETS_FOLDER_PATH}/${filename}`)
+    if (user.Innovations[index].Assets.findIndex(a => a.path === filename) === -1) return innovationResponseHandler.fileNotfound(res)
+    else innovationResponseHandler.fileFoundAndTransfered(res, `${ASSETS_FOLDER_PATH}/${filename}`)
 }
 
 
@@ -66,12 +67,12 @@ const createInnovation = async (req, res) => {
 
     // validate request data
     const {error} = Joi_InnovationSchema.validate(InnovationData)
-    if (error) return responseHandler.incompleteFields(res)
+    if (error) return innovationResponseHandler.incompleteFields(res)
     
     // create innovation
     const result = await requestHandler.createInnovation(user.Username, InnovationData)
-    if (result) responseHandler.innovationCreatedSuccessfully(res, result)
-    else responseHandler.failedCreatingInnovation(res, `Name \"${Name}\" is already occupied by another project`)
+    if (result) innovationResponseHandler.innovationCreatedSuccessfully(res, result)
+    else innovationResponseHandler.failedCreatingInnovation(res, `Name \"${Name}\" is already occupied by another project`)
 }
 
 
@@ -83,38 +84,51 @@ const deleteInnovation = async (req, res) => {
     // delete innovation
     const result = await requestHandler.deleteInnovation(user.Username, project_id)
 
-    if (result.status) responseHandler.innovationDeletedSuccessfully(res)
-    else if (result.data === 'INV_NOT_FOUND') responseHandler.innovationNotFound(res)
-    else responseHandler.failedDeletingInnovation(res)
+    if (result.status) innovationResponseHandler.innovationDeletedSuccessfully(res)
+    else if (result.data === 'INV_NOT_FOUND') innovationResponseHandler.innovationNotFound(res)
+    else innovationResponseHandler.failedDeletingInnovation(res)
 }
 
 
 // Update an existing innovation's data
-// requires: <req.user>
+// requires: <req.user>, <req.req_privilege>
 const updateInnovationData = async (req, res) => {
 
     // update non-empty data
-    if (!req.body || !Object.keys(req.body).length) return responseHandler.incompleteFields(res)
+    if (!req.body || !Object.keys(req.body).length) return innovationResponseHandler.incompleteFields(res)
     // extract data from request body
-    const {project_id} = req.params, new_data = req.body, {user} = req
+    const {username, project_id} = req.params, new_data = req.body, {user, req_privilege} = req
 
-    // verify request data
-    const {error} = Joi_InnovationSchema_UpdatingData.validate(new_data)
-    if (error) return responseHandler.incompleteFields(res, error?.message)
+    // verify request parameters
+    let error
+    switch (req_privilege) {
+        case 'CONTRIBUTOR':
+            // -- user is the innovation's contributor
+            error = Joi_InnovationSchema_UpdatingData__contributor.validate(new_data).error
+            break
+        case 'CREATOR':
+            // -- user is the innovation's creator
+            error = Joi_InnovationSchema_UpdatingData__creator.validate(new_data).error
+            break
+        default:
+            // -- no access to outsiders
+            return authResponseHandler.accessDenied(res)
+    }
+    if (error) return innovationResponseHandler.incompleteFields(res, error.message)
 
     // update data
-    const result = await requestHandler.updateInnovation(user.Username, project_id, new_data)
-    if (result.status) return responseHandler.innovationUpdatedSuccessfully(res, result.data)
-    else if (result.data === 'INV_NOT_FOUND') return responseHandler.innovationNotFound(res)
-    else if (result.data === 'NAME_OCCUPIED') return responseHandler.failedUpdatingInnovation(res, `Name \"${new_data.Name}\" is already occupied by another innovation`)
-    else return responseHandler.failedUpdatingInnovation(res)
+    const result = await requestHandler.updateInnovation(username, project_id, new_data)
+    if (result.status) return innovationResponseHandler.innovationUpdatedSuccessfully(res, result.data)
+    else if (result.data === 'INV_NOT_FOUND') return innovationResponseHandler.innovationNotFound(res)
+    else if (result.data === 'NAME_OCCUPIED') return innovationResponseHandler.failedUpdatingInnovation(res, `Name \"${new_data.Name}\" is already occupied by another innovation`)
+    else return innovationResponseHandler.failedUpdatingInnovation(res)
 }
 
 
 // Get innovation data
 // requires: <req.user>, <req.innovationIndex>
 const getInnovationData = async (req, res) => {
-    return responseHandler.innovationSentSuccessfully(res, req.user.Innovations[req.innovationIndex])
+    return innovationResponseHandler.innovationSentSuccessfully(res, req.user.Innovations[req.innovationIndex])
 }
 
 

@@ -24,10 +24,6 @@ const upload = multer({storage, limits: {fileSize: FILE_SIZE_LIMIT}}).single('fi
 router.post('/', authUser, innovationController.createInnovation)
 
 // @route   DELETE /api/innovations/:project_id/
-// @desc    Endpoint for updating a specified innovation's data
-router.patch('/:project_id', authUser, innovationController.updateInnovationData)
-
-// @route   DELETE /api/innovations/:project_id/
 // @desc    Endpoint for deleting innovations given it's id
 router.delete('/:project_id', authUser, innovationController.deleteInnovation)
 
@@ -45,13 +41,17 @@ router.post(
 // @desc    Endpoint for deleting assets associated with an innovation
 router.delete('/assets/:project_id/:asset_id', authUser, innovationController.deleteAsset)
 
-// @route   GET /api/innovations/assets/:username/:project_id/:filename/
-// @desc    Endpoint for sending back assets
-router.get('/assets/:username/:project_id/:filename', authInnovationPrivacy, innovationController.sendAsset)
-
 // @route   GET /api/innovations/assets/:username/:project_id/
 // @desc    Endpoint for sending back innovations
 router.get('/:username/:project_id', authInnovationPrivacy, innovationController.getInnovationData)
+
+// @route   PATCH /api/innovations/assets/:username/:project_id/
+// @desc    Endpoint for updating (others) innovation data externally
+router.patch('/:username/:project_id', authInnovationPrivacy, innovationController.updateInnovationData)
+
+// @route   GET /api/innovations/assets/:username/:project_id/:filename/
+// @desc    Endpoint for sending back assets
+router.get('/assets/:username/:project_id/:filename', authInnovationPrivacy, innovationController.sendAsset)
     
     
 module.exports = router
