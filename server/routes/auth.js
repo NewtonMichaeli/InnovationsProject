@@ -12,7 +12,11 @@ router.get('/', authUser, authController.getUserData)
 
 // @route   PATCH /api/auth/
 // @desc    Endpoing for updating user data
-router.patch('/', authUser, authController.)
+router.patch('/', authUser, authController.updateUserData)
+
+// @route   DELETE /api/auth/
+// @desc    Endpoing for deleting user
+router.delete('/', authUser, authController.deleteUser)
 
 // @route   POST /api/auth/signin/
 // @desc    Endpoint for signing in

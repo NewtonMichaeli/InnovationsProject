@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi')
 
-const signupSchema = Joi.object({
+// Signup schema
+const Joi_SignupSchema = Joi.object({
     Fname: Joi.string().min(2).max(26).required(),
     Sname: Joi.string().min(2).max(26).required(),
     Email: Joi.string().min(2).max(42).required(),
@@ -9,9 +10,18 @@ const signupSchema = Joi.object({
     IsAdmin: Joi.bool().required()
 })
 
-const signinSchema = Joi.object({
+// Signin schema
+const Joi_SigninSchema = Joi.object({
     Username: Joi.string().min(2).max(28).required(),
     Password: Joi.string().min(6).max(36).required(),
 })
 
-module.exports = {signinSchema, signupSchema}
+// <Updating> User schema - all fields are optional
+const Joi_UpdatingUserDataSchema = Joi.object({
+    Fname: Joi.string().min(2).max(26).optional(),
+    Sname: Joi.string().min(2).max(26).optional(),
+    Email: Joi.string().min(2).max(42).optional(),
+    Username: Joi.string().min(2).max(28).optional(),
+})
+
+module.exports = {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema}

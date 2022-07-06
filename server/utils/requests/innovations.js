@@ -25,12 +25,12 @@ const updateInnovation = async (user ,project_id, data) => {
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
     if (index === -1) return {status: false, data: 'INCOMPLETE_FIELDS'}
     
-    // check name (to be unique)
+    // check name (must be unique)
     if (data.Name && user.Innovations.findIndex(inv => inv.Name === data.Name) !== -1) return {status: false, data: 'INCOMPLETE_FIELDS'}
     
     // assign new properties to innovation
     Object.entries(data).map(prop => {
-        console.log(prop[0] + ':', prop[1])
+        // console.log(prop[0] + ':', prop[1])
         if (data[prop[0]] !== undefined)
             user.Innovations[index][prop[0]] = prop[1]
     })
@@ -73,7 +73,7 @@ const uploadAsset = async (user, project_id, data) => {
 
     // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return responseHandler.incompleteFields(res)
+    if (index === -1) return false
 
     // insert file data to database
     user.Innovations[index].Assets.push({...data, path: data.path.replace(`${ASSETS_FOLDER_NAME}\\`, '')})
@@ -88,7 +88,7 @@ const deleteAsset = async (user, project_id, asset_id) => {
     let deleted = false
     // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return responseHandler.incompleteFields(res)
+    if (index === -1) return false
 
     // delete innovation asset
     user.Innovations[index].Assets = user.Innovations[index].Assets.filter(({path, _id}) => {

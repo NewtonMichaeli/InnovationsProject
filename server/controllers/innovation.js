@@ -45,7 +45,7 @@ const sendAsset = async (req, res) => {
 
     // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return responseHandler.incompleteFields(res)
+    if (index === -1) return responseHandler.innovationNotFound(res)
 
     // validate filename
     if (!/^[0-9.a-zA-Z]+$/.test(filename))

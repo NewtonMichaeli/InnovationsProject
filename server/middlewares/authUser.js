@@ -18,11 +18,13 @@ const authUser = async (req, res, next) => {
         // -- get user details
         const {Username, Email} = data
         authRequests.getUserByField({Username, Email})
-        .then(res => {
-            req.user = res
+        .then(user => {
+            if (!user) return responseHandler.userNotFound(res)
+            req.user = user
             return next()
         })
         .catch(err => {
+            console.log(err)
             return responseHandler.accessDenied(res)
         })
 

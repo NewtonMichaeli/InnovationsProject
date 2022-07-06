@@ -2,8 +2,15 @@
 const jwt = require('jsonwebtoken')
 const authRequests = require('../utils/requests/auth')
 const responseHandler = require('../utils/responses/auth')
-const {signinSchema, signupSchema} = require('../validations/AuthSchema')
+const {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema} = require('../validations/AuthSchema')
 const bcrypt = require('bcrypt')
+
+
+// Extract relevant fields and generate token
+const signNewUserToken = ({Username, Email, IsAdmin}) => jwt.sign(
+    JSON.stringify({Email, Username, IsAdmin}),
+    process.env.TOKEN_SECRET
+)
 
 
 // Sign up controller
@@ -12,7 +19,7 @@ const signup = async (req, res) => {
     if (!req.body) return responseHandler.incompleteFields(res) // -- check body first
     let {Email, Password, Username, Fname, Sname, IsAdmin} = req.body
 
-    const {error} = signupSchema.validate(req.body)
+    const {error} = Joi_SignupSchema.validate(req.body)
     if (error) return responseHandler.incompleteFields(res)
 
     Role = req.IsAdmin ? true : false           // -- determine target role
@@ -32,7 +39,7 @@ const signup = async (req, res) => {
     if (!result) return responseHandler.failedCreatingUser(res)
 
     // generating token
-    const token = jwt.sign(JSON.stringify(result), process.env.TOKEN_SECRET)
+    const token = signNewUserToken(result)
     return responseHandler.userCreatedSuccessfully(res, token)
 }
 
@@ -44,7 +51,7 @@ const signin = async (req, res) => {
     let {Username, Password} = req.body
 
     // vaildate fields
-    const {error} = signinSchema.validate(req.body)
+    const {error} = Joi_SigninSchema.validate(req.body)
     if (error) return responseHandler.incompleteFields(res)
     
     // search db for existing account
@@ -56,7 +63,7 @@ const signin = async (req, res) => {
     if (!match) return responseHandler.incorrectCredentials(res)
 
     // generate token
-    const token = jwt.sign(JSON.stringify(result), process.env.TOKEN_SECRET)
+    const token = signNewUserToken(result)
     return responseHandler.loggedInSuccessfully(res, token)
 }
 
@@ -70,7 +77,38 @@ const getUserData = async (req, res) => {
 // Update user data
 const updateUserData = async (req, res) => {
     
+    // update non-empty data
+    if (!req.body || !Object.keys(req.body).length) return responseHandler.incompleteFields(res)
+    // extract data from request body
+    const new_data = req.body, {user} = req
+    console.log('user: ', user)
+
+    // verify request data
+    const {error} = Joi_UpdatingUserDataSchema.validate(new_data)
+    if (error) return responseHandler.incompleteFields(res)
+
+    // update data
+    const result = await authRequests.updateUserData(user, new_data)
+    if (result.status) {
+        // -- generate new token and send it along with thenew data
+        const new_token = signNewUserToken(result.data)
+        return responseHandler.userUpdatedSuccessfully(res, result.data, new_token)
+    }
+    else if (result.data === 'INCOMPLETE_FIELDS') return responseHandler.incompleteFields(res)
+    else return responseHandler.failedUpdatingUser(res)
+
 }
 
 
-module.exports = {signin, signup, getUserData, updateUserData}
+// Update user data
+const deleteUser = async (req, res) => {
+    
+    const {user} = req
+    // delete user
+    const result = await authRequests.deleteUser(user.Username, user.Email)
+    if (result) return responseHandler.userDeletedSuccessfully(res)
+    else responseHandler.failedDeletingUser(res)
+}
+
+
+module.exports = {signin, signup, getUserData, updateUserData, deleteUser}

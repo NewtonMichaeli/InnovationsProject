@@ -5,7 +5,7 @@ const errorController = require('../controllers/_errors')
 const {ASSETS_FOLDER_NAME, FILE_SIZE_LIMIT} = require('../configs/_server')
 // middlewares
 const { authUser } = require('../middlewares/authUser')
-const { authInnovationPrivacy } = require('../middlewares/authInnovationPrivacy')
+const { authInnovationPrivacy, getInnovationIndex } = require('../middlewares/authInnovationPrivacy')
 
 // -- multer setup
 const storage = multer.diskStorage({
@@ -40,6 +40,7 @@ router.get('/assets/:username/:project_id/:filename', authInnovationPrivacy, inn
 router.post(
     '/assets/:project_id',
     authUser,
+    getInnovationIndex,
     upload,
     innovationController.uploadAsset,
     errorController.fileUploadError

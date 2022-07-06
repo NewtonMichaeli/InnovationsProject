@@ -1,7 +1,8 @@
 // Innovation responses:
 
 // : globals
-const incompleteFields = res => res.status(400).json({status: false, msg: 'Some fields are invalid or missing'}).end()
+const incompleteFields = (res, data) => res.status(400).json({status: false, msg: 'Some fields are invalid or missing', data}).end()
+const innovationNotFound = res => res.status(400).json({status: false, msg: 'Innovation not found'}).end()
 
 // innovation : success
 const innovationCreatedSuccessfully = (res, data) => res.status(200).json({status: true, msg: 'Innovation created successfully', data}).end()
@@ -23,4 +24,4 @@ const failedUploadingFile = res => res.status(500).json({status: false, msg: 'Fi
 const fileNotfound = res => res.status(404).json({status: false, msg: 'File not found'}).end()
 
 
-module.exports = {innovationCreatedSuccessfully, fileUploadedSuccessfully, failedUploadingFile, failedCreatingInnovation, incompleteFields, innovationDeletedSuccessfully, failedDeletingInnovation, fileNotfound, fileFoundAndTransfered, innovationUpdatedSuccessfully, failedUpdatingInnovation, fileDeletedSuccessfully}
+module.exports = {innovationCreatedSuccessfully, fileUploadedSuccessfully, failedUploadingFile, failedCreatingInnovation, incompleteFields, innovationDeletedSuccessfully, failedDeletingInnovation, fileNotfound, fileFoundAndTransfered, innovationUpdatedSuccessfully, failedUpdatingInnovation, fileDeletedSuccessfully, innovationNotFound}
