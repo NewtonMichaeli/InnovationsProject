@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { v4 } = require('uuid')
 const AssetSchema = require('./Asset')
 const ContributorSchema = require('./Contributor')
 

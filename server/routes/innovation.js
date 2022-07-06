@@ -2,6 +2,7 @@ const multer = require('multer')
 const router = require('express').Router()
 const innovationController = require('../controllers/innovation')
 const responseHandler = require('../utils/responses/innovations')
+const errorController = require('../controllers/_errors')
 const {ASSETS_FOLDER_NAME, FILE_SIZE_LIMIT} = require('../configs/_server')
 // middlewares
 const { authUser } = require('../middlewares/authUser')
@@ -15,7 +16,7 @@ const storage = multer.diskStorage({
         set(null, `${new Date().getTime()}.${extn.length !== 1 ? extn : ''}`)
     }
 })
-const upload = multer({storage, limits: {fileSize: FILE_SIZE_LIMIT}})
+const upload = multer({storage, limits: {fileSize: FILE_SIZE_LIMIT}}).single('file')
 
 // Routes:
 
@@ -24,26 +25,30 @@ const upload = multer({storage, limits: {fileSize: FILE_SIZE_LIMIT}})
 router.post('/', authUser, innovationController.createInnovation)
 
 // @route   DELETE /api/innovations/:project_id/
+// @desc    Endpoint for updating a specified innovation's data
+router.patch('/:project_id', authUser, innovationController.updateInnovationData)
+
+// @route   DELETE /api/innovations/:project_id/
 // @desc    Endpoint for deleting innovations given it's id
 router.delete('/:project_id', authUser, innovationController.deleteInnovation)
 
-// @route   DELETE /api/innovations/:project_id/
-// @desc    Endpoint for updating a specified innovation's data
-router.patch('/:project_id', authUser, innovationController.updateInnovationData)
+// @route   GET /api/innovations/assets/:username/:project_id/:filename/
+// @desc    Endpoint for sending assets
+router.get('/assets/:username/:project_id/:filename', authInnovationPrivacy, innovationController.sendAsset)
 
 // @route   POST /api/innovations/assets/:project_id/
 // @desc    Endpoint for uploading assets associated with an innovation
 router.post(
     '/assets/:project_id',
-    authUser,                                                               // -- validate user
-    upload.single('file'),                                                  // -- multer middleware
-    innovationController.uploadAsset,                                       // -- controller
-    (error, req, res, next) => responseHandler.failedUploadingFile(res)     // -- handle multer error
+    authUser,
+    upload,
+    innovationController.uploadAsset,
+    errorController.fileUploadError
 )
 
-// @route   GET /api/innovations/assets/:username/:project_id/:filename/
-// @desc    Endpoint for sending assets
-router.get('/assets/:username/:project_id/:filename', authInnovationPrivacy, innovationController.sendAsset)
+// @route   DELETE /api/innovations/assets/:project_id/
+// @desc    Endpoint for deleting assets associated with an innovation
+router.delete('/assets/:project_id/:asset_id', authUser, innovationController.deleteAsset)
 
 
 module.exports = router

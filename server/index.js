@@ -1,6 +1,8 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 const bodyparser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const express = require('express')
 const app = express()
 // routes
@@ -12,6 +14,8 @@ mongoose.connect(process.env.DB_CONNECTION)
 .then(() => console.log('successfully connected to db'))
 
 // middlewares
+app.use(cors())
+// app.use(cookieParser())
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended: true}))
 
