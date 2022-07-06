@@ -5,7 +5,7 @@ const errorController = require('../controllers/_errors')
 const {ASSETS_FOLDER_NAME, FILE_SIZE_LIMIT} = require('../configs/_server')
 // middlewares
 const { authUser } = require('../middlewares/authUser')
-const { authInnovationPrivacy, getInnovationIndex } = require('../middlewares/authInnovationPrivacy')
+const { authInnovationPrivacy } = require('../middlewares/authInnovationPrivacy')
 
 // -- multer setup
 const storage = multer.diskStorage({
@@ -31,16 +31,11 @@ router.patch('/:project_id', authUser, innovationController.updateInnovationData
 // @desc    Endpoint for deleting innovations given it's id
 router.delete('/:project_id', authUser, innovationController.deleteInnovation)
 
-// @route   GET /api/innovations/assets/:username/:project_id/:filename/
-// @desc    Endpoint for sending back assets
-router.get('/assets/:username/:project_id/:filename', authInnovationPrivacy, innovationController.sendAsset)
-
 // @route   POST /api/innovations/assets/:project_id/
 // @desc    Endpoint for uploading assets associated with an innovation
 router.post(
     '/assets/:project_id',
     authUser,
-    getInnovationIndex,
     upload,
     innovationController.uploadAsset,
     errorController.fileUploadError
@@ -50,5 +45,13 @@ router.post(
 // @desc    Endpoint for deleting assets associated with an innovation
 router.delete('/assets/:project_id/:asset_id', authUser, innovationController.deleteAsset)
 
+// @route   GET /api/innovations/assets/:username/:project_id/:filename/
+// @desc    Endpoint for sending back assets
+router.get('/assets/:username/:project_id/:filename', authInnovationPrivacy, innovationController.sendAsset)
 
+// @route   GET /api/innovations/assets/:username/:project_id/
+// @desc    Endpoint for sending back innovations
+router.get('/:username/:project_id', authInnovationPrivacy, innovationController.getInnovationData)
+    
+    
 module.exports = router

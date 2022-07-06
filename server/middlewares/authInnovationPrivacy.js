@@ -10,51 +10,58 @@ const { AUTH_TOKEN } = require('../configs/_server')
 const authInnovationPrivacy = async (req, res, next) => {
 
     const { username, project_id } = req.params
-    const user = await User.findOne({Username: username})
+    const user = await User.findOne({Username: username})       // -- dest user
     if (!user) return authResponseHandler.userNotFound(res)
     
     // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
     if (index === -1) return innovationResponseHandler.innovationNotFound(res)
 
+    // check token
+    const token = req.cookies[AUTH_TOKEN]
+    let data
+    // check if user is in contribution array
+    if (token) {        
+        // validate user
+        try {
+            data = jwt.verify(token, process.env.TOKEN_SECRET)
+            // -- user is verified - next
+            if (user.Innovations[index].Contributors.findIndex(({user_id}) => user_id.toString() === data._id) !== -1) {
+                // you are a contributor
+                req.innovationIndex = index
+                req.req_privilege = "CONTRIBUTOR"
+                req.user = user
+                return next()
+            }
+        }
+        catch(err) {
+            // pass
+            console.log('-- err --')
+        }
+    }
+
+    // check dest-user private indicator
     if (user.Innovations[index].Private) {
         // verification process - requested innovation is private
-        // const token = req.header(AUTH_TOKEN)
-        const token = req.cookies[AUTH_TOKEN]
         if (!token) return authResponseHandler.accessDenied(res)
-        
-        // extract token - verify user
-        jwt.verify(token, process.env.TOKEN_SECRET, (err, data) => {
-            // validate user
-            if (err || (data.Username !== user.Username) || (data.Email !== user.Email)) 
-                return authResponseHandler.accessDenied(res)
-            // -- user is verified - next
-            req.innovationIndex = index
-            req.user = user
-            return next()
-        })
+
+        // validate user
+        if (data?.Username !== user.Username || data?.Email !== user.Email)
+            return authResponseHandler.accessDenied(res)
+
+        // -- user is verified - next
+        req.innovationIndex = index
+        req.req_privilege = "CREATOR"
+        req.user = user
+        return next()
     }
     else {
         // no need to verify - requested innovation is not private
         req.innovationIndex = index
+        req.req_privilege = "OBSERVER"
         req.user = user
         return next()
     }
 }
 
-
-// Innovation Exists
-const getInnovationIndex = async (req, res, next) => {
-    const { user } = req, { project_id } = req.params
-    
-    // find associated innovation index
-    const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return innovationResponseHandler.innovationNotFound(res)
-
-    // set innovation index
-    req.innovationIndex = index
-    next()
-}
-
-
-module.exports = {authInnovationPrivacy, getInnovationIndex}
+module.exports = {authInnovationPrivacy}

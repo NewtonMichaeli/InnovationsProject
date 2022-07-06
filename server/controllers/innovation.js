@@ -90,6 +90,7 @@ const deleteInnovation = async (req, res) => {
 
 
 // Update an existing innovation's data
+// requires: <req.user>
 const updateInnovationData = async (req, res) => {
 
     // update non-empty data
@@ -110,4 +111,11 @@ const updateInnovationData = async (req, res) => {
 }
 
 
-module.exports = {uploadAsset, createInnovation, deleteInnovation, sendAsset ,updateInnovationData, deleteAsset}
+// Get innovation data
+// requires: <req.user>, <req.innovationIndex>
+const getInnovationData = async (req, res) => {
+    return responseHandler.innovationSentSuccessfully(res, req.user.Innovations[req.innovationIndex])
+}
+
+
+module.exports = {uploadAsset, createInnovation, deleteInnovation, sendAsset ,updateInnovationData, deleteAsset, getInnovationData}
