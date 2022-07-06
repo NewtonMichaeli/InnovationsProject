@@ -11,7 +11,7 @@ const innovationDeletedSuccessfully = res => res.status(200).json({status: true,
 
 // innovation : failure
 const failedCreatingInnovation = (res, data) => res.status(500).json({status: false, msg: 'Failed creating innovation', data}).end()
-const failedUpdatingInnovation = res => res.status(500).json({status: false, msg: 'Failed updating innovation'}).end()
+const failedUpdatingInnovation = (res, data) => res.status(500).json({status: false, msg: 'Failed updating innovation', data}).end()
 const failedDeletingInnovation = res => res.status(500).json({status: false, msg: 'Failed deleting innovation'}).end()
 
 // asset : success

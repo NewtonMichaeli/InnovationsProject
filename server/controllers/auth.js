@@ -41,12 +41,12 @@ const signup = async (req, res) => {
 // Sign in controller
 const signin = async (req, res) => {
 
-    if (!req.body) return responseHandler.incompleteFields(res) // -- check body first
+    if (!req.body) return responseHandler.incompleteFields(res, 'Cannot signin with empty credentials') // -- check body first
     let {Username, Password} = req.body
 
     // vaildate fields
     const {error} = Joi_SigninSchema.validate(req.body)
-    if (error) return responseHandler.incompleteFields(res)
+    if (error) return responseHandler.incompleteFields(res, error?.message)
     
     // search db for existing account
     const result = await User.findOne({Username})
@@ -72,13 +72,13 @@ const getUserData = async (req, res) => {
 const updateUserData = async (req, res) => {
     
     // update non-empty data
-    if (!req.body || !Object.keys(req.body).length) return responseHandler.incompleteFields(res)
+    if (!req.body || !Object.keys(req.body).length) return responseHandler.incompleteFields(res, 'Cannot signin with empty credentials')
     // extract data from request body
     const new_data = req.body, {user} = req
 
     // verify request data
     const {error} = Joi_UpdatingUserDataSchema.validate(new_data)
-    if (error) return responseHandler.incompleteFields(res)
+    if (error) return responseHandler.incompleteFields(res, error?.message)
 
     // update data
     const result = await authRequests.updateUserData(user.Username, new_data)
@@ -87,9 +87,7 @@ const updateUserData = async (req, res) => {
         const new_token = signNewUserToken(result.data)
         return responseHandler.userUpdatedSuccessfully(res, result.data, new_token)
     }
-    else if (result.data === 'INCOMPLETE_FIELDS') return responseHandler.incompleteFields(res)
-    else return responseHandler.failedUpdatingUser(res)
-
+    else responseHandler.failedUpdatingUser(res, result.data)
 }
 
 

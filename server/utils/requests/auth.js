@@ -30,7 +30,12 @@ const updateUserData = async (Username, data) => {
             {Email: data?.Email}, 
             {Username: data?.Username}
         ]})
-        if (result) return {status: false, data: 'INCOMPLETE_FIELDS'}
+        if (result) {
+            let occupiedFields = []
+            if (checkOccupiedFields.Email === Email) occupiedFields.push('Email')
+            if (checkOccupiedFields.Username === Username) occupiedFields.push('Username')
+            return {status: false, data: {occupiedFields}}
+        }
     }
     
     // assign new properties to innovation
@@ -43,7 +48,7 @@ const updateUserData = async (Username, data) => {
     const result = await user.save()
     return {
         status: result ? true : false, 
-        data: result
+        data: result ?? undefined
     }
 }
 

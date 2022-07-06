@@ -21,15 +21,15 @@ const createInnovation = async (Username, data) => {
 
 
 // Update innovation data
-const updateInnovation = async (Username ,project_id, data) => {
+const updateInnovation = async (Username, project_id, data) => {
 
     const user = await User.findOne({Username})
     // find innovation index by id
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return {status: false, data: 'INCOMPLETE_FIELDS'}
+    if (index === -1) return {status: false, data: 'INV_NOT_FOUND'}
     
     // check name (must be unique)
-    if (data.Name && user.Innovations.findIndex(inv => inv.Name === data.Name) !== -1) return {status: false, data: 'INCOMPLETE_FIELDS'}
+    if (data.Name && user.Innovations.findIndex(inv => inv.Name === data.Name) !== -1) return {status: false, data: 'NAME_OCCUPIED'}
     
     // assign new properties to innovation
     Object.entries(data).map(prop => {

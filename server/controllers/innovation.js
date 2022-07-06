@@ -20,7 +20,7 @@ const uploadAsset = async (req, res) => {
 
     const result = await requestHandler.uploadAsset(user.Username, project_id, {path, originalName: originalname})
     if (result) responseHandler.fileUploadedSuccessfully(res)
-    else responseHandler.incompleteFields(res)
+    else responseHandler.failedUploadingFile(res)
 }
 
 
@@ -31,7 +31,6 @@ const deleteAsset = async (req, res) => {
     const { user } = req, { project_id, asset_id } = req.params
 
     const result = await requestHandler.deleteAsset(user.Username, project_id, asset_id)
-
     if (result) responseHandler.fileDeletedSuccessfully(res)
     else responseHandler.fileNotfound(res)
 }
@@ -53,7 +52,6 @@ const sendAsset = async (req, res) => {
 
     // check if user's innovation stores the given asset filename
     if (user.Innovations[index].Assets.findIndex(a => a.path === filename) === -1) return responseHandler.fileNotfound(res)
-
     else responseHandler.fileFoundAndTransfered(res, `${ASSETS_FOLDER_PATH}/${filename}`)
 }
 
@@ -101,12 +99,13 @@ const updateInnovationData = async (req, res) => {
 
     // verify request data
     const {error} = Joi_InnovationSchema_UpdatingData.validate(new_data)
-    if (error) return responseHandler.incompleteFields(res)
+    if (error) return responseHandler.incompleteFields(res, error?.message)
 
     // update data
     const result = await requestHandler.updateInnovation(user.Username, project_id, new_data)
     if (result.status) return responseHandler.innovationUpdatedSuccessfully(res, result.data)
-    else if (result.data === 'INCOMPLETE_FIELDS') return responseHandler.incompleteFields(res)
+    else if (result.data === 'INV_NOT_FOUND') return responseHandler.innovationNotFound(res)
+    else if (result.data === 'NAME_OCCUPIED') return responseHandler.failedUpdatingInnovation(res, `Name \"${new_data.Name}\" is already occupied by another innovation`)
     else return responseHandler.failedUpdatingInnovation(res)
 }
 
