@@ -1,10 +1,11 @@
 const router = require('express').Router()
 const authController = require('../controllers/auth')
-// middlewares
+// middlewares:
 const { isAdmin } = require('../middlewares/isAdmin')
 const { authUser } = require('../middlewares/authUser')
 
-// Routes:
+
+// Routes:  /api/auth/
 
 // @route   GET /api/auth/:username/
 // @desc    Endpoint for sending back user data (no validation)
