@@ -6,7 +6,11 @@ const { authUser } = require('../middlewares/authUser')
 
 // Routes:
 
-// @route   POST /api/auth/
+// @route   GET /api/auth/:username/
+// @desc    Endpoint for sending back user data (no validation)
+router.get('/:username', authController.getProtectedUserData)
+
+// @route   GET /api/auth/
 // @desc    Endpoint for sending back user data
 router.get('/', authUser, authController.getUserData)
 

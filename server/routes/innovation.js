@@ -2,10 +2,10 @@ const multer = require('multer')
 const router = require('express').Router()
 const innovationController = require('../controllers/innovation')
 const errorController = require('../controllers/_errors')
-const {ASSETS_FOLDER_NAME, FILE_SIZE_LIMIT} = require('../configs/_server')
+const {ASSETS_FOLDER_NAME, FILE_SIZE_LIMIT, PRIVILEGES} = require('../configs/_server')
 // middlewares
 const { authUser } = require('../middlewares/authUser')
-const { authInnovationPrivacy } = require('../middlewares/authInnovationPrivacy')
+const { authInnovationPrivacy, allowPrivileges } = require('../middlewares/authInnovationPrivacy')
 
 // -- multer setup
 const storage = multer.diskStorage({
@@ -27,11 +27,12 @@ router.post('/', authUser, innovationController.createInnovation)
 // @desc    Endpoint for deleting innovations given it's id
 router.delete('/:project_id', authUser, innovationController.deleteInnovation)
 
-// @route   POST /api/innovations/assets/:project_id/
+// @route   POST /api/innovations/assets/:username/:project_id/
 // @desc    Endpoint for uploading assets associated with an innovation
 router.post(
-    '/assets/:project_id',
-    authUser,
+    '/assets/:username/:project_id',
+    authInnovationPrivacy,
+    allowPrivileges(PRIVILEGES.CREATOR, PRIVILEGES.CONTRIBUTOR),
     upload,
     innovationController.uploadAsset,
     errorController.fileUploadError

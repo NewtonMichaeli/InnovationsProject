@@ -1,4 +1,4 @@
-const { ASSETS_FOLDER_PATH } = require('../configs/_server')
+const { ASSETS_FOLDER_PATH, PRIVILEGES } = require('../configs/_server')
 // handlers
 const requestHandler = require('../utils/requests/innovations')
 const innovationResponseHandler = require('../utils/responses/innovations')
@@ -102,11 +102,11 @@ const updateInnovationData = async (req, res) => {
     // verify request parameters
     let error
     switch (req_privilege) {
-        case 'CONTRIBUTOR':
+        case PRIVILEGES.CONTRIBUTOR:
             // -- user is the innovation's contributor
             error = Joi_InnovationSchema_UpdatingData__contributor.validate(new_data).error
             break
-        case 'CREATOR':
+        case PRIVILEGES.CREATOR:
             // -- user is the innovation's creator
             error = Joi_InnovationSchema_UpdatingData__creator.validate(new_data).error
             break

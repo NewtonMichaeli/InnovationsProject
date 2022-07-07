@@ -68,6 +68,20 @@ const getUserData = async (req, res) => {
 }
 
 
+// Get user (public) data
+const getProtectedUserData = async (req, res) => {
+    
+    const { username } = req.params
+    let result = await User.findOne({Username: username})
+    if (!result) return responseHandler.userNotFound(res)
+    // filter private fields and projects
+    console.log('res: ', result)
+    result.Password = undefined
+    result.Innovations = result.Innovations.filter(inv => !inv.Private)
+    return responseHandler.userSentSuccessfully(res, result)
+}
+
+
 // Update user data
 const updateUserData = async (req, res) => {
     
@@ -117,4 +131,4 @@ const deleteUser = async (req, res) => {
 }
 
 
-module.exports = {signin, signup, getUserData, updateUserData, deleteUser}
+module.exports = {signin, signup, getUserData, updateUserData, deleteUser, getProtectedUserData}
