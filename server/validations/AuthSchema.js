@@ -6,14 +6,13 @@ const Joi_SignupSchema = Joi.object({
     Sname: Joi.string().min(2).max(26).required(),
     Email: Joi.string().min(2).max(42).required(),
     Username: Joi.string().min(2).max(28).required(),
-    Password: Joi.string().min(6).max(36).required(),
-    IsAdmin: Joi.bool().required()
+    Password: Joi.string().min(6).max(36).required()
 })
 
 // Signin schema
 const Joi_SigninSchema = Joi.object({
     Username: Joi.string().min(2).max(28).required(),
-    Password: Joi.string().min(6).max(36).required(),
+    Password: Joi.string().min(6).max(36).required()
 })
 
 // <Updating> User schema - all fields are optional
@@ -21,7 +20,7 @@ const Joi_UpdatingUserDataSchema = Joi.object({
     Fname: Joi.string().min(2).max(26).optional(),
     Sname: Joi.string().min(2).max(26).optional(),
     Email: Joi.string().min(2).max(42).optional(),
-    Username: Joi.string().min(2).max(28).optional(),
+    Username: Joi.string().min(2).max(28).optional()
 })
 
 module.exports = {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema}

@@ -26,7 +26,7 @@ const authInnovationPrivacy = async (req, res, next) => {
     req.user = user
 
     // check if user is in contribution array
-    if (token) {        
+    if (token) {
         // validate user
         try {
             data = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -58,20 +58,12 @@ const authInnovationPrivacy = async (req, res, next) => {
 }
 
 
-// Middleware for blocking specified privileges from the request chain
-// this middleware requires the following request parameters: <req_privilege>
-const allowPrivileges = (privileges) => (req, res, next) => {
-    const {req_privilege: privilege} = req
-    let clean = false
-    console.log('Checking-', privilege)
-    privileges.map(p => {
-        if (p === privilege) {
-            return clean = true
-        }
-    })
-    if (clean) next()
-    authResponseHandler.accessDenied(res)
+// Allow only the specified privileges next
+// Middleware requires the following request parameters: <req.req_privilege>
+const allowPrivileges = (privileges) => (req, res, next) => 
+{
+    if (privileges.includes(req.req_privilege)) next()
+    else authResponseHandler.accessDenied(res)
 }
-
 
 module.exports = {authInnovationPrivacy, allowPrivileges}

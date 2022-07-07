@@ -17,15 +17,16 @@ const signNewUserToken = ({Username, Email, IsAdmin, _id}) => jwt.sign(
 
 
 // Sign up controller
+// Requires the following request parameters: <req.IsAdmin: boolean>
 const signup = async (req, res) => {
 
-    if (!req.body) return responseHandler.incompleteFields(res) // -- check body first
-    let {Email, Password, Username, Fname, Sname, IsAdmin} = req.body
+    if (!req.body) return responseHandler.incompleteFields(res, 'Cannot sign up with no data') // -- check body first
+    let {Email, Password, Username, Fname, Sname} = req.body
 
     const {error} = Joi_SignupSchema.validate(req.body)
-    if (error) return responseHandler.incompleteFields(res)
+    if (error) return responseHandler.incompleteFields(res, error.message)
 
-    Role = req.IsAdmin ? true : false           // -- determine target role
+    const IsAdmin = req.IsAdmin                 // -- determine target administration status
     Password = await bcrypt.hash(Password, 10)  // -- hash password
 
     // signing up
@@ -41,12 +42,12 @@ const signup = async (req, res) => {
 // Sign in controller
 const signin = async (req, res) => {
 
-    if (!req.body) return responseHandler.incompleteFields(res, 'Cannot signin with empty credentials') // -- check body first
+    if (!req.body) return responseHandler.incompleteFields(res, 'Cannot sign in with empty credentials') // -- check body first
     let {Username, Password} = req.body
 
     // vaildate fields
     const {error} = Joi_SigninSchema.validate(req.body)
-    if (error) return responseHandler.incompleteFields(res, error?.message)
+    if (error) return responseHandler.incompleteFields(res, error.message)
     
     // search db for existing account
     const result = await User.findOne({Username})
@@ -63,6 +64,7 @@ const signin = async (req, res) => {
 
 
 // Get user data
+// Requires the following request parameters: <req.user>
 const getUserData = async (req, res) => {
     return responseHandler.userSentSuccessfully(res, req.user)
 }
@@ -83,10 +85,11 @@ const getProtectedUserData = async (req, res) => {
 
 
 // Update user data
+// Requires the following request parameters: <req.user>, <req.body>
 const updateUserData = async (req, res) => {
     
     // update non-empty data
-    if (!req.body || !Object.keys(req.body).length) return responseHandler.incompleteFields(res, 'Cannot signin with empty credentials')
+    if (!req.body) return responseHandler.incompleteFields(res, 'Cannot update user with no values')
     // extract data from request body
     const new_data = req.body, {user} = req
 
@@ -106,6 +109,7 @@ const updateUserData = async (req, res) => {
 
 
 // Update user data
+// Requires the following request parameters: <req.user>
 const deleteUser = async (req, res) => {
     
     const { user } = req

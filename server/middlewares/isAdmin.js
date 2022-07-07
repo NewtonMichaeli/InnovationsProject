@@ -20,7 +20,7 @@ const isAdmin = async (req, res, next) => {
             return next()
         }
         
-        const result = await User.findOne({_id: verified.id})
+        const result = await User.findById(verified._id)
         req.IsAdmin = result?.IsAdmin
         return next()
     }

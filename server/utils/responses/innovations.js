@@ -8,7 +8,7 @@ const innovationNotFound = res => res.status(400).json({status: false, msg: 'Inn
 const innovationCreatedSuccessfully = (res, data) => res.status(200).json({status: true, msg: 'Innovation created successfully', data}).end()
 const innovationUpdatedSuccessfully = (res, data) => res.status(200).json({status: true, msg: 'Innovation updated successfully', data}).end()
 const innovationDeletedSuccessfully = res => res.status(200).json({status: true, msg: 'Innovation deleted successfully'}).end()
-const innovationSentSuccessfully = (res, data) => res.status(200).json({status: false, msg: 'Innovation sent successfully', data}).end()
+const innovationSentSuccessfully = (res, data) => res.status(200).json({status: true, msg: 'Innovation sent successfully', data}).end()
 
 // innovation : failure
 const failedCreatingInnovation = (res, data) => res.status(500).json({status: false, msg: 'Failed creating innovation', data}).end()
