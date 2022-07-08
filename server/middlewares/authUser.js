@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const responseHandler = require('../utils/responses/auth')
+const responseHandler = require('../utils/responses')
 const User = require('../models/User')
 const { AUTH_TOKEN } = require('../configs/_server')
 
@@ -26,7 +26,6 @@ const authUser = async (req, res, next) => {
         .catch(err => {
             return responseHandler.accessDenied(res)
         })
-
     })
 }
 

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const innovationController = require('../controllers/innovation')
+const assetsController = require('../controllers/assets')
 const errorController = require('../controllers/_errors')
 const { PRIVILEGES } = require('../configs/_server')
 // middlewares:
@@ -15,7 +15,7 @@ const upload = require('../utils/uploads-setup')
 router.get(
     '/:username/:project_id/:filename', 
     authInnovationPrivacy, 
-    innovationController.sendAsset
+    assetsController.sendAsset
 )
 
 // @route   POST /api/innovations/assets/:username/:project_id/
@@ -25,7 +25,7 @@ router.post(
     authInnovationPrivacy,
     allowPrivileges(PRIVILEGES.CREATOR, PRIVILEGES.CONTRIBUTOR),
     upload,
-    innovationController.uploadAsset,
+    assetsController.uploadAsset,
     errorController.fileUploadError
 )
 
@@ -35,7 +35,7 @@ router.delete(
     '/:username/:project_id/:asset_id', 
     authInnovationPrivacy, 
     allowPrivileges(PRIVILEGES.CREATOR, PRIVILEGES.CONTRIBUTOR),
-    innovationController.deleteAsset
+    assetsController.deleteAsset
 )
 
 

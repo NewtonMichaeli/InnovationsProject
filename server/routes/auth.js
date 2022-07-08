@@ -31,5 +31,9 @@ router.post('/signin', authController.signin)
 // @desc    Endpoint for creating a user (admins can create admin-users)
 router.post('/signup', isAdmin, authController.signup)
 
+// @route   PATCH /api/auth/followings/:action/:user_id
+// @desc    Endpoing for updating user:following list
+router.patch('/followings/:action/:user_id', authUser, authController.updateFollowingList)
+
 
 module.exports = router

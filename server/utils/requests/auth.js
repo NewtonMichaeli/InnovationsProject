@@ -1,6 +1,8 @@
 // Auth request handler
 
 const User = require('../../models/User')
+const { ObjectId } = require('mongoose').Types
+
 
 // Signup a new account (returns the new user)
 const signup = async (data) => {
@@ -58,5 +60,39 @@ const deleteUser = async (Username) => {
     return result?.deletedCount === 1 ? true : false
 }
 
+// Update user:following list
+const updateFollowingList = async (Username, action, user_id) => {
+    
+    const user = await User.findOne({Username})
 
-module.exports = {signup, updateUserData, deleteUser}
+    // update src user
+    if (action === 'remove') {
+        // -- remove following
+        if (!user.Following.includes(user_id))
+            return {status: false, reason: 'NOT_FOLLOWING_USER'}
+        user.Following = user.Following.filter(uid => uid !== user_id)
+        const result = await user.save()
+        if (!result) return {status: false}
+    }
+    else {
+        // -- add following
+        if (user.Following.includes(user_id))
+            return {status: false, reason: 'ALREADY_FOLLOWING_USER'}
+        user.Following.push(user_id)
+        const result = await user.save()
+        if (!result) return {status: false}
+    }
+
+    // determine action 
+    action = (action === 'remove') ? '$pull' : '$push'
+
+    // update dest user
+    const result = await User.updateOne(
+        {_id: ObjectId(user_id)},
+        {[action]: {Followers: user_id}}
+    )
+    return {status: result.modifiedCount !== 0}
+}
+
+
+module.exports = {signup, updateUserData, deleteUser, updateFollowingList}

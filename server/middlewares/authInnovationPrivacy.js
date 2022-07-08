@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
-const authResponseHandler = require('../utils/responses/auth')
-const innovationResponseHandler = require('../utils/responses/innovations')
+const responseHandler = require('../utils/responses')
 const { AUTH_TOKEN, PRIVILEGES } = require('../configs/_server')
 
 
@@ -15,7 +14,7 @@ const authInnovationPrivacy = async (req, res, next) => {
     
     // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return innovationResponseHandler.innovationNotFound(res)
+    if (index === -1) return responseHandler.innovationNotFound(res)
     
     // check token
     const token = req.cookies[AUTH_TOKEN]
@@ -60,7 +59,7 @@ const authInnovationPrivacy = async (req, res, next) => {
 
 // Allow only the specified privileges next
 // Middleware requires the following request parameters: <req.req_privilege>
-const allowPrivileges = (privileges) => (req, res, next) => 
+const allowPrivileges = (...privileges) => (req, res, next) => 
 {
     if (privileges.includes(req.req_privilege)) next()
     else authResponseHandler.accessDenied(res)

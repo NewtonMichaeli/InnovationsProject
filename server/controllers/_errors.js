@@ -1,5 +1,5 @@
 // Errors controller
-const responseHandler = require('../utils/responses/innovations')
+const responseHandler = require('../utils/responses')
 
 
 // Sign up controller

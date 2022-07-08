@@ -36,6 +36,17 @@ const UserSchema = mongoose.Schema({
     Innovations: {
         type: [InnovationSchema],
         default: []
+    },
+    
+    // -- social data
+    
+    Following: {
+        type: [String],
+        default: []
+    },
+    Followers: {
+        type: [String],
+        default: []
     }
 })
 

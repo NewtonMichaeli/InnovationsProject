@@ -1,8 +1,7 @@
 // Innovations request handler
 
-const {ASSETS_FOLDER_PATH, ASSETS_FOLDER_NAME} = require('../../configs/_server')
+const {ASSETS_FOLDER_PATH} = require('../../configs/_server')
 const User = require('../../models/User')
-// const User = require('../../models/User')
 const fs = require('fs')
 
 
@@ -71,48 +70,32 @@ const deleteInnovation = async (Username, project_id) => {
 }
 
 
-// Upload asset and save asset-related data (path, etc)
-const uploadAsset = async (Username, project_id, data) => {
+// Update contributors list
+const updateContributorsList = async (user_id, project_id, action, dest_user_id, data) => {
 
-    const user = await User.findOne({Username})
+    const user = await User.findById(user_id)
+    if (!user) return {status: false, reason: 'USER_NOT_FOUND'}
+    
     // find associated innovation index
-    const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return false
+    const innovationIndex = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
+    if (innovationIndex === -1) return {status: false, reason: 'INV_NOT_FOUND'}
 
-    // insert file data to database
-    user.Innovations[index].Assets.push({...data, path: data.path.replace(`${ASSETS_FOLDER_NAME}\\`, '')})
+    // update contributors
+    const Contributors = user.Innovations[innovationIndex].Contributors
+    if (action === 'add') {
+        if (user.Innovations[innovationIndex].Contributors.findIndex(({user_id}) => user_id === dest_user_id) !== -1)
+            return {status: false, reason: 'CONTRIBUTOR_EXISTS'}
+        else user.Innovations[innovationIndex].Contributors.push(data)
+    }
+    else {
+        if (user.Innovations[innovationIndex].Contributors.findIndex(({user_id}) => user_id === dest_user_id) === -1)
+            return {status: false, reason: 'CONTRIBUTOR_NOT_FOUND'}
+        else user.Innovations[innovationIndex].Contributors = Contributors.filter(c => c.user_id !== dest_user_id)
+    }
+
     const result = await user.save()
-    return result ? true : false
+    return {status: result ? true:false, data: result.Innovations[innovationIndex].Contributors}
 }
 
 
-// Upload asset and save asset-related data (path, etc)
-const deleteAsset = async (Username, project_id, asset_id) => {
-
-    const user = await User.findOne({Username})
-    let deleted = false
-    // find associated innovation index
-    const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return false
-
-    // delete innovation asset
-    user.Innovations[index].Assets = user.Innovations[index].Assets.filter(({path, _id}) => {
-        // -- find and delete asset_id
-        if (_id.toString() !== asset_id) return true
-        try {
-            deleted = true
-            fs.unlinkSync(`${ASSETS_FOLDER_PATH}/${path}`)
-            return false
-        }
-        catch(err) {
-            return false
-        }
-    })
-
-    // save results
-    const result = await user.save()
-    return result && deleted
-}
-
-
-module.exports = {createInnovation, uploadAsset, deleteInnovation, deleteAsset, updateInnovation}
+module.exports = {createInnovation, deleteInnovation, updateInnovation, updateContributorsList}

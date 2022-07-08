@@ -29,11 +29,11 @@ const Joi_InnovationSchema_UpdatingData__creator = Joi.object({
 
 // <Updating> innovation schema (contributor privilege) - all fields are optional
 const Joi_InnovationSchema_UpdatingData__contributor = Joi.object({
-    // Name: Joi.string().optional(),
     Description: Joi.string().optional(),
     Tags: Joi.array().items(Joi.string()).optional(),
     Roles: Joi.array().items(Joi.string()).optional(),
     Status: Joi.valid('open', 'in development', 'finished').optional()
 })
+
 
 module.exports = {Joi_InnovationSchema, Joi_InnovationSchema_UpdatingData__creator, Joi_InnovationSchema_UpdatingData__contributor}

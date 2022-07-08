@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const innovationController = require('../controllers/innovation')
+const { PRIVILEGES } = require('../configs/_server')
 // middlewares:
 const { authUser } = require('../middlewares/authUser')
-const { authInnovationPrivacy } = require('../middlewares/authInnovationPrivacy')
+const { authInnovationPrivacy, allowPrivileges } = require('../middlewares/authInnovationPrivacy')
 
 
 // Routes:  /api/innovations/
@@ -22,6 +23,10 @@ router.get('/:username/:project_id', authInnovationPrivacy, innovationController
 // @route   PATCH /api/innovations/:username/:project_id/
 // @desc    Endpoint for updating (others) innovation data externally
 router.patch('/:username/:project_id', authInnovationPrivacy, innovationController.updateInnovationData)
+
+// @route   PATCH /api/innovations/contributors/:project_id/:action/:user_id
+// @desc    Endpoing for updating user:contributors list
+router.patch('/contributors/:project_id/:action/:user_id', authUser, innovationController.updateContributorsList)
 
 
 module.exports = router

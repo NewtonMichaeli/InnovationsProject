@@ -1,19 +1,12 @@
 // Auth controller
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const fs = require('fs')
-const authRequests = require('../utils/requests/auth')
-const responseHandler = require('../utils/responses/auth')
-const {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema} = require('../validations/AuthSchema')
 const { ASSETS_FOLDER_PATH } = require('../configs/_server')
+const {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema} = require('../validations/AuthSchema')
 const User = require('../models/User')
-
-
-// Extract relevant fields and generate token
-const signNewUserToken = ({Username, Email, IsAdmin, _id}) => jwt.sign(
-    JSON.stringify({Email, Username, IsAdmin, _id: _id.toString()}),
-    process.env.TOKEN_SECRET
-)
+const authRequests = require('../utils/requests/auth')
+const responseHandler = require('../utils/responses')
+const signNewUserToken = require('../utils/signNewUserToken')
 
 
 // Sign up controller
@@ -135,4 +128,23 @@ const deleteUser = async (req, res) => {
 }
 
 
-module.exports = {signin, signup, getUserData, updateUserData, deleteUser, getProtectedUserData}
+// Update user:following list
+// Requires the following request parameters: <req.user>
+const updateFollowingList = async (req, res) => {
+
+    const {user} = req, {action, user_id} = req.params
+
+    // validate action
+    if (action !== 'remove' && action !== 'add')
+        responseHandler.incompleteFields(res, 'Must provide a valid action: "add" / "remove"')
+
+    // update followings list
+    const result = await authRequests.updateFollowingList(user.Username, action, user_id)
+    if (result.status) return responseHandler.followingUserSuccessfully(res, action)
+    else if (result.reason === 'ALREADY_FOLLOWING_USER') return responseHandler.alreadyFollowingUser(res)
+    else if (result.reason === 'NOT_FOLLOWING_USER') return responseHandler.notFollowingUser(res)
+    else return responseHandler.failedFollowingUser(res)
+}
+
+
+module.exports = {signin, signup, getUserData, updateUserData, deleteUser, getProtectedUserData, updateFollowingList}
