@@ -7,6 +7,8 @@ const accessDenied = res => res.status(403).json({status: false, msg: 'Access de
 const userNotFound = res => res.status(400).json({status: false, msg: 'User not found'}).end()
 const alreadyFollowingUser = res => res.status(400).json({status: false, msg: 'Already following user'}).end()
 const notFollowingUser = res => res.status(400).json({status: false, msg: 'Cannot remove a non-following user'}).end()
+const failedSearchingWithQuery = (res, msg) => res.status(400).json({status: false, msg}).end()
+const successfullSearchWithQuery = (res, data) => res.status(200).json({status: false, data}).end()
 
 // user : success
 const loggedInSuccessfully = (res, token) => res.status(200).json({status: true, msg: 'Successfully logged in', data: token}).end()
@@ -25,4 +27,4 @@ const failedDeletingUser = (res) => res.status(500).json({status: false, msg: 'C
 const failedFollowingUser = res => res.status(500).json({status: true, msg: 'Failed followings user'}).end()
 
 
-module.exports = {incorrectCredentials, loggedInSuccessfully, userCreatedSuccessfully, userDeletedSuccessfully, userUpdatedSuccessfully, userSentSuccessfully, incompleteFields, failedCreatingUser, accessDenied, failedUpdatingUser, userNotFound, failedDeletingUser, followingUserSuccessfully, failedFollowingUser, alreadyFollowingUser, notFollowingUser}
+module.exports = {incorrectCredentials, loggedInSuccessfully, userCreatedSuccessfully, userDeletedSuccessfully, userUpdatedSuccessfully, userSentSuccessfully, incompleteFields, failedCreatingUser, accessDenied, failedUpdatingUser, userNotFound, failedDeletingUser, followingUserSuccessfully, failedFollowingUser, alreadyFollowingUser, notFollowingUser, failedSearchingWithQuery, successfullSearchWithQuery}

@@ -94,5 +94,18 @@ const updateFollowingList = async (Username, action, user_id) => {
     return {status: result.modifiedCount !== 0}
 }
 
+// Search with query
+const searchWithQuery = async (query, limit) => {
 
-module.exports = {signup, updateUserData, deleteUser, updateFollowingList}
+    // search followings
+    const regex = {$regex: query}
+    const result = await User
+    .find({$or: [{Username: regex}, {Email: regex}, {Fname: regex}, {Sname: regex}]})
+    .limit(limit)
+    .select({Fname:1, Sname:1, Username:1, Email:1, Profile_Pic:1})
+    
+    return result
+}
+
+
+module.exports = {signup, updateUserData, deleteUser, updateFollowingList, searchWithQuery}

@@ -62,6 +62,18 @@ const getUserData = async (req, res) => {
     return responseHandler.userSentSuccessfully(res, req.user)
 }
 
+// Search database
+const searchWithQuery = async (req, res) => {
+    
+    const { query = '', limit = 2 } = req.params
+    if (limit < 1) return responseHandler.failedSearchingWithQuery(res, `Invlid limit \"${limit}\". Limit can be 1 and above`)
+    if (!query.length || query.length > 36)
+        return responseHandler.failedSearchingWithQuery(res, `Invlid query. Queries length should range between 1-36`)
+    // search by regex
+    const results = await authRequests.searchWithQuery(query, limit)
+    return responseHandler.successfullSearchWithQuery(res, results)
+}
+
 
 // Get user (public) data
 const getProtectedUserData = async (req, res) => {
@@ -147,4 +159,4 @@ const updateFollowingList = async (req, res) => {
 }
 
 
-module.exports = {signin, signup, getUserData, updateUserData, deleteUser, getProtectedUserData, updateFollowingList}
+module.exports = {signin, signup, getUserData, updateUserData, deleteUser, getProtectedUserData, updateFollowingList, searchWithQuery}

@@ -7,6 +7,10 @@ const { authUser } = require('../middlewares/authUser')
 
 // Routes:  /api/auth/
 
+// @route   GET /api/auth/search/:query/:limit
+// @desc    Endpoint for sending back user search results
+router.get('/search/:query/:limit', authController.searchWithQuery)
+
 // @route   GET /api/auth/:username/
 // @desc    Endpoint for sending back user data (no validation)
 router.get('/:username', authController.getProtectedUserData)
