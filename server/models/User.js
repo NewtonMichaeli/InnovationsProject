@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const InnovationSchema = require('./Innovation')
+const InventionSchema = require('./Invention')
 const SharedProjectSchema = require('./SharedProject')
 const { AllowedRegions } = require('../validations/Regions')
 const { PROFILE_PIC_ENUM_LENGTH } = require('../configs/_database')
@@ -36,8 +36,8 @@ const UserSchema = mongoose.Schema({
         type: Boolean,
         required: true
     },
-    Innovations: {
-        type: [InnovationSchema],
+    Inventions: {
+        type: [InventionSchema],
         default: []
     },
     

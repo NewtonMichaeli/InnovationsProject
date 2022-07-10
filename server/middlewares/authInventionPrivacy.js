@@ -4,24 +4,24 @@ const responseHandler = require('../utils/responses')
 const { AUTH_TOKEN, PRIVILEGES } = require('../configs/_server')
 
 
-// Check if innovation has the 'Privacy' setting true, authorize user accordingly
+// Check if invention has the 'Privacy' setting true, authorize user accordingly
 // Middleware requires the following url-params: username, project_id
-const authInnovationPrivacy = async (req, res, next) => {
+const authInventionPrivacy = async (req, res, next) => {
 
     const { username, project_id } = req.params
     const user = await User.findOne({Username: username})       // -- dest user
     if (!user) return responseHandler.userNotFound(res)
     
-    // find associated innovation index
-    const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return responseHandler.innovationNotFound(res)
+    // find associated invention index
+    const index = user.Inventions.findIndex(inv => inv._id.toString() === project_id)
+    if (index === -1) return responseHandler.inventionNotFound(res)
     
     // check token
     const token = req.cookies[AUTH_TOKEN]
     let data
 
     // set init request variables
-    req.innovationIndex = index
+    req.inventionIndex = index
     req.user = user
 
     // check if user is in contribution array
@@ -38,7 +38,7 @@ const authInnovationPrivacy = async (req, res, next) => {
             }   
             
             // validate contributor
-            if (user.Innovations[index].Contributors.findIndex(({user_id}) => user_id.toString() === data._id) !== -1) {
+            if (user.Inventions[index].Contributors.findIndex(({user_id}) => user_id.toString() === data._id) !== -1) {
                 // -- user is a contributor
                 req.req_privilege = PRIVILEGES.CONTRIBUTOR
                 return next()
@@ -50,11 +50,11 @@ const authInnovationPrivacy = async (req, res, next) => {
         }
     }
 
-    // user is not a creator nor a contributor - check innovation privacy
-    if (user.Innovations[index].Private) 
+    // user is not a creator nor a contributor - check invention privacy
+    if (user.Inventions[index].Private) 
         return responseHandler.accessDenied(res)
     
-    // user is allowed to a non-private innovation
+    // user is allowed to a non-private invention
     req.req_privilege = PRIVILEGES.OBSERVER
     return next()
 }
@@ -68,4 +68,4 @@ const allowPrivileges = (...privileges) => (req, res, next) =>
     else authResponseHandler.accessDenied(res)
 }
 
-module.exports = {authInnovationPrivacy, allowPrivileges}
+module.exports = {authInventionPrivacy, allowPrivileges}

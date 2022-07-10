@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const AssetSchema = require('./Asset')
 const ContributorSchema = require('./Contributor')
 
-const InnovationSchema = new mongoose.Schema({
+const InventionSchema = new mongoose.Schema({
     Name: {
         type: String,
         required: true
@@ -51,4 +51,4 @@ const InnovationSchema = new mongoose.Schema({
     }
 })
 
-module.exports = InnovationSchema
+module.exports = InventionSchema

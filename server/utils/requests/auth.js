@@ -40,13 +40,13 @@ const updateUserData = async (Username, data) => {
         }
     }
     
-    // assign new properties to innovation
+    // assign new properties to invention
     Object.entries(data).map(prop => {
         if (user[prop[0]] !== undefined)
             user[prop[0]] = prop[1]
     })
 
-    // save new innovation
+    // save new invention
     const result = await user.save()
     return {
         status: result ? true : false, 

@@ -9,12 +9,12 @@ const fs = require('fs')
 const uploadAsset = async (Username, project_id, data) => {
 
     const user = await User.findOne({Username})
-    // find associated innovation index
-    const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
+    // find associated invention index
+    const index = user.Inventions.findIndex(inv => inv._id.toString() === project_id)
     if (index === -1) return false
 
     // insert file data to database
-    user.Innovations[index].Assets.push({...data, path: data.path.replace(`${ASSETS_FOLDER_NAME}\\`, '')})
+    user.Inventions[index].Assets.push({...data, path: data.path.replace(`${ASSETS_FOLDER_NAME}\\`, '')})
     const result = await user.save()
     return result ? true : false
 }
@@ -25,12 +25,12 @@ const deleteAsset = async (Username, project_id, asset_id) => {
 
     const user = await User.findOne({Username})
     let deleted = false
-    // find associated innovation index
-    const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
+    // find associated invention index
+    const index = user.Inventions.findIndex(inv => inv._id.toString() === project_id)
     if (index === -1) return false
 
-    // delete innovation asset
-    user.Innovations[index].Assets = user.Innovations[index].Assets.filter(({path, _id}) => {
+    // delete invention asset
+    user.Inventions[index].Assets = user.Inventions[index].Assets.filter(({path, _id}) => {
         // -- find and delete asset_id
         if (_id.toString() !== asset_id) return true
         try {

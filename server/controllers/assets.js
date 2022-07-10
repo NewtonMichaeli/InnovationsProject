@@ -38,16 +38,16 @@ const sendAsset = async (req, res) => {
     // extract req data
     const {project_id, filename} = req.params, {user} = req
 
-    // find associated innovation index
-    const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return responseHandler.innovationNotFound(res)
+    // find associated invention index
+    const index = user.Inventions.findIndex(inv => inv._id.toString() === project_id)
+    if (index === -1) return responseHandler.inventionNotFound(res)
 
     // validate filename
     if (!/^[0-9.a-zA-Z]+$/.test(filename))
         return responseHandler.fileNotfound(res)
 
-    // check if user's innovation stores the given asset filename
-    if (user.Innovations[index].Assets.findIndex(a => a.path === filename) === -1) return responseHandler.fileNotfound(res)
+    // check if user's invention stores the given asset filename
+    if (user.Inventions[index].Assets.findIndex(a => a.path === filename) === -1) return responseHandler.fileNotfound(res)
     else responseHandler.fileFoundAndTransfered(res, `${ASSETS_FOLDER_PATH}/${filename}`)
 }
 

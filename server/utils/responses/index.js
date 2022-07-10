@@ -1,7 +1,7 @@
 // Response-handler global module
 
 const assetsResponseHandler = require('./assets')
-const innovationResponseHandler = require('./innovations')
+const inventionResponseHandler = require('./inventions')
 const authResponseHandler = require('./auth')
 
-module.exports = {...assetsResponseHandler, ...innovationResponseHandler, ...authResponseHandler}
+module.exports = {...assetsResponseHandler, ...inventionResponseHandler, ...authResponseHandler}

@@ -2,8 +2,8 @@ const Joi = require('@hapi/joi')
 const Joi_AssetSchema = require('./AssetSchema')
 const Joi_ContributorSchema = require('./ContributorSchema')
 
-// Global innovation schema
-const Joi_InnovationSchema = Joi.object({
+// Global invention schema
+const Joi_InventionSchema = Joi.object({
     Name: Joi.string().required(),
     Description: Joi.string().required(),
     Tags: Joi.array().items(Joi.string()).required(),
@@ -16,8 +16,8 @@ const Joi_InnovationSchema = Joi.object({
     Contributors: Joi.array().items(Joi_ContributorSchema).required()
 })
 
-// <Updating> innovation schema (creator privilege) - all fields are optional
-const Joi_InnovationSchema_UpdatingData__creator = Joi.object({
+// <Updating> invention schema (creator privilege) - all fields are optional
+const Joi_InventionSchema_UpdatingData__creator = Joi.object({
     Name: Joi.string().optional(),
     Description: Joi.string().optional(),
     Tags: Joi.array().items(Joi.string()).optional(),
@@ -27,8 +27,8 @@ const Joi_InnovationSchema_UpdatingData__creator = Joi.object({
     Contributors: Joi.array().items(Joi_ContributorSchema).optional()
 })
 
-// <Updating> innovation schema (contributor privilege) - all fields are optional
-const Joi_InnovationSchema_UpdatingData__contributor = Joi.object({
+// <Updating> invention schema (contributor privilege) - all fields are optional
+const Joi_InventionSchema_UpdatingData__contributor = Joi.object({
     Description: Joi.string().optional(),
     Tags: Joi.array().items(Joi.string()).optional(),
     Roles: Joi.array().items(Joi.string()).optional(),
@@ -36,4 +36,4 @@ const Joi_InnovationSchema_UpdatingData__contributor = Joi.object({
 })
 
 
-module.exports = {Joi_InnovationSchema, Joi_InnovationSchema_UpdatingData__creator, Joi_InnovationSchema_UpdatingData__contributor}
+module.exports = {Joi_InventionSchema, Joi_InventionSchema_UpdatingData__creator, Joi_InventionSchema_UpdatingData__contributor}

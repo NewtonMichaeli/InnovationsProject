@@ -7,7 +7,7 @@ const express = require('express')
 const app = express()
 // routes
 const authRoute = require('./routes/auth')
-const innovationsRoute = require('./routes/innovation')
+const inventionsRoute = require('./routes/invention')
 const assetsRoute = require('./routes/assets')
 
 // connect to db
@@ -26,7 +26,7 @@ app.use(cors({
 
 // app routes
 app.use('/api/auth', authRoute)
-app.use('/api/innovations', innovationsRoute)
-app.use('/api/innovations/assets', assetsRoute)
+app.use('/api/inventions', inventionsRoute)
+app.use('/api/inventions/assets', assetsRoute)
 
 app.listen(process.env.PORT, () => console.log('server up and running'))

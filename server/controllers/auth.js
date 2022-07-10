@@ -84,7 +84,7 @@ const getProtectedUserData = async (req, res) => {
     // filter private fields and projects
     console.log('res: ', result)
     result.Password = undefined
-    result.Innovations = result.Innovations.filter(inv => !inv.Private)
+    result.Inventions = result.Inventions.filter(inv => !inv.Private)
     return responseHandler.userSentSuccessfully(res, result)
 }
 
@@ -119,11 +119,11 @@ const deleteUser = async (req, res) => {
     
     const { user } = req
     
-    // delete all assets related to all user's innovations
-    user.Innovations.map(inv => {
-        // -- iterate through innovations
+    // delete all assets related to all user's inventions
+    user.Inventions.map(inv => {
+        // -- iterate through inventions
         inv.Assets.map(({path}) => {
-            // -- iterate through assets in each innovation
+            // -- iterate through assets in each invention
             try {
                 fs.unlinkSync(`${ASSETS_FOLDER_PATH}/${path}`)
             }
@@ -148,7 +148,11 @@ const updateFollowingList = async (req, res) => {
 
     // validate action
     if (action !== 'remove' && action !== 'add')
-        responseHandler.incompleteFields(res, 'Must provide a valid action: "add" / "remove"')
+        return responseHandler.incompleteFields(res, 'Must provide a valid action: "add" / "remove"')
+
+    // avoid following yourself
+    if (user._id.toString() === user_id)
+        return responseHandler.incompleteFields(res, 'Cannot follow yourself')
 
     // update followings list
     const result = await authRequests.updateFollowingList(user.Username, action, user_id)
