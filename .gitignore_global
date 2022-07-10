@@ -4,5 +4,9 @@ node_modules
 server/node_modules
 client/node_modules
 
+# dirs
+client
+testing
+
 # uploads folder
 server/uploads/*

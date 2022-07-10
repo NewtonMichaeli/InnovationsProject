@@ -98,4 +98,25 @@ const updateContributorsList = async (user_id, project_id, action, dest_user_id,
 }
 
 
-module.exports = {createInnovation, deleteInnovation, updateInnovation, updateContributorsList}
+const getInnovationsByRegion = async (Regions, limit) => {
+
+    // TODO: finish algorithm
+
+    let innovations = []
+    const result = await User.find({
+        Regions, 
+        Innovations: {$elemMatch: {Private: false}}
+    }).limit(limit)
+    // map
+    result.map(user => {
+        user.Innovations.map(inv => {
+            if (!inv.Private)
+                innovations.push({[user.Username]: inv})
+        })
+    })
+    console.log('invs: ', innovations)
+    return innovations
+}
+
+
+module.exports = {createInnovation, deleteInnovation, updateInnovation, updateContributorsList, getInnovationsByRegion}

@@ -1,12 +1,15 @@
 const router = require('express').Router()
 const innovationController = require('../controllers/innovation')
-const { PRIVILEGES } = require('../configs/_server')
 // middlewares:
 const { authUser } = require('../middlewares/authUser')
-const { authInnovationPrivacy, allowPrivileges } = require('../middlewares/authInnovationPrivacy')
+const { authInnovationPrivacy } = require('../middlewares/authInnovationPrivacy')
 
 
 // Routes:  /api/innovations/
+
+// @route   GET /api/innovations/:limit?
+// @desc    Endpoint for sending back random innovations within the request's region
+router.get('/:limit?', innovationController.getInnovationsByRegion)
 
 // @route   POST /api/innovations/
 // @desc    Endpoint for creating innovations for a specified user

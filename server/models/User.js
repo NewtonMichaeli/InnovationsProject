@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const InnovationSchema = require('./Innovation')
+const SharedProjectSchema = require('./SharedProject')
+const { AllowedRegions } = require('../validations/Regions')
 const { PROFILE_PIC_ENUM_LENGTH } = require('../configs/_database')
 
 const UserSchema = mongoose.Schema({
@@ -17,7 +19,8 @@ const UserSchema = mongoose.Schema({
     },
 	Password: {
         type: String,
-        required: true
+        required: true,
+        select: false
     },
 	Email: {
         type: String,
@@ -46,6 +49,15 @@ const UserSchema = mongoose.Schema({
     },
     Followers: {
         type: [String],
+        default: []
+    },
+    Region: {
+        type: String,
+        enum: AllowedRegions,
+        required: true
+    },
+    Shared_Projects: {
+        type: [SharedProjectSchema],
         default: []
     }
 })

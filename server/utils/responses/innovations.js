@@ -5,6 +5,7 @@ const incompleteFields = (res, data) => res.status(400).json({status: false, msg
 const innovationNotFound = res => res.status(400).json({status: false, msg: 'Innovation not found'}).end()
 const contributorNotFound = res => res.status(400).json({status: false, msg: 'Contributor not found'}).end()
 const contributorAlreadyExists = res => res.status(400).json({status: false, msg: 'User is already a contributor'}).end()
+const randomInnovationsFoundSucessfully = (res, data) => res.status(200).json({status: true, msg: 'Random innovations found', data}).end()
 
 // innovation : success
 const innovationCreatedSuccessfully = (res, data) => res.status(200).json({status: true, msg: 'Innovation created successfully', data}).end()
@@ -22,4 +23,4 @@ const failedSendingInnovation = res => res.status(500).json({status: false, msg:
 const failedUpdatingInnovationContributors = res => res.status(500).json({status: false, msg: 'Failed updating Contributors list'}).end()
 
 
-module.exports = {innovationCreatedSuccessfully, failedCreatingInnovation, incompleteFields, innovationDeletedSuccessfully, failedDeletingInnovation, innovationUpdatedSuccessfully, failedUpdatingInnovation, innovationNotFound, innovationSentSuccessfully, failedSendingInnovation, innovationContributorsUpdatedSuccessfully, failedUpdatingInnovationContributors, contributorNotFound, contributorAlreadyExists}
+module.exports = {innovationCreatedSuccessfully, failedCreatingInnovation, incompleteFields, innovationDeletedSuccessfully, failedDeletingInnovation, innovationUpdatedSuccessfully, failedUpdatingInnovation, innovationNotFound, innovationSentSuccessfully, failedSendingInnovation, innovationContributorsUpdatedSuccessfully, failedUpdatingInnovationContributors, contributorNotFound, contributorAlreadyExists, randomInnovationsFoundSucessfully}

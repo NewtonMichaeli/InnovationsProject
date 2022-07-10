@@ -19,8 +19,13 @@ const InnovationSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
+    Occupations: {
+        type: [String],
+        required: true
+    },
     Assets: {
-        type: [AssetSchema]
+        type: [AssetSchema],
+        default: []
     },
     Status: {
         type: String,
@@ -42,7 +47,7 @@ const InnovationSchema = new mongoose.Schema({
     },
     Contributors: {
         type: [ContributorSchema],
-        default: []
+        required: true
     }
 })
 

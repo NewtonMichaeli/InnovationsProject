@@ -14,7 +14,7 @@ const signNewUserToken = require('../utils/signNewUserToken')
 const signup = async (req, res) => {
 
     if (!req.body) return responseHandler.incompleteFields(res, 'Cannot sign up with no data') // -- check body first
-    let {Email, Password, Username, Fname, Sname} = req.body
+    let {Email, Password, Username, Fname, Sname, Region} = req.body
 
     const {error} = Joi_SignupSchema.validate(req.body)
     if (error) return responseHandler.incompleteFields(res, error.message)
@@ -23,7 +23,7 @@ const signup = async (req, res) => {
     Password = await bcrypt.hash(Password, 10)  // -- hash password
 
     // signing up
-    const result = await authRequests.signup({Email, Password, Fname, Sname, Username, IsAdmin})
+    const result = await authRequests.signup({Email, Password, Fname, Sname, Username, IsAdmin, Region})
     if (!result.status) return responseHandler.failedCreatingUser(res, result?.data)
 
     // generating token
@@ -43,7 +43,7 @@ const signin = async (req, res) => {
     if (error) return responseHandler.incompleteFields(res, error.message)
     
     // search db for existing account
-    const result = await User.findOne({Username})
+    const result = await User.findOne({Username}).select('Username Email IsAdmin _id Password')
     if (!result) return responseHandler.incorrectCredentials(res)
     
     // compare hashed passwords

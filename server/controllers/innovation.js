@@ -1,6 +1,6 @@
+const Joi = require('@hapi/joi')
 const { PRIVILEGES } = require('../configs/_server')
-const User = require('../models/User')
-const { ObjectId } = require('mongoose').Types
+const {Joi_RegionsSchema, AllowedRegions} = require('../validations/Regions')
 // handlers
 const requestHandler = require('../utils/requests/innovations')
 const responseHandler = require('../utils/responses')
@@ -114,4 +114,19 @@ const updateContributorsList = async (req, res) => {
 }
 
 
-module.exports = {createInnovation, deleteInnovation ,updateInnovationData, getInnovationData, updateContributorsList}
+// Get random innovations by region
+const getInnovationsByRegion = async (req, res) => {
+
+    // TODO: get region
+    let regions = []
+    if (!req.body || !req.body.regions)
+        regions = [...AllowedRegions]
+    else if (Joi_RegionsSchema.validate(req.body.regions))
+        regions = req.body.regions
+
+    const result = await requestHandler.getInnovationsByRegion(regions, 5)
+    return responseHandler.randomInnovationsFoundSucessfully(res, result)
+}
+
+
+module.exports = {createInnovation, deleteInnovation ,updateInnovationData, getInnovationData, updateContributorsList, getInnovationsByRegion}

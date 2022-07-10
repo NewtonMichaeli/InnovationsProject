@@ -10,7 +10,7 @@ const authInnovationPrivacy = async (req, res, next) => {
 
     const { username, project_id } = req.params
     const user = await User.findOne({Username: username})       // -- dest user
-    if (!user) return authResponseHandler.userNotFound(res)
+    if (!user) return responseHandler.userNotFound(res)
     
     // find associated innovation index
     const index = user.Innovations.findIndex(inv => inv._id.toString() === project_id)
@@ -44,12 +44,15 @@ const authInnovationPrivacy = async (req, res, next) => {
                 return next()
             }
         }
-        catch(err) { /* token is not verified */ }
+        catch(err) { 
+            /* token is not verified */ 
+            console.log('err', err.message)
+        }
     }
 
     // user is not a creator nor a contributor - check innovation privacy
     if (user.Innovations[index].Private) 
-        return authResponseHandler.accessDenied(res)
+        return responseHandler.accessDenied(res)
     
     // user is allowed to a non-private innovation
     req.req_privilege = PRIVILEGES.OBSERVER

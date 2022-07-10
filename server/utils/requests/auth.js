@@ -91,7 +91,7 @@ const updateFollowingList = async (Username, action, user_id) => {
         {_id: ObjectId(user_id)},
         {[action]: {Followers: user_id}}
     )
-    return {status: result.modifiedCount !== 0}
+    return {status: result ? true : false}
 }
 
 // Search with query
