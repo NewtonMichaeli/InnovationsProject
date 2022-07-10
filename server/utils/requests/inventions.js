@@ -85,12 +85,22 @@ const updateContributorsList = async (user_id, project_id, action, dest_user_id,
     if (action === 'add') {
         if (user.Inventions[inventionIndex].Contributors.findIndex(({user_id}) => user_id === dest_user_id) !== -1)
             return {status: false, reason: 'CONTRIBUTOR_EXISTS'}
-        else user.Inventions[inventionIndex].Contributors.push(data)
+        user.Inventions[inventionIndex].Contributors.push(data)
+        // push project to dest_user's shared_projects
+        await User.findByIdAndUpdate(
+            dest_user_id, 
+            {$push: {Shared_Projects: {project_id, user_id}}}
+        )
     }
     else {
         if (user.Inventions[inventionIndex].Contributors.findIndex(({user_id}) => user_id === dest_user_id) === -1)
             return {status: false, reason: 'CONTRIBUTOR_NOT_FOUND'}
-        else user.Inventions[inventionIndex].Contributors = Contributors.filter(c => c.user_id !== dest_user_id)
+        user.Inventions[inventionIndex].Contributors = Contributors.filter(c => c.user_id !== dest_user_id)
+        // remove project from dest_user's shared_projects
+        await User.findByIdAndUpdate(
+            dest_user_id, 
+            {$pull: {Shared_Projects: {project_id, user_id}}}
+        )
     }
 
     const result = await user.save()
@@ -114,8 +124,9 @@ const getInventionsByRegion = async (Regions, limit) => {
                 inventions.push({[user.Username]: inv})
         })
     })
-    console.log('invs: ', inventions)
-    return inventions
+    const shuffled = inventions.sort(() => 0.5 - Math.random()).slice(0, limit)
+    console.log('invs: ', shuffled)
+    return shuffled
 }
 
 

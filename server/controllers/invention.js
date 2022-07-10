@@ -64,7 +64,7 @@ const updateInventionData = async (req, res) => {
             break
         default:
             // -- no access to outsiders
-            return authResponseHandler.accessDenied(res)
+            return responseHandler.accessDenied(res)
     }
     if (error) return responseHandler.incompleteFields(res, error.message)
 
@@ -109,7 +109,7 @@ const updateContributorsList = async (req, res) => {
     else if (result.reason === 'INV_NOT_FOUND') responseHandler.inventionNotFound(res)
     else if (result.reason === 'CONTRIBUTOR_NOT_FOUND') responseHandler.contributorNotFound(res)
     else if (result.reason === 'CONTRIBUTOR_EXISTS') responseHandler.contributorAlreadyExists(res)
-    else if (result.reason === 'USER_NOT_FOUND') authResponseHandler.userNotFound(res)
+    else if (result.reason === 'USER_NOT_FOUND') responseHandler.userNotFound(res)
     else responseHandler.failedUpdatingInventionContributors(res)
 }
 

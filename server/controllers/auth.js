@@ -1,10 +1,12 @@
 // Auth controller
+const { ASSETS_FOLDER_PATH } = require('../configs/_server')
 const bcrypt = require('bcrypt')
 const fs = require('fs')
-const { ASSETS_FOLDER_PATH } = require('../configs/_server')
 const {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema} = require('../validations/AuthSchema')
 const User = require('../models/User')
+// utils
 const authRequests = require('../utils/requests/auth')
+const {convertSharedProjects} = require('../utils/requests/_globals')
 const responseHandler = require('../utils/responses')
 const signNewUserToken = require('../utils/signNewUserToken')
 
@@ -59,7 +61,9 @@ const signin = async (req, res) => {
 // Get user data
 // Requires the following request parameters: <req.user>
 const getUserData = async (req, res) => {
-    return responseHandler.userSentSuccessfully(res, req.user)
+
+    const result = await convertSharedProjects(req.user, false)
+    return responseHandler.userSentSuccessfully(res, result)
 }
 
 // Search database
@@ -79,12 +83,12 @@ const searchWithQuery = async (req, res) => {
 const getProtectedUserData = async (req, res) => {
     
     const { username } = req.params
-    let result = await User.findOne({Username: username})
-    if (!result) return responseHandler.userNotFound(res)
+    let user = await User.findOne({Username: username})
+    if (!user) return responseHandler.userNotFound(res)
+    
     // filter private fields and projects
-    console.log('res: ', result)
-    result.Password = undefined
-    result.Inventions = result.Inventions.filter(inv => !inv.Private)
+    user.Inventions = user.Inventions.filter(inv => !inv.Private)
+    const result = await convertSharedProjects(user, true)
     return responseHandler.userSentSuccessfully(res, result)
 }
 
