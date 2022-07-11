@@ -29,7 +29,6 @@ const authInventionPrivacy = async (req, res, next) => {
         // validate user
         try {
             data = jwt.verify(token, process.env.TOKEN_SECRET)
-
             // validate creator
             if (data?.Username === user.Username && data?.Email === user.Email) {
                 // -- user is the creator
@@ -38,21 +37,20 @@ const authInventionPrivacy = async (req, res, next) => {
             }   
             
             // validate contributor
-            if (user.Inventions[index].Contributors.findIndex(({user_id}) => user_id.toString() === data._id) !== -1) {
+            if (user.Inventions[index].Contributors.findIndex(({user_id}) => user_id === data._id.toString()) !== -1) {
                 // -- user is a contributor
                 req.req_privilege = PRIVILEGES.CONTRIBUTOR
                 return next()
             }
         }
-        catch(err) { 
-            /* token is not verified */ 
-            console.log('err', err.message)
-        }
+        catch(err) { /* token is not verified */ }
     }
 
     // user is not a creator nor a contributor - check invention privacy
-    if (user.Inventions[index].Private) 
+    if (user.Inventions[index].Private) {
+        console.log("token", token)
         return responseHandler.accessDenied(res)
+    }
     
     // user is allowed to a non-private invention
     req.req_privilege = PRIVILEGES.OBSERVER

@@ -114,18 +114,18 @@ const getInventionsByRegion = async (Regions, limit) => {
 
     let inventions = []
     const result = await User.find({
-        Regions, 
+        Region: Regions,
         Inventions: {$elemMatch: {Private: false}}
     }).limit(limit)
-    // map
+
     result.map(user => {
         user.Inventions.map(inv => {
             if (!inv.Private)
                 inventions.push({[user.Username]: inv})
         })
     })
+
     const shuffled = inventions.sort(() => 0.5 - Math.random()).slice(0, limit)
-    console.log('invs: ', shuffled)
     return shuffled
 }
 

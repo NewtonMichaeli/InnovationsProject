@@ -119,11 +119,14 @@ const getInventionsByRegion = async (req, res) => {
 
     // TODO: get region
     let regions = []
-    if (!req.body || !req.body.regions)
+    if (!req.body?.Regions)
         regions = [...AllowedRegions]
-    else if (Joi_RegionsSchema.validate(req.body.regions))
-        regions = req.body.regions
-
+    else {
+        const {error} = Joi_RegionsSchema.validate(req.body.Regions)
+        if (!error) regions = req.body.Regions
+        else return responseHandler.incompleteFields(res, error.message)
+    } 
+    console.log('regions:', regions)
     const result = await requestHandler.getInventionsByRegion(regions, 5)
     return responseHandler.randomInventionsFoundSucessfully(res, result)
 }
