@@ -1,0 +1,72 @@
+/* styles for app layout */
+
+/* main app container */
+.App {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--app-bg-color);
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* app content styles */
+.app-body {
+    background-color: inherit;
+    width: calc(100vw - var(--menu-width));
+    height: 100vh;
+    transition: width .4s ease;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* navigation-bar background */
+.navbar-bg-svg {
+    position: absolute;
+    top: 0%;
+    left: 0;
+    width: 100%;
+    height: 15rem;
+    pointer-events: none;
+    /* background */
+    background-image: url('../../../public/navbar-background.svg');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+}
+
+/* navbar container */
+.app-body .Navbar {
+    background-color: #fff;
+    width: 100%;
+    height: var(--navbar-height);
+    /* layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2.5rem;
+    z-index: 1;
+}
+.app-body .Navbar .logo-home-link {
+    cursor: pointer;
+    height: 38%;
+}
+
+/* app content */
+.app-content {
+    width: 100%;
+    height: calc(100% - var(--navbar-height));
+    z-index: 1;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

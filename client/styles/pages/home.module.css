@@ -1,0 +1,76 @@
+/* styles for home page */
+
+.Home {
+    height: 100%;
+    width: 100%;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding-bottom: 6rem;
+}
+
+/* home header (title, description */
+.home-header .home-title {
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* home title */
+.home-header .home-title {
+    text-align: center;
+    font-size: 2.9rem;
+    font-weight: 400;
+    color: #666;
+}
+
+/* home description */
+.home-header .home-description {
+    margin-top: 2.5rem;
+    font-size: 1.15rem;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.home-header .home-description .inventions-info {
+    color: #666;
+    font-weight: 400;
+    margin-bottom: .1rem;
+}
+.home-header .home-description .link-my-projects {
+    color: #0038FF;
+}
+
+/* apps */
+.Home .apps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.apps .app {
+    text-align: center;
+    margin: 0 .7rem;
+    cursor: pointer;
+    transition: transform .15s ease;
+}
+.apps .app:hover {
+    transform: scale(1.03);
+}
+.apps .app .app-icon-container {
+    background-color: #d9d9d966;
+    border: 3px solid #ccc;
+    width: 5.8rem;
+    height: 5.8rem;
+    border-radius: 1rem;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: .2rem;
+}

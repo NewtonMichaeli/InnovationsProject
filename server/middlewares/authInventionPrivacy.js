@@ -63,7 +63,7 @@ const authInventionPrivacy = async (req, res, next) => {
 const allowPrivileges = (...privileges) => (req, res, next) => 
 {
     if (privileges.includes(req.req_privilege)) next()
-    else authResponseHandler.accessDenied(res)
+    else responseHandler.accessDenied(res)
 }
 
 module.exports = {authInventionPrivacy, allowPrivileges}

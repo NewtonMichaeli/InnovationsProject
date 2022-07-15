@@ -1,0 +1,162 @@
+/* styles for main-menu component */
+
+/* menu container */
+.Menu {
+    height: 100vh;
+    width: var(--menu-width);
+    background: linear-gradient(177.24deg, #010220 0%, #00034D 0.01%, #000D21 14.06%, #2D0031 100%);
+    transition: width .4s ease;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.Menu .menu-header {
+    width: 100%;
+    height: var(--navbar-height);
+    cursor: pointer;
+    transition: background-color .15s ease;
+    /* layout */
+    position: relative;
+    margin-bottom: .8rem;
+}
+.Menu .menu-header .menu-title {
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-weight: 400;
+    font-size: 1.2rem;
+    transition: all .3s ease;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Menu .menu-header .menu-icon {
+    color: white;
+    position: absolute;
+    left: 1.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* menu links */
+.Menu .menu-link {
+    width: 90%;
+    height: 4.2rem;
+    margin-top: 1rem;
+    border-radius: 3rem 0 0 3rem;
+    transition: background-color .15s ease, opacity .15s ease;
+    position: relative;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Menu .menu-link .icon {
+    color: white;
+    height: 100%;
+    top: 0;
+    position: absolute;
+    left: 1.2rem;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Menu .menu-link .link-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all .3s ease;
+    left: 4.9rem;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 300;
+}
+/* highlighted menu-link */
+.Menu .menu-link.highlighted {
+    background-color: var(--app-bg-color);
+}
+.Menu .menu-link.highlighted .link-text,
+.Menu .menu-link.highlighted .icon {
+    color: #200E32;
+}
+/* animative link */
+.menu-link .highlighted-link-animate-top,
+.menu-link .highlighted-link-animate-bottom {
+    display: block;
+    background: var(--app-bg-color);
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 0;
+    top: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+    transform: all .3s ease;
+    /* mask */
+    clip-path: path('M0 16');
+}
+.menu-link .highlighted-link-animate-bottom {
+    top: 100%;
+    transform: translateY(0);
+    /* mask */
+    clip-path: path('M0 0');
+}
+/* highlighted animation */
+.menu-link.highlighted .highlighted-link-animate-top {
+    clip-path: path('M0 16 c 10 0 16 -10 16 -16 l 0 16 Z');
+}
+.menu-link.highlighted .highlighted-link-animate-bottom {
+    clip-path: path('M0 0 c 10 0 16 10 16 16 l 0 -16 Z');
+}
+
+
+/* menu links skeleton (loading) */
+.Menu .menu-link-loading {
+    width: 100%;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+}
+.Menu .menu-link-loading span {
+    background-color: #eeeeee22;
+    animation: menu-links-loading-animation 1.6s linear infinite alternate;
+    width: 42%;
+    height: 42%;
+    border-radius: 100%;
+    content: '';
+}
+
+
+/* menu-closed */
+
+.Menu.menu-closed .menu-link {
+    width: 90%;
+}
+/* .Menu.menu-closed .menu-link .link-text, */
+.Menu.menu-closed .menu-header .menu-title {
+    font-size: 2px;
+    opacity: 0;
+    pointer-events: none;
+}
+.Menu.menu-closed .menu-link .icon {
+    
+}
+
+
+/* keyframes */
+
+@keyframes menu-links-loading-animation {
+    from {
+        background-color: #eeeeee22;
+    }
+    to {
+        background-color: #eeeeee88;
+    }
+}

@@ -1,0 +1,33 @@
+/* global styles */
+
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400&display=swap');
+
+/* all elements */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+}
+/* selection for all elements */
+*::selection {
+  background-color: transparent;
+}
+
+/* remove unwanted tapping animation, only when specifically required */
+*, *:active, *:focus {
+  /* -- previously refered to <a> tags, required changing */
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+/* css variables */
+:root {
+  --app-bg-color: #eee;
+  /* menu */
+  --menu-width: 5.5rem;
+  /* navbar */
+  --navbar-height: 5rem
+}
