@@ -17,7 +17,7 @@ const authInventionPrivacy = async (req, res, next) => {
     if (index === -1) return responseHandler.inventionNotFound(res)
     
     // check token
-    const token = req.cookies[AUTH_TOKEN]
+    const token = req.cookies[AUTH_TOKEN] ?? req.header(AUTH_TOKEN)
     let data
 
     // set init request variables

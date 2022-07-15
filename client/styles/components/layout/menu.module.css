@@ -145,9 +145,7 @@
     opacity: 0;
     pointer-events: none;
 }
-.Menu.menu-closed .menu-link .icon {
-    
-}
+/* .Menu.menu-closed .menu-link .icon {} */
 
 
 /* keyframes */

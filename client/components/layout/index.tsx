@@ -4,9 +4,15 @@ import Menu from "./Menu"
 import Navbar from "./Navbar";
 // styles
 import styles from '../../styles/components/layout/index.module.css'
+import { useAppSelector } from "../../hooks/redux";
+import { userSelector } from "../../redux/features/user";
+import Loading from "../global/loading";
 
 
 const Layout: FC<{children: JSX.Element[]}> = ({children}) => {
+    // states
+    const { isLoading } = useAppSelector(userSelector)
+
     return (
         <div className={styles['App']}>
             {/* main-menu */}
@@ -18,8 +24,8 @@ const Layout: FC<{children: JSX.Element[]}> = ({children}) => {
                 {/* navigation-bar */}
                 <Navbar />
                 <div className={styles["app-content"]}>
-                    {/* content */}
-                    {children}
+                    {/* content / loading */}
+                    {!isLoading ? children : <Loading />}
                 </div>
             </section>
         </div>

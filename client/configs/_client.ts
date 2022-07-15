@@ -1,6 +1,7 @@
 // configs for client
 
 // all client URIs
+// underscore-prefix: methods for concatonating url params
 export const CLIENT_URIS = {
     HOME: '/',
     EXPLORE: '/explore',
@@ -10,4 +11,5 @@ export const CLIENT_URIS = {
     DASHBOARD: '/my-projects',
     LOGIN: '/login',
     REGISTER: '/register',
+    _DASHBOARD: (project_id: string) => `/my-projects/${project_id}`
 }

@@ -13,7 +13,7 @@ const upload = require('../utils/uploads-setup')
 // @route   GET /api/inventions/assets/:username/:project_id/:filename/
 // @desc    Endpoint for sending back assets
 router.get(
-    '/:username/:project_id/:filename', 
+    '/:username/:project_id/:filename',
     authInventionPrivacy, 
     assetsController.sendAsset
 )

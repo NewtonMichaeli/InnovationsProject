@@ -12,7 +12,14 @@ const convertSharedProjects = async (user, protected) => {
         if (!user) return
         const result = user.Inventions.find(inv => inv._id.toString() === sp.project_id)
         if (!result.Private || !protected)
-            Shared_Projects.push(result)
+            Shared_Projects.push({
+                CreatorData: {
+                    Username: user.Username,
+                    _id: user._id.toString(),
+                    Profile_Pic: user.Profile_Pic
+                },
+                Project: result
+            })
     }))
     return {...user._doc, Shared_Projects}
 }

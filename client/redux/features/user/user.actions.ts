@@ -1,6 +1,6 @@
 // actions file for user
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import * as userAPI from '../../../utils/api/userAPI'
+import * as userAPI from '../../../utils/api/user.api'
 
 
 // async action: fetch user data

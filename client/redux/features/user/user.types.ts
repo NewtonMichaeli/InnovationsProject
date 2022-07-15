@@ -34,6 +34,12 @@ export type InventionType = {
     _id: string
 }
 
+// response type of shared projects
+export type SharedProjectsResponseType = {
+    CreatorData: { _id: string, Username: string, Profile_Pic: number }
+    Project: InventionType
+}
+
 // user type
 export type UserType = {
     Fname: string,
@@ -46,7 +52,7 @@ export type UserType = {
     Followers: string[],
     Region: REGIONS_ENUM,
     Inventions: InventionType[],
-    Shared_Projects: InventionType[],   // -- converted to regular invention struct inside the server
+    Shared_Projects: SharedProjectsResponseType[],   // -- converted to regular invention struct inside the server
     type: String,
     required: true,
     _id: string,

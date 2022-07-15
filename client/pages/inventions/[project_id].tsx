@@ -6,6 +6,7 @@ import { userSelector, userActions } from '../../redux/features/user'
 
 const ProjectViewer: FC = () => {
 
+    // states
     const dispatch = useAppDispatch()
     const { project_id } = useRouter().query
     const { User } = useAppSelector(userSelector)

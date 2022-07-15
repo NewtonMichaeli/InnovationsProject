@@ -31,17 +31,14 @@ const AppLink: FC<{to: string, title: string, Icon: IconType}> = ({to, title, Ic
 const Home: FC = () => {
 
   // States
-  const dispatch = useAppDispatch()
-  const { User, isLoading } = useAppSelector(userSelector)
+  const { User } = useAppSelector(userSelector)
   // -- description essential data
+  const all_inventions = [...User.Inventions, ...User.Shared_Projects.map(sp => sp.Project)]
   const descriptionData = {
-    projectsAmount: User?.Inventions.length,
-    finishedProjects: User?.Inventions.filter(p => p.Status === 'finished').length
+    personalProjectsAmount: User.Inventions.length,
+    sharedProjectsAmount: User.Shared_Projects.length,
+    finishedProjects: all_inventions.filter(p => p.Status === 'finished').length
   }
-  // onload actions
-  useEffect(() => {
-    // userActions.setActiveLink(CLIENT_URIS.HOME)
-  }, [])
 
   return (
     <main className={styles['Home']}>
@@ -57,7 +54,7 @@ const Home: FC = () => {
         {/* description */}
         <span className={styles['home-description']}>
           <h4 className={styles['inventions-info']}>
-            You have {descriptionData.projectsAmount} Projects, {descriptionData.finishedProjects || 'None'} of them {descriptionData.finishedProjects === 1 ? 'is' : 'are'} complete.
+            You have {descriptionData.sharedProjectsAmount} shared project{descriptionData.sharedProjectsAmount!==1?'s':''} and {descriptionData.personalProjectsAmount} Personal project{descriptionData.personalProjectsAmount!==1?'s':''}, {descriptionData.finishedProjects || 'None'} of them {descriptionData.finishedProjects === 1 ? 'is' : 'are'} complete.
           </h4>
           <Link href={'/my-projects'}>
             <a className={styles['link-my-projects']}>Check them out.</a>

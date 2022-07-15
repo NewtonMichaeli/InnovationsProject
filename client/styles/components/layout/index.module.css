@@ -20,6 +20,7 @@
     width: calc(100vw - var(--menu-width));
     height: 100vh;
     transition: width .4s ease;
+    overflow: hidden;
     /* layout */
     display: flex;
     flex-direction: column;
@@ -69,4 +70,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: auto;
 }

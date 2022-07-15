@@ -7,8 +7,7 @@ const { AUTH_TOKEN } = require('../configs/_server')
 // Handle admin routes - verify role by checking a given header-token
 const authUser = async (req, res, next) => {
 
-    // const token = req.header(AUTH_TOKEN)
-    const token = req.cookies[AUTH_TOKEN]
+    const token = req.cookies[AUTH_TOKEN] ?? req.header(AUTH_TOKEN)
     if (!token) return responseHandler.accessDenied(res)
     
     // extract token - verify user
