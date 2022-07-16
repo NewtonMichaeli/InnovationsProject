@@ -7,6 +7,7 @@ const responseHandler = require('../utils/responses')
 // validations
 const Joi_ContributorSchema = require('../validations/ContributorSchema')
 const {Joi_InventionSchema, Joi_InventionSchema_UpdatingData__creator, Joi_InventionSchema_UpdatingData__contributor} = require('../validations/InventionSchema')
+const { getContributorsDetails } = require('../utils/requests/_globals')
 
 
 // create a new invention
@@ -80,7 +81,13 @@ const updateInventionData = async (req, res) => {
 // Get invention data
 // requires: <req.user>, <req.inventionIndex>
 const getInventionData = async (req, res) => {
-    return responseHandler.inventionSentSuccessfully(res, req.user.Inventions[req.inventionIndex])
+    return responseHandler.inventionSentSuccessfully(res, {
+        ...req.user.Inventions[req.inventionIndex]._doc,
+        Contributors: await getContributorsDetails(
+            req.user.Inventions[req.inventionIndex].Contributors, 
+            'Fname Sname Username Email Profile_Pic _id Roles'
+        )
+    })
 }
 
 

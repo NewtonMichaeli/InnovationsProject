@@ -1,5 +1,5 @@
 import axios from "axios"
-import { SERVER_URI__GET_USER_DATA } from '../../configs/_server'
+import { SERVER_URI, SERVER_URI__GET_USER_DATA } from '../../configs/_server'
 
 // -- create axios instance with default configs
 const axiosRequest = axios.create({

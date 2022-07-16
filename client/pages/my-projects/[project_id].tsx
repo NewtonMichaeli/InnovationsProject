@@ -12,6 +12,8 @@ import { userSelector } from "../../redux/features/user"
 import styles from '../../styles/pages/project.module.css'
 import { getModuleStylesMethod } from "../../utils/styles.utils"
 import InformationSection from "../../components/InventionDataSections/Information.section"
+import AboutYouSection from "../../components/InventionDataSections/AboutYou.section"
+import MembersSection from "../../components/InventionDataSections/Members.section"
 
 // get multiple styles util
 const getStyles = getModuleStylesMethod(styles)
@@ -56,6 +58,8 @@ const ProjectViewer: FC = () => {
                 {/* data sections */}
                 <InformationSection Invention={current_invention} />
                 <AssetsSection Assets={current_invention.Assets} username={inventionOwner.Username} project_id={current_invention._id} />
+                <AboutYouSection isCreator={User.Username === inventionOwner.Username} roles={current_invention.Roles} />
+                {/* <MembersSection Members={[{user_id: inventionOwner.}]} /> */}
             </div>
         </div>
     )

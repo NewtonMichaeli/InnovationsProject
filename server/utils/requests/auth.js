@@ -1,5 +1,6 @@
 // Auth request handler
 
+const { USER_MINIFIED_VALUES_SELECT } = require('../../configs/_database')
 const User = require('../../models/User')
 const { ObjectId } = require('mongoose').Types
 
@@ -102,7 +103,7 @@ const searchWithQuery = async (query, limit) => {
     const result = await User
     .find({$or: [{Username: regex}, {Email: regex}, {Fname: regex}, {Sname: regex}]})
     .limit(limit)
-    .select({Fname:1, Sname:1, Username:1, Email:1, Profile_Pic:1})
+    .select(USER_MINIFIED_VALUES_SELECT)
     
     return result
 }

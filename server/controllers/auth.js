@@ -6,7 +6,7 @@ const {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema} = require
 const User = require('../models/User')
 // utils
 const authRequests = require('../utils/requests/auth')
-const {convertSharedProjects} = require('../utils/requests/_globals')
+const {convertSharedProjects, convertContributorsForEveryInvention} = require('../utils/requests/_globals')
 const responseHandler = require('../utils/responses')
 const signNewUserToken = require('../utils/signNewUserToken')
 
@@ -62,7 +62,8 @@ const signin = async (req, res) => {
 // Requires the following request parameters: <req.user>
 const getUserData = async (req, res) => {
 
-    const result = await convertSharedProjects(req.user, false)
+    let result = await convertSharedProjects(req.user, false)
+    result = await convertContributorsForEveryInvention(result)
     return responseHandler.userSentSuccessfully(res, result)
 }
 

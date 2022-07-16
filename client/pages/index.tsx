@@ -32,12 +32,14 @@ const Home: FC = () => {
 
   // States
   const { User } = useAppSelector(userSelector)
+  if (!User) return <></>
   // -- description essential data
   const all_inventions = [...User.Inventions, ...User.Shared_Projects.map(sp => sp.Project)]
   const descriptionData = {
     personalProjectsAmount: User.Inventions.length,
     sharedProjectsAmount: User.Shared_Projects.length,
-    finishedProjects: all_inventions.filter(p => p.Status === 'finished').length
+    finishedProjects: all_inventions.filter(p => p.Status === 'finished').length,
+    projectsInDevelopment: all_inventions.filter(p => p.Status === 'in development').length,
   }
 
   return (
@@ -54,7 +56,7 @@ const Home: FC = () => {
         {/* description */}
         <span className={styles['home-description']}>
           <h4 className={styles['inventions-info']}>
-            You have {descriptionData.sharedProjectsAmount} shared project{descriptionData.sharedProjectsAmount!==1?'s':''} and {descriptionData.personalProjectsAmount} Personal project{descriptionData.personalProjectsAmount!==1?'s':''}, {descriptionData.finishedProjects || 'None'} of them {descriptionData.finishedProjects === 1 ? 'is' : 'are'} complete.
+            You have {descriptionData.sharedProjectsAmount} shared project{descriptionData.sharedProjectsAmount!==1?'s':''} and {descriptionData.personalProjectsAmount} Personal project{descriptionData.personalProjectsAmount!==1?'s':''}, {descriptionData.projectsInDevelopment || 'None'} of them {descriptionData.projectsInDevelopment === 1 ? 'is' : 'are'} in deve.
           </h4>
           <Link href={'/my-projects'}>
             <a className={styles['link-my-projects']}>Check them out.</a>

@@ -42,6 +42,8 @@
     color: #666;
     font-weight: 400;
     margin-bottom: .4rem;
+    text-align: center;
+    margin: 0 1rem;
 }
 .home-header .home-description .link-my-projects {
     color: #0038FF;
