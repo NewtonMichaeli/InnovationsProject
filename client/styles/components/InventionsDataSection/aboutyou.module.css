@@ -10,6 +10,10 @@
     justify-content: flex-start;
     align-items: flex-start;
     margin-bottom: 2rem;
+    /* animation & init values */
+    animation: slideDown .4s .6s forwards;
+    transform: translateY(-15%);
+    opacity: 0;
 }
 .section-header {
     width: 100%;
@@ -73,4 +77,14 @@
     margin-right: .2rem;
     margin-bottom: .3rem;
     cursor: pointer;
+}
+
+
+/* animation */
+
+@keyframes slideDown {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

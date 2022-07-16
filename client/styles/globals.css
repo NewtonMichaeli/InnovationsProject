@@ -23,6 +23,16 @@
   outline: none;
 }
 
+/* -- BEGIN : scrollbar styles */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 20px;
+}
+/* -- END : scrollbar styles */
+
 /* css variables */
 :root {
   --app-bg-color: #eee;

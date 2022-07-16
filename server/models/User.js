@@ -28,7 +28,7 @@ const UserSchema = mongoose.Schema({
     },
 	Profile_Pic: {
         type: Number,
-        min: 1,
+        min: 0,
         max: PROFILE_PIC_ENUM_LENGTH,
         default: 1
     },

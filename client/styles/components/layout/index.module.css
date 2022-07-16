@@ -40,7 +40,7 @@
     /* background */
     background-image: url('../../../public/navbar-background.svg');
     background-repeat: no-repeat;
-    background-position: top;
+    background-position: center;
     background-size: cover;
 }
 

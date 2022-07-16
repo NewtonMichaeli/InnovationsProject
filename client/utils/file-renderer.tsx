@@ -11,7 +11,7 @@ import { AssetType } from "../redux/features/user/user.types";
 
 // allowed html file extensions
 const allowedFileExtensions = {
-    _image: ['png', 'jfif', 'jpeg', 'jpg', 'svg', 'ico'],
+    _image: ['png', 'jfif', 'jpeg', 'jpg', 'svg', 'ico', 'webp'],
     _video: ['mp4', 'webm', 'ogg']
 }
 

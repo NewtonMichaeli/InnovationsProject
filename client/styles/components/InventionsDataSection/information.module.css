@@ -11,6 +11,10 @@
     justify-content: flex-start;
     align-items: flex-start;
     margin-bottom: 2rem;
+    /* animation & init values */
+    animation: slideDown .4s .3s forwards;
+    transform: translateY(-15%);
+    opacity: 0;
 }
 .section-header {
     width: 100%;
@@ -73,3 +77,13 @@
 .information-section .sec-content  .data-group:nth-child(1) {text-align: left;}
 .information-section .sec-content  .data-group:nth-child(2) {text-align: center;}
 .information-section .sec-content  .data-group:nth-child(3) {text-align: right;}
+
+
+/* animation */
+
+@keyframes slideDown {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

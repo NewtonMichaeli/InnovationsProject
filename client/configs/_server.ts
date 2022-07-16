@@ -13,6 +13,10 @@ export const SERVER_ASSETS_API = SERVER_INVENTION_API + '/assets'
 // Get authenticated user data
 export const SERVER_URI__GET_USER_DATA = SERVER_AUTH_API
 
-// Get asset uri
+// Get asset
 export const SERVER_URI__GET_ASSET = (username: string, project_id: string, filename: string) =>
     SERVER_ASSETS_API + `/${username}/${project_id}/${filename}`
+
+// Follow/Unfollow user
+export const SERVER_URI__FOLLOW_USER = (action: 'add' | 'remove', target_user: string) =>
+    SERVER_AUTH_API + `/followings/${action}/${target_user}`

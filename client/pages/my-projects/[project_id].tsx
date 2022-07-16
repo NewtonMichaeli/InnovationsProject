@@ -2,21 +2,22 @@ import { useRouter } from "next/router"
 import { FC } from "react"
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
-import AssetsSection from "../../components/InventionDataSections/Assets.section"
 // components
 import InventionNotFound from "../../components/global/404/inventionNotFound"
+import InformationSection from "../../components/InventionDataSections/Information.section"
+import AssetsSection from "../../components/InventionDataSections/Assets.section"
+import AboutYouSection from "../../components/InventionDataSections/AboutYou.section"
+import MembersSection from "../../components/InventionDataSections/Members.section"
 // redux
 import { useAppSelector } from "../../hooks/redux"
 import { userSelector } from "../../redux/features/user"
 // styles
 import styles from '../../styles/pages/project.module.css'
-import { getModuleStylesMethod } from "../../utils/styles.utils"
-import InformationSection from "../../components/InventionDataSections/Information.section"
-import AboutYouSection from "../../components/InventionDataSections/AboutYou.section"
-import MembersSection from "../../components/InventionDataSections/Members.section"
+import Loading from "../../components/global/loading"
+// import { getModuleStylesMethod } from "../../utils/styles.utils"
 
 // get multiple styles util
-const getStyles = getModuleStylesMethod(styles)
+// const getStyles = getModuleStylesMethod(styles)
 
 
 const ProjectViewer: FC = () => {
@@ -56,14 +57,23 @@ const ProjectViewer: FC = () => {
             {/* content */}
             <div className={styles["invention-content-wrapper"]}>
                 {/* data sections */}
-                <InformationSection Invention={current_invention} />
-                <AssetsSection Assets={current_invention.Assets} username={inventionOwner.Username} project_id={current_invention._id} />
-                <AboutYouSection isCreator={User.Username === inventionOwner.Username} roles={current_invention.Roles} />
-                {/* <MembersSection Members={[{user_id: inventionOwner.}]} /> */}
+                <div className={styles["section-container"]}>
+                    <InformationSection Invention={current_invention} />
+                </div>
+                <div className={styles["section-container"]}>
+                    <AssetsSection Assets={current_invention.Assets} username={inventionOwner.Username} project_id={current_invention._id} />
+                </div>
+                <div className={styles["section-container"]}>
+                    <AboutYouSection isCreator={User.Username === inventionOwner.Username} roles={current_invention.Roles} />
+                </div>
+                <div className={styles["section-container"]}>
+                    <MembersSection Members={current_invention.Contributors} />
+                </div>
             </div>
         </div>
     )
-    else return <InventionNotFound />
+    else if (!User) return <InventionNotFound />
+    else return <></>
 }
 
 export default ProjectViewer

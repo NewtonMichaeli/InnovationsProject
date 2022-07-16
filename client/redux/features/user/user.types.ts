@@ -13,8 +13,12 @@ export type AssetType = {
 
 // contributors type
 export type ContributorType = {
-    user_id: string,
-    roles: string[],
+    Email: string,
+    Fname: string,
+    Profile_Pic: number,
+    Roles: string[],
+    Sname: string,
+    Username: string,
     _id: string
 }
 

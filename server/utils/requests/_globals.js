@@ -1,6 +1,6 @@
 // Global requests file
 
-const { USER_MINIFIED_VALUES_SELECT } = require('../../configs/_database')
+const { CONTRIBUTOR_MINIFIED_VALUES_SELECT } = require('../../configs/_database')
 const User = require('../../models/User')
 const { ObjectId } = require('mongoose').Types
 
@@ -41,9 +41,9 @@ const getContributorsDetails = async (contributors, fieldsToSelect) => {
 
     const result = await User
     .find({ $or: contributors.map(({user_id}) => ({_id: ObjectId(user_id)})) })
-    .select(fieldsToSelect)
+    .select(CONTRIBUTOR_MINIFIED_VALUES_SELECT)
 
-    return result.map(res => res._doc)
+    return result.map(({_doc: c}, i) => ({...c, Roles: contributors[i].roles}))
 }
 
 

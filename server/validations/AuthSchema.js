@@ -24,7 +24,8 @@ const Joi_UpdatingUserDataSchema = Joi.object({
     Sname: Joi.string().min(2).max(26).optional(),
     Email: Joi.string().min(2).max(42).optional(),
     Username: Joi.string().min(2).max(28).optional(),
-    Region: Joi.string().valid(...AllowedRegions).optional()
+    Region: Joi.string().valid(...AllowedRegions).optional(),
+    Profile_Pic: Joi.number().min(0).max(9).optional()
 })
 
 module.exports = {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema}

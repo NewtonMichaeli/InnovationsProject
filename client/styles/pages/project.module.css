@@ -9,13 +9,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    /* padding: 0 4rem; */
-    padding-top: 5rem;
+    padding-top: 4rem;
+    overflow-x: hidden;
 }
 
 /* project header */
 .Project .project-header {
-    /* background-color: #4ef; */
     width: 95%;
     height: 4rem;
     /* layout */
@@ -23,6 +22,10 @@
     align-items: center;
     justify-content: flex-start;
     margin-bottom: 2rem;
+    /* animation & init values */
+    animation: slideHeaderLeft .4s forwards;
+    transform: translateX(6%);
+    opacity: 0;
 }
 .project-header .leave {
     height: 100%;
@@ -59,3 +62,13 @@
 }
 
 /** data sections @ seperated commponents **/
+
+
+/* animation */
+
+@keyframes slideHeaderLeft {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
