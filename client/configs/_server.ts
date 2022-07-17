@@ -20,3 +20,7 @@ export const SERVER_URI__GET_ASSET = (username: string, project_id: string, file
 // Follow/Unfollow user
 export const SERVER_URI__FOLLOW_USER = (action: 'add' | 'remove', target_user: string) =>
     SERVER_AUTH_API + `/followings/${action}/${target_user}`
+
+// search by query
+export const SERVER_URI__SEARCH_BY_QUERY = (query: string, limit: number = 20) =>
+    SERVER_AUTH_API + `/search/${query}/${limit}`

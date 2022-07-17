@@ -63,7 +63,7 @@ const ListInventions: FC<{
                 {/* content inside container */}
                 <div className={styles["content"]}>
                     <div className={styles["content-header"]}>
-                        <div className={styles["profile-pic"]} onClick={onClose}>
+                        <div className={styles["profile-pic"]} onClick={onClose} title="Leave Inventions tab">
                             <BsArrowLeftShort size={36} />
                             <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />
                         </div>

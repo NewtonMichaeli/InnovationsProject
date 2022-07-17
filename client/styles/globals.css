@@ -15,6 +15,12 @@
   background-color: transparent;
 }
 
+/* selection for all input elements */
+textarea::selection,
+input[type=text]::selection {
+  background-color: #88888866;
+}
+
 /* remove unwanted tapping animation, only when specifically required */
 *, *:active, *:focus {
   /* -- previously refered to <a> tags, required changing */

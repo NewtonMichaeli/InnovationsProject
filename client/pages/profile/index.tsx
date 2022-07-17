@@ -9,6 +9,7 @@ import styles from '../../styles/pages/profile.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
 import ListInventions from '../../components/profile/list-inventions'
 import ListFollowings from '../../components/profile/list-following'
+import Head from 'next/head'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -28,7 +29,10 @@ const Profile: FC = () => {
     }
 
     return (
-        <div className={styles["Profile"]}>
+        <main className={styles["Profile"]}>
+            <Head>
+                <title>Innovation - My Profile</title>
+            </Head>
             {/* profile header section */}
             <section className={styles["profile-header"]}>
                 <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />
@@ -54,7 +58,7 @@ const Profile: FC = () => {
                     <h5>Following</h5>
                 </div>
             </section>
-        </div>
+        </main>
     )
 }
 

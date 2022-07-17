@@ -1,0 +1,69 @@
+/* styles for explore page */
+
+.Explore {
+    width: 100%;
+    height: 100%;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 2rem 4rem;
+}
+
+/* input wrapper */
+.Explore .explore-input-wrapper {
+    width: 100%;
+    height: 4rem;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Explore .explore-input-wrapper .explore-input {
+    background-color: #eeeeeeaa;
+    border: 2px solid #666;
+    border-radius: 1.25rem;
+    height: 3rem;
+    width: fit-content;
+    /* layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.Explore .explore-input-wrapper .explore-input input {
+    width: 18rem;
+    height: 100%;
+    padding: .1rem .3rem 0 1rem;
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+.Explore .explore-input-wrapper .explore-input .icon-search {
+    background-color: transparent;
+    height: 100%;
+    width: 2.4rem;
+    padding: .6rem;
+}
+
+/* content */
+.Explore .content {
+    /* background-color: rebeccapurple; */
+    width: 100%;
+    height: calc(100% - 4rem);
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
+/* result counter */
+.Explore .content .results-counter {
+    width: 100%;
+    text-align: center;
+    font-size: .8rem;
+    margin-bottom: 1rem;
+}

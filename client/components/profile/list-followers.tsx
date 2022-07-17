@@ -29,7 +29,7 @@ const FollowerItem: FC<{
     return (
         <div className={styles["follower-item"]}>
             <section className={styles["profile-pic"]}>
-                <img src={`/profile-pics/${Follower.Profile_Pic}.jpeg`} alt="" />
+                <img src={`/profile-pics/${Follower.Profile_Pic}.jpeg`} alt={Follower.Username} />
             </section>
             <section className={styles["user-data"]}>
                 <h2 className={styles["name"]}>{Follower.Fname} {Follower.Sname}</h2>
@@ -66,7 +66,7 @@ const ListFollowers: FC<{
                 {/* content inside container */}
                 <div className={styles["content"]}>
                     <div className={styles["content-header"]}>
-                        <div className={styles["profile-pic"]} onClick={onClose}>
+                        <div className={styles["profile-pic"]} onClick={onClose} title="Leave Followers tab">
                             <BsArrowLeftShort size={36} />
                             <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />
                         </div>
