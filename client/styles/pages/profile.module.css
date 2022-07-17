@@ -1,0 +1,82 @@
+/* styles for profile page */
+
+.Profile {
+    /* background-color: rebeccapurple; */
+    width: 100%;
+    height: 100%;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    overflow-x: hidden;
+    position: relative;
+    padding-bottom: 2rem;
+}
+
+/* profile header */
+.Profile .profile-header {
+    width: max-content;
+    /* background-color: royalblue; */
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.Profile .profile-header img {
+    width: 11rem;
+    border-radius: 51%;
+    margin-bottom: .7rem;
+}
+.Profile .profile-header .fullname {
+    font-size: 1.5rem;
+    margin-bottom: .1rem;
+}
+.Profile .profile-header .username-x-email {
+    color: #00000090;
+    font-size: .9rem;
+    font-weight: 500;
+}
+.Profile .profile-header .btn-edit-profile {
+    border: 2px solid #8b8b8b;
+    background-color: #c3c3c3;
+    border-radius: 2rem;
+    font-size: .75rem;
+    padding: .05rem 1.3rem;
+    margin-top: .7rem;
+    cursor: pointer;
+}
+
+/* user data */
+.Profile .user-data {
+    /* background-color: lightseagreen; */
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.Profile .user-data .data-item {
+    width: 7rem;
+    aspect-ratio: 4/3;
+    margin: 0 1rem;
+    border: 3px solid #666;
+    border-radius: 1.35rem;
+    cursor: pointer;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* clip */
+}
+.Profile .user-data .data-item h1 {
+    /* data-item counter */
+    font-size: 1.8rem;
+    font-weight: 400;
+    height: 2.25rem;
+}
+.Profile .user-data .data-item h5 {
+    /* data-item title */
+    color: #00000096;
+}

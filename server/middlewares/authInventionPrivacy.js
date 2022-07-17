@@ -47,10 +47,8 @@ const authInventionPrivacy = async (req, res, next) => {
     }
 
     // user is not a creator nor a contributor - check invention privacy
-    if (user.Inventions[index].Private) {
-        console.log("token", token)
+    if (user.Inventions[index].Private)
         return responseHandler.accessDenied(res)
-    }
     
     // user is allowed to a non-private invention
     req.req_privilege = PRIVILEGES.OBSERVER

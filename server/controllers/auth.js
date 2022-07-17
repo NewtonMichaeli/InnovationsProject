@@ -6,9 +6,9 @@ const {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema} = require
 const User = require('../models/User')
 // utils
 const authRequests = require('../utils/requests/auth')
-const {convertSharedProjects, convertContributorsForEveryInvention} = require('../utils/requests/_globals')
 const responseHandler = require('../utils/responses')
 const signNewUserToken = require('../utils/signNewUserToken')
+const { getDetailedUser } = require('../utils/requests/globals')
 
 
 // Sign up controller
@@ -61,9 +61,9 @@ const signin = async (req, res) => {
 // Get user data
 // Requires the following request parameters: <req.user>
 const getUserData = async (req, res) => {
-
-    let result = await convertSharedProjects(req.user, false)
-    result = await convertContributorsForEveryInvention(result)
+    // req.user already holds the user
+    // -- get detailed user
+    const result = await getDetailedUser(req.user, false)
     return responseHandler.userSentSuccessfully(res, result)
 }
 
@@ -86,10 +86,8 @@ const getProtectedUserData = async (req, res) => {
     const { username } = req.params
     let user = await User.findOne({Username: username})
     if (!user) return responseHandler.userNotFound(res)
-    
-    // filter private fields and projects
-    user.Inventions = user.Inventions.filter(inv => !inv.Private)
-    const result = await convertSharedProjects(user, true)
+    // -- get (secured) detailed user
+    const result = await getDetailedUser(user, true)
     return responseHandler.userSentSuccessfully(res, result)
 }
 
@@ -161,7 +159,7 @@ const updateFollowingList = async (req, res) => {
 
     // update followings list
     const result = await authRequests.updateFollowingList(user.Username, action, user_id)
-    if (result.status) return responseHandler.followingUserSuccessfully(res, action)
+    if (result.status) return responseHandler.followingUserSuccessfully(res, action, result.data)
     else if (result.reason === 'ALREADY_FOLLOWING_USER') return responseHandler.alreadyFollowingUser(res)
     else if (result.reason === 'NOT_FOLLOWING_USER') return responseHandler.notFollowingUser(res)
     else return responseHandler.failedFollowingUser(res)

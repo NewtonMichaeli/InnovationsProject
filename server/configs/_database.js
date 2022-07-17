@@ -1,5 +1,5 @@
 // Configs for database
 const PROFILE_PIC_ENUM_LENGTH = 9
-CONTRIBUTOR_MINIFIED_VALUES_SELECT = 'Fname Sname Username Email Profile_Pic _id'
+const MINIFIED_USER_SELECT_VALUES = 'Fname Sname Username Email Profile_Pic _id'
 
-module.exports = {PROFILE_PIC_ENUM_LENGTH, CONTRIBUTOR_MINIFIED_VALUES_SELECT}
+module.exports = {PROFILE_PIC_ENUM_LENGTH, MINIFIED_USER_SELECT_VALUES}

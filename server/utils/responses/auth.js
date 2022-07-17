@@ -19,8 +19,8 @@ const userUpdatedSuccessfully = (res, new_data, new_token) =>
     res.status(200).cookie(AUTH_TOKEN, new_token).json({status: true, msg: 'User updated successfully', data: {new_data}}).end()
 const userDeletedSuccessfully = res => res.status(200).json({status: true, msg: 'User deleted successfully'}).end()
 const userSentSuccessfully = (res, data) => res.status(200).json({status: true, msg: 'User sent successfully', data}).end()
-const followingUserSuccessfully = (res, method) => 
-    res.status(200).json({status: true, msg: `User has been ${method === 'remove' ? 'removed from' : 'added to'} followings`}).end()
+const followingUserSuccessfully = (res, method, data) =>
+    res.status(200).json({status: true, msg: `User has been ${method === 'remove' ? 'removed from' : 'added to'} followings`, data}).end()
 
 // user : failure
 const failedCreatingUser = (res, data) => res.status(500).json({status: false, msg: 'Couldn\'t create user', data}).end()

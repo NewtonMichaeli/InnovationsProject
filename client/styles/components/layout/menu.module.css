@@ -20,7 +20,7 @@
     transition: background-color .15s ease;
     /* layout */
     position: relative;
-    margin-bottom: .8rem;
+    margin-bottom: 2rem;
 }
 .Menu .menu-header .menu-title {
     width: 100%;

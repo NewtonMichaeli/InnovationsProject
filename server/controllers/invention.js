@@ -7,8 +7,9 @@ const responseHandler = require('../utils/responses')
 // validations
 const Joi_ContributorSchema = require('../validations/ContributorSchema')
 const {Joi_InventionSchema, Joi_InventionSchema_UpdatingData__creator, Joi_InventionSchema_UpdatingData__contributor} = require('../validations/InventionSchema')
-const { getContributorsDetails } = require('../utils/requests/_globals')
-const { CONTRIBUTOR_MINIFIED_VALUES_SELECT } = require('../configs/_database')
+// utils
+const { _getDetailedUsersByArray } = require('../utils/requests/globals')
+const { MINIFIED_USER_SELECT_VALUES } = require('../configs/_database')
 
 
 // create a new invention
@@ -84,8 +85,9 @@ const updateInventionData = async (req, res) => {
 const getInventionData = async (req, res) => {
     return responseHandler.inventionSentSuccessfully(res, {
         ...req.user.Inventions[req.inventionIndex]._doc,
-        Contributors: await getContributorsDetails(
-            req.user.Inventions[req.inventionIndex].Contributors, CONTRIBUTOR_MINIFIED_VALUES_SELECT
+        Contributors: await _getDetailedUsersByArray(
+            req.user.Inventions[req.inventionIndex].Contributors,
+            MINIFIED_USER_SELECT_VALUES
         )
     })
 }
@@ -132,8 +134,7 @@ const getInventionsByRegion = async (req, res) => {
         const {error} = Joi_RegionsSchema.validate(req.body.Regions)
         if (!error) regions = req.body.Regions
         else return responseHandler.incompleteFields(res, error.message)
-    } 
-    console.log('regions:', regions)
+    }
     const result = await requestHandler.getInventionsByRegion(regions, 5)
     return responseHandler.randomInventionsFoundSucessfully(res, result)
 }

@@ -40,8 +40,10 @@
     /* background */
     background-image: url('../../../public/navbar-background.svg');
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: top left;
     background-size: cover;
+    z-index: 2;
+    pointer-events: none;
 }
 
 /* navbar container */
@@ -54,7 +56,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 2.5rem;
-    z-index: 1;
+    z-index: 3;
 }
 .app-body .Navbar .logo-home-link {
     cursor: pointer;

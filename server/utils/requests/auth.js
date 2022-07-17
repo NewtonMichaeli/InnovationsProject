@@ -1,8 +1,7 @@
 // Auth request handler
 
-const { USER_MINIFIED_VALUES_SELECT } = require('../../configs/_database')
+const { MINIFIED_USER_SELECT_VALUES } = require('../../configs/_database')
 const User = require('../../models/User')
-const { ObjectId } = require('mongoose').Types
 
 
 // Signup a new account (returns the new user)
@@ -88,11 +87,11 @@ const updateFollowingList = async (Username, action, user_id) => {
     action = (action === 'remove') ? '$pull' : '$push'
 
     // update dest user
-    const result = await User.updateOne(
-        {_id: ObjectId(user_id)},
-        {[action]: {Followers: user_id}}
-    )
-    return {status: result ? true : false}
+    const result = await User
+        .findByIdAndUpdate(user_id, {[action]: {Followers: user_id}})
+        .select(MINIFIED_USER_SELECT_VALUES)
+    
+    return {status: result ? true : false, data: result}
 }
 
 // Search with query
@@ -101,9 +100,9 @@ const searchWithQuery = async (query, limit) => {
     // search followings
     const regex = {$regex: query}
     const result = await User
-    .find({$or: [{Username: regex}, {Email: regex}, {Fname: regex}, {Sname: regex}]})
-    .limit(limit)
-    .select(USER_MINIFIED_VALUES_SELECT)
+        .find({$or: [{Username: regex}, {Email: regex}, {Fname: regex}, {Sname: regex}]})
+        .limit(limit)
+        .select(MINIFIED_USER_SELECT_VALUES)
     
     return result
 }

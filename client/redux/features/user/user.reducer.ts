@@ -29,7 +29,7 @@ export const userReducer = createReducer(initState, builder => {
         .addCase(follow.fulfilled, (state, { payload }) => {
             // change <User.Following> array accordingly
             if (payload.action === 'add')
-                state.User.Following = [...state.User.Following, payload.target_user]
-            else state.User.Following = state.User.Following.filter(f => f !== payload.target_user)
+                state.User.Following = [...state.User.Following, payload.user]
+            else state.User.Following = state.User.Following.filter(f => f._id !== payload.user._id)
         })
 })

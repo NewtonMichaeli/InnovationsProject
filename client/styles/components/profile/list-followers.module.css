@@ -1,0 +1,100 @@
+/* styles for list-followers component */
+
+/* list wrapper - base position with small dimensions (for later referencing parent position) */
+.list-followers-wrapper {
+    width: 1px;
+    height: 1px;
+    overflow: visible;
+    /* clip */
+    clip-path: circle(0px);
+    transition: clip-path .9s ease;
+}
+.list-followers-wrapper.show {
+    clip-path: circle(100vw);
+}
+
+.list-followers-wrapper .list-followers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: default;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* transition & init bvalues */
+    transition: background-color .8s ease;
+    background-color: #ccc;
+    pointer-events: none;
+}
+.list-followers-wrapper.show .list-followers {
+    background-color: var(--app-bg-color);
+    pointer-events: visible;
+}
+
+/* content */
+.content {
+    width: 31%;
+    min-width: 20rem;
+    height: 60%;
+    border: 3.5px solid #666;
+    border-radius: 1.85rem;
+    padding: 1rem;
+}
+/* content header */
+.content .content-header {
+    width: 100%;
+    border-bottom: 1px solid #00000053;
+    height: 3.6rem;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+.content-header .profile-pic {
+    height: 100%;
+    cursor: pointer;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.content-header .profile-pic img {
+    height: 100%;
+    border-radius: 51%;
+}
+.content-header .input-search-followers {
+    background-color: #ddd;
+    border: 2.5px solid #200E32;
+    height: 90%;
+    width: 55%;
+    border-radius: 1rem;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.content-header .input-search-followers .icon-search {
+    height: 100%;
+    width: 2.4rem;
+    padding: .3rem;
+}
+.content-header .input-search-followers input {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    height: 100%;
+    width: calc(100% - 2.4rem);
+    padding: 0 .15rem;
+    padding-top: .15rem;
+}
+/* content followers-list */
+.content .content-followers-list {
+    /* background-color: rebeccapurple; */
+    width: 100%;
+    height: calc(100% - 3.6rem);
+    padding-top: 1rem;
+}

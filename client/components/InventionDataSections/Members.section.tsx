@@ -60,7 +60,7 @@ const MembersSection: FC<{
             <div className={styles["content"]}>
                 <code className={styles['counter-title']}>{Members.length} Member{Members.length!==1?'s':''}</code>
                 {Members.map(m => 
-                    <Member key={m._id} member={m} isFollowing={User.Following.includes(m._id)} isSelf={User._id === m._id} />)}
+                    <Member key={m._id} member={m} isFollowing={User.Following.some(f => f._id === m._id)} isSelf={User._id === m._id} />)}
             </div>
         </section>
     )

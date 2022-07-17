@@ -11,15 +11,19 @@ export type AssetType = {
     _id: string
 }
 
-// contributors type
-export type ContributorType = {
+// minified user type
+export type MinifiedUserType = {
     Email: string,
     Fname: string,
     Profile_Pic: number,
-    Roles: string[],
     Sname: string,
     Username: string,
     _id: string
+}
+
+// contributors type (extends minified-user model)
+export type ContributorType = MinifiedUserType & {
+    Roles: string[]
 }
 
 // invantions type
@@ -52,8 +56,8 @@ export type UserType = {
     Email: string,
     Profile_Pic: number,
     IsAdmin: boolean,
-    Following: string[],
-    Followers: string[],
+    Following: MinifiedUserType[],
+    Followers: MinifiedUserType[],
     Region: REGIONS_ENUM,
     Inventions: InventionType[],
     Shared_Projects: SharedProjectsResponseType[],   // -- converted to regular invention struct inside the server
