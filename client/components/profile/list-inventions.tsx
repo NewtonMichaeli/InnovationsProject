@@ -44,14 +44,14 @@ const ListInventions: FC<{
     }
     const filterInventions = (invention: InventionType | SharedProjectsResponseType) => {
         if ('CreatorData' in invention) return (
-            invention.CreatorData.Username.includes(search) ||
-            invention.Project.Name.includes(search) ||
-            invention.Project.Tags.some(t => search.includes(search))
+            invention.CreatorData.Username.toLowerCase().includes(search) ||
+            invention.Project.Name.toLowerCase().includes(search) ||
+            invention.Project.Tags.some(t => t.toLowerCase().includes(search))
         )
         else return (
-            User.Username.includes(search) ||
-            invention.Name.includes(search) ||
-            invention.Tags.some(t => search.includes(search))
+            User.Username.toLowerCase().includes(search) ||
+            invention.Name.toLowerCase().includes(search) ||
+            invention.Tags.some(t => t.toLowerCase().includes(search))
         )
     }
 
@@ -70,7 +70,7 @@ const ListInventions: FC<{
                         <div className={styles['input-search-inventions']}>
                             <AiOutlineSearch className={styles['icon-search']} size={18} />
                             <input type="text" placeholder={`Search inventions (${User.Inventions.length})`} 
-                                onChange={({target}) => changeSearch(target.value)} />
+                                onChange={({target}) => changeSearch(target.value.toLowerCase())} />
                         </div>
                     </div>
                     <div className={styles["content-inventions-list"]}>

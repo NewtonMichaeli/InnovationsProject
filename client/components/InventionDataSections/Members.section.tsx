@@ -21,9 +21,7 @@ const Member: FC<{
     const dispatch = useAppDispatch()
     // handlers
     const handleFollowBtn = () => {
-        dispatch(
-            userActions.follow({action: isFollowing ? 'remove' : 'add', target_user: member._id})
-        )
+        dispatch(userActions.follow({action: isFollowing ? 'remove' : 'add', target_user: member._id}))
     }
 
     return (
@@ -33,7 +31,7 @@ const Member: FC<{
             </section>
             <section className={styles["user-data"]}>
                 <h1 className={styles["name"]}>{member.Fname} {member.Sname}</h1>
-                <h3 className={styles["username-x-email"]}>{member.Username} • {member.Email}</h3>
+                <h3 className={styles["username-x-email"]}>{member.Username}&nbsp;•&nbsp;{member.Email}</h3>
             </section>
             <section className={getStyles(`social-btns ${isSelf ? 'hide-btns':''}`)}>
                 <button className={getStyles(`btn-follow ${isFollowing ? 'following':''}`)} title="Follow member" onClick={handleFollowBtn}>

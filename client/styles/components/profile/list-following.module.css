@@ -1,7 +1,7 @@
-/* styles for list-followers component */
+/* styles for list-followings component */
 
 /* list wrapper - base position with small dimensions (for later referencing parent position) */
-.list-followers-wrapper {
+.list-followings-wrapper {
     width: 1px;
     height: 1px;
     overflow: visible;
@@ -9,11 +9,11 @@
     clip-path: circle(0px);
     transition: clip-path .9s ease;
 }
-.list-followers-wrapper.show {
+.list-followings-wrapper.show {
     clip-path: circle(100vw);
 }
 
-.list-followers-wrapper .list-followers {
+.list-followings-wrapper .list-followings {
     position: absolute;
     top: 0;
     left: 0;
@@ -29,7 +29,7 @@
     background-color: #ccc;
     pointer-events: none;
 }
-.list-followers-wrapper.show .list-followers {
+.list-followings-wrapper.show .list-followings {
     background-color: var(--app-bg-color);
     pointer-events: visible;
 }
@@ -66,7 +66,7 @@
     height: 100%;
     border-radius: 51%;
 }
-.content-header .input-search-followers {
+.content-header .input-search-followings {
     background-color: #ddd;
     border: 2.5px solid #200E32;
     height: 90%;
@@ -77,12 +77,12 @@
     align-items: center;
     justify-content: space-between;
 }
-.content-header .input-search-followers .icon-search {
+.content-header .input-search-followings .icon-search {
     height: 100%;
     width: 2.4rem;
     padding: .3rem;
 }
-.content-header .input-search-followers input {
+.content-header .input-search-followings input {
     background-color: transparent;
     outline: none;
     border: none;
@@ -91,16 +91,16 @@
     padding: 0 .15rem;
     padding-top: .15rem;
 }
-/* content followers-list */
-.content .content-followers-list {
+/* content followings-list */
+.content .content-followings-list {
     width: 100%;
     height: calc(100% - 3.6rem);
     padding-top: 1rem;
     overflow-y: auto;
-    padding: .6rem .4rem;
+    padding: .7rem .4rem;
 }
-/* follower-item */
-.content .follower-item {
+/* following-item */
+.content .following-item {
     /* box-shadow: -5px 0 8px #00000066; */
     width: 100%;
     height: 3.6rem;
@@ -112,15 +112,15 @@
     align-items: center;
     justify-content: flex-start;
 }
-/* profile-pic @ follower-item */
-.follower-item .profile-pic,
-.follower-item .profile-pic img {
+/* profile-pic @ following-item */
+.following-item .profile-pic,
+.following-item .profile-pic img {
     height: 100%;
     aspect-ratio: 1/1;
     border-radius: 51%;
 }
-/* user-data @ follower-item */
-.follower-item .user-data {
+/* user-data @ following-item */
+.following-item .user-data {
     height: 100%;
     width: 13.5rem;
     /* layout */
@@ -130,17 +130,17 @@
     align-items: flex-start;
     padding-left: .6rem;
 }
-.follower-item .user-data .name {
+.following-item .user-data .name {
     font-size: 1.25rem;
     font-weight: 500;
     height: 1.3rem;
 }
-.follower-item .user-data .username-x-email {
+.following-item .user-data .username-x-email {
     font-size: .7rem;
     color: #000000a8;
 }
-/* social-btns @ follower-item */
-.follower-item .social-btns {
+/* social-btns @ following-item */
+.following-item .social-btns {
     width: calc(100% - 13.5rem - 3.6rem);
     height: 100%;
     /* layout */
@@ -150,8 +150,8 @@
     justify-content: space-evenly;
     padding: .2rem 0;
 }
-.follower-item .social-btns .btn-follow,
-.follower-item .social-btns .btn-invite-to-project {
+.following-item .social-btns .btn-unfollow,
+.following-item .social-btns .btn-invite-to-project {
     border-radius: 1rem;
     width: 90%;
     height: 1.2rem;
@@ -161,16 +161,13 @@
     color: #fff;
     cursor: pointer;
 }
-.follower-item .social-btns .btn-follow {
-    background-color: #0085FF;
+.following-item .social-btns .btn-unfollow {
     border: 2px solid #005CB0;
-}
-.follower-item .social-btns .btn-follow.following {
     color: #0085FF;
     background-color: #ddd;
     font-weight: 400;
 }
-.follower-item .social-btns .btn-invite-to-project {
+.following-item .social-btns .btn-invite-to-project {
     background-color: #6A4E6D;
     border: 2px solid #150628;
 }

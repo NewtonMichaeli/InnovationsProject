@@ -26,13 +26,15 @@ const Navbar: FC = () => {
             <Link href='/'>
                 <img className={styles['logo-home-link']} src="/logo.svg" alt="App Logo" draggable='false' />
             </Link>
+            <div className={styles["profile-btn"]}>
             {
                 isLoading
                     ? <h1>loading</h1>
                     : !isAuthenticated
                         ? <h1>login</h1>
                         : <h1>normal</h1>
-            }
+            }   
+            </div>
         </div>
     )
 }

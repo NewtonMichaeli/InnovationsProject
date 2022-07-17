@@ -83,6 +83,10 @@
 .member-item .user-data .username-x-email {
     font-size: .7rem;
     color: #000000a8;
+    /* display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical; */
 }
 /* social-btns @ member-item */
 .member-item .social-btns {

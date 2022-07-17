@@ -8,6 +8,7 @@ import ListFollowers from '../../components/profile/list-followers'
 import styles from '../../styles/pages/profile.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
 import ListInventions from '../../components/profile/list-inventions'
+import ListFollowings from '../../components/profile/list-following'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -23,7 +24,6 @@ const Profile: FC = () => {
     const changeShowDataItem = (type: keyof typeof showDataItem, status: boolean) => {
         // shorthand for controlling a single key each time
         // show/hide specified data-item-key while allowing for only 1 key to be true
-        console.log({ ...defaulDatatShowStatus, [type]: status })
         setShowDataItem({ ...defaulDatatShowStatus, [type]: status })
     }
 
@@ -48,8 +48,9 @@ const Profile: FC = () => {
                     <ListInventions show={showDataItem.inventions} close={() => changeShowDataItem('inventions', false)} />
                     <h5>Inventions</h5>
                 </div>
-                <div className={styles["data-item"]}>
+                <div className={styles["data-item"]} onClick={() => changeShowDataItem('following', true)}>
                     <h1>{User.Following.length}</h1>
+                    <ListFollowings show={showDataItem.following} close={() => changeShowDataItem('following', false)} />
                     <h5>Following</h5>
                 </div>
             </section>

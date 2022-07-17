@@ -88,7 +88,7 @@ const updateFollowingList = async (Username, action, user_id) => {
 
     // update dest user
     const result = await User
-        .findByIdAndUpdate(user_id, {[action]: {Followers: user_id}})
+        .findByIdAndUpdate(user_id, {[action]: {Followers: user._id.toString()}})
         .select(MINIFIED_USER_SELECT_VALUES)
     
     return {status: result ? true : false, data: result}
