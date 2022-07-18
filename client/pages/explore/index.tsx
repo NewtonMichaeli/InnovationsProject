@@ -1,19 +1,20 @@
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 // types
-import { SearchPageSSR, SearchPageProps } from '../../types/pages/search.type'
+import { ExplorePageSSR, ExplorePageProps } from '../../types/pages/explore.type'
 // utils
 import { searchByQuery } from '../../utils/api/requests/user.api'
 // icons
 import { AiOutlineSearch } from 'react-icons/ai'
+// components
+import Head from 'next/head'
+import UserResult from '../../components/explore/result'
 // styles
 import styles from '../../styles/pages/explore.module.css'
 import { MinifiedUserType } from '../../redux/features/user/user.types'
-import UserResult from '../../components/explore/result'
-import Head from 'next/head'
 
 
-const Explore: FC<SearchPageProps> = ({query, SearchData}) => {
+const Explore: FC<ExplorePageProps> = ({query, SearchData}) => {
     // states
     const router = useRouter()
     const [searchQuery, setSearchQuery] = useState(decodeURIComponent(query))
@@ -50,7 +51,7 @@ const Explore: FC<SearchPageProps> = ({query, SearchData}) => {
 
 
 // Fetch serach data before loading page
-export const getServerSideProps: SearchPageSSR = async context => {
+export const getServerSideProps: ExplorePageSSR = async context => {
     // get search-query parameter (optionl)
     const query = context.query['query'] as string
     let SearchData: MinifiedUserType[]
@@ -63,7 +64,6 @@ export const getServerSideProps: SearchPageSSR = async context => {
         catch (err) { /* search failed for unknown reason */ }
     }
 
-    console.log('sd: ', SearchData)
     return {
         props: {
             query: query as string ?? '',
