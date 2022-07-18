@@ -3,8 +3,9 @@ const User = require('../models/User')
 const { AUTH_TOKEN } = require('../configs/_server')
 
 
+// Checks user data - isAdmin, user_id, etc
 // Handle admin routes - verify role by checking a given header-token
-const isAdmin = async (req, res, next) => {
+const checkUserData = async (req, res, next) => {
 
     const token = req.cookies[AUTH_TOKEN] ?? req.header(AUTH_TOKEN)
     if (!token) {
@@ -20,7 +21,8 @@ const isAdmin = async (req, res, next) => {
         }
         
         const result = await User.findById(verified._id)
-        req.IsAdmin = result?.IsAdmin
+        req.user_id = result._id.toString()
+        req.IsAdmin = result.IsAdmin
         return next()
     }
     catch(err) {
@@ -29,4 +31,4 @@ const isAdmin = async (req, res, next) => {
     }
 }
 
-module.exports = {isAdmin}
+module.exports = {checkUserData}

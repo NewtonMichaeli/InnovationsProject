@@ -1,0 +1,60 @@
+/* styles for UserResult @ Explore page */
+
+/* result user container */
+.result-user:hover::before {
+    opacity: 1;
+}
+.result-user::before {
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: linear-gradient(to right, #00000012, #0000002a, #00000011, #00000000);
+    opacity: 0;
+    transition: opacity .2s ease;
+}
+.result-user {
+    position: relative;
+    transition: all .3s ease;
+    min-width: fit-content;
+    width: 36rem;
+    height: 10rem;
+    cursor: pointer;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+}
+.result-user:not(:last-child) {
+    border-bottom: 1px solid #666;
+}
+
+/* profile-pic section */
+.result-user .profile-pic,
+.result-user .profile-pic img {
+    height: 85%;
+    margin-right: .8rem;
+}
+.result-user .profile-pic img {
+    height: 100%;
+    border-radius: 51%;
+}
+/* user-data section */
+.result-user .user-data .name {
+    font-size: 2rem;
+    font-weight: 500;
+}
+.result-user .user-data .username-x-email {
+    font-size: .8rem;
+    color: #000000bb;
+}
+
+/* results seperator (hr) */
+.result-seperator {
+    height: 2px;
+    width: 36rem;
+    margin: 1rem 0;
+}

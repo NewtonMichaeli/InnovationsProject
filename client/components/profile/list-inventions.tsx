@@ -7,7 +7,7 @@ import { AiOutlineSearch } from 'react-icons/ai'
 // styles
 import styles from '../../styles/components/profile/list-inventions.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
-import { InventionType, SharedProjectsResponseType } from '../../redux/features/user/user.types'
+import { InventionType, SharedProjectsResponseType, UserType } from '../../redux/features/user/user.types'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -32,10 +32,10 @@ const InventionItem: FC<{
 
 const ListInventions: FC<{
     show: boolean,
+    UserData: UserType,
     close: () => unknown
-}> = ({show, close}) => {
+}> = ({show, close, UserData}) => {
     // states
-    const { User } = useAppSelector(userSelector)
     const [search, changeSearch] = useState('')
     // handlers
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -49,7 +49,7 @@ const ListInventions: FC<{
             invention.Project.Tags.some(t => t.toLowerCase().includes(search))
         )
         else return (
-            User.Username.toLowerCase().includes(search) ||
+            UserData.Username.toLowerCase().includes(search) ||
             invention.Name.toLowerCase().includes(search) ||
             invention.Tags.some(t => t.toLowerCase().includes(search))
         )
@@ -65,19 +65,19 @@ const ListInventions: FC<{
                     <div className={styles["content-header"]}>
                         <div className={styles["profile-pic"]} onClick={onClose} title="Leave Inventions tab">
                             <BsArrowLeftShort size={36} />
-                            <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />
+                            <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
                         </div>
                         <div className={styles['input-search-inventions']}>
                             <AiOutlineSearch className={styles['icon-search']} size={18} />
-                            <input type="text" placeholder={`Search inventions (${User.Inventions.length})`} 
+                            <input type="text" placeholder={`Search inventions (${UserData.Inventions.length})`} 
                                 onChange={({target}) => changeSearch(target.value.toLowerCase())} />
                         </div>
                     </div>
                     <div className={styles["content-inventions-list"]}>
                         <h4 className={styles["content-inventions-list-title"]}>Personal projects:</h4>
-                        {User.Inventions.filter(filterInventions).map(inv => <InventionItem key={inv._id} Invention={inv} />)}
+                        {UserData.Inventions.filter(filterInventions).map(inv => <InventionItem key={inv._id} Invention={inv} />)}
                         <h4 className={styles["content-inventions-list-title"]}>Shared projects:</h4>
-                        {User.Shared_Projects.filter(filterInventions).map(inv => <InventionItem key={inv.Project._id} Invention={inv} />)}
+                        {UserData.Shared_Projects.filter(filterInventions).map(inv => <InventionItem key={inv.Project._id} Invention={inv} />)}
                     </div>
                 </div>
             </div>

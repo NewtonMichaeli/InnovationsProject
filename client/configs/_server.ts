@@ -11,7 +11,7 @@ export const SERVER_ASSETS_API = SERVER_INVENTION_API + '/assets'
 // routes:
 
 // Get authenticated user data
-export const SERVER_URI__GET_USER_DATA = SERVER_AUTH_API
+export const SERVER_URI__GET_USER_DATA = (username?: string) => `${SERVER_AUTH_API}/${username ?? ''}`
 
 // Get asset
 export const SERVER_URI__GET_ASSET = (username: string, project_id: string, filename: string) =>

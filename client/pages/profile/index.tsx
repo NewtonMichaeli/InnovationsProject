@@ -10,6 +10,7 @@ import { getModuleStylesMethod } from '../../utils/styles.utils'
 import ListInventions from '../../components/profile/list-inventions'
 import ListFollowings from '../../components/profile/list-following'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -18,6 +19,8 @@ const getStyles = getModuleStylesMethod(styles)
 const Profile: FC = () => {
     // states
     const { User } = useAppSelector(userSelector)
+    // -- has redirected from explore page?:
+    const { explored } = useRouter().query
     const defaulDatatShowStatus = {followers: false, inventions: false, following: false}
     // display status for each data item - default is false
     const [showDataItem, setShowDataItem] = useState({...defaulDatatShowStatus})
@@ -44,17 +47,17 @@ const Profile: FC = () => {
             <section className={styles["user-data"]}>
                 <div className={styles["data-item"]} onClick={() => changeShowDataItem('followers', true)}>
                     <h1>{User.Followers.length}</h1>
-                    <ListFollowers show={showDataItem.followers} close={() => changeShowDataItem('followers', false)} />
+                    <ListFollowers show={showDataItem.followers} close={() => changeShowDataItem('followers', false)} UserData={User} />
                     <h5>Followers</h5>
                 </div>
                 <div className={styles["data-item"]} onClick={() => changeShowDataItem('inventions', true)}>
                     <h1>{User.Inventions.length + User.Shared_Projects.length}</h1>
-                    <ListInventions show={showDataItem.inventions} close={() => changeShowDataItem('inventions', false)} />
+                    <ListInventions show={showDataItem.inventions} close={() => changeShowDataItem('inventions', false)} UserData={User} />
                     <h5>Inventions</h5>
                 </div>
                 <div className={styles["data-item"]} onClick={() => changeShowDataItem('following', true)}>
                     <h1>{User.Following.length}</h1>
-                    <ListFollowings show={showDataItem.following} close={() => changeShowDataItem('following', false)} />
+                    <ListFollowings show={showDataItem.following} close={() => changeShowDataItem('following', false)} UserData={User} />
                     <h5>Following</h5>
                 </div>
             </section>

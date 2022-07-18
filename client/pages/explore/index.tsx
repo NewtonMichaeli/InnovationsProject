@@ -1,18 +1,19 @@
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 // types
-import { SearchSSRType, SearchType } from '../../types/pages/search.type'
+import { SearchPageSSR, SearchPageProps } from '../../types/pages/search.type'
 // utils
-import { searchByQuery } from '../../utils/api/user.api'
+import { searchByQuery } from '../../utils/api/requests/user.api'
 // icons
 import { AiOutlineSearch } from 'react-icons/ai'
 // styles
 import styles from '../../styles/pages/explore.module.css'
 import { MinifiedUserType } from '../../redux/features/user/user.types'
 import UserResult from '../../components/explore/result'
+import Head from 'next/head'
 
 
-const Explore: FC<SearchType> = ({query, SearchData}) => {
+const Explore: FC<SearchPageProps> = ({query, SearchData}) => {
     // states
     const router = useRouter()
     const [searchQuery, setSearchQuery] = useState(decodeURIComponent(query))
@@ -28,31 +29,35 @@ const Explore: FC<SearchType> = ({query, SearchData}) => {
     }
     
     return (
-        <div className={styles["Explore"]}>
+        <main className={styles["Explore"]}>
+            <Head>
+                <title>Innovation - Explore</title>
+            </Head>
             <div className={styles["explore-input-wrapper"]}>
                 <div className={styles["explore-input"]}>
                     <input type="text" defaultValue={searchQuery} placeholder="Search people, friends or inventions" 
                         onChange={e => setSearchQuery(e.target.value)} onKeyUp={onEnterSearch} autoFocus />
                     <AiOutlineSearch className={styles['icon-search']} size={22} />
                 </div>
+                {query && <p className={styles["results-counter"]}>{SearchData.length || 'No'} result{SearchData.length!==1?'s':''}</p>}
             </div>
             <div className={styles["content"]}>
-                {query && <p className={styles["results-counter"]}>{SearchData.length || 'No'} result{SearchData.length!==1?'s':''}</p>}
                 {SearchData.map(sd => <UserResult key={sd._id} data={sd} />)}
             </div>
-        </div>
+        </main>
     )
 }
 
 
-export const getServerSideProps: SearchSSRType = async (context) => {
+// Fetch serach data before loading page
+export const getServerSideProps: SearchPageSSR = async context => {
     // get search-query parameter (optionl)
-    const { query } = context.query
+    const query = context.query['query'] as string
     let SearchData: MinifiedUserType[]
 
     if (query) {
         try {
-            const res = await searchByQuery(query, 20)
+            const res = await searchByQuery({query, limit: 20})
             SearchData = res.data
         }
         catch (err) { /* search failed for unknown reason */ }
@@ -61,7 +66,7 @@ export const getServerSideProps: SearchSSRType = async (context) => {
     console.log('sd: ', SearchData)
     return {
         props: {
-            query: query ?? '',
+            query: query as string ?? '',
             SearchData: SearchData ?? []
         }
     }

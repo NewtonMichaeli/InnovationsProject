@@ -1,6 +1,8 @@
-import {FC} from 'react'
+import Link from 'next/link'
 // types
-import { MinifiedUserType } from '../../redux/features/user/user.types'
+import {FC} from 'react'
+import { MinifiedUserType, UserType } from '../../redux/features/user/user.types'
+import { CLIENT_URIS } from '../../configs/_client'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { userActions, userSelector } from '../../redux/features/user'
@@ -16,8 +18,9 @@ const getStyles = getModuleStylesMethod(styles)
 
 
 const FollowingItem: FC<{
-    Following: MinifiedUserType
-}> = ({Following}) => {
+    Following: MinifiedUserType,
+    isMe: boolean,
+}> = ({Following, isMe}) => {
     // states
     const dispatch = useAppDispatch()
     // handlers
@@ -30,14 +33,16 @@ const FollowingItem: FC<{
             <section className={styles["profile-pic"]}>
                 <img src={`/profile-pics/${Following.Profile_Pic}.jpeg`} alt={Following.Username} />
             </section>
-            <section className={styles["user-data"]}>
-                <h2 className={styles["name"]}>{Following.Fname} {Following.Sname}</h2>
-                <h3 className={styles["username-x-email"]}>{Following.Username} • {Following.Email}</h3>
-            </section>
-            <section className={styles["social-btns"]}>
+            <Link href={CLIENT_URIS._USER('[key]')} as={CLIENT_URIS._USER(Following.Username)}>
+                <section className={styles["user-data"]}>
+                    <h2 className={styles["name"]}>{Following.Fname} {Following.Sname}</h2>
+                    <h3 className={styles["username-x-email"]}>{Following.Username} • {Following.Email}</h3>
+                </section>
+            </Link>
+            {!isMe && <section className={styles["social-btns"]}>
                 <button className={styles["btn-unfollow"]} title="Unfollow user" onClick={unfollowUser}>Following</button>
                 <button className={styles["btn-invite-to-project"]} title="Invite to project">Invite to project</button>
-            </section>
+            </section>}
         </div>
     )
 }
@@ -45,8 +50,9 @@ const FollowingItem: FC<{
 
 const ListFollowings: FC<{
     show: boolean,
+    UserData: UserType,
     close: () => unknown
-}> = ({show, close}) => {
+}> = ({show, close, UserData}) => {
     // states
     const { User } = useAppSelector(userSelector)
     // handlers
@@ -65,17 +71,17 @@ const ListFollowings: FC<{
                     <div className={styles["content-header"]}>
                         <div className={styles["profile-pic"]} onClick={onClose} title="Leave Folowings tab">
                             <BsArrowLeftShort size={36} />
-                            <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />
+                            <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
                         </div>
                         <div className={styles['input-search-followings']}>
                             <AiOutlineSearch className={styles['icon-search']} size={20} />
-                            <input type="text" placeholder={`Search followings (${User.Followers.length})`} />
+                            <input type="text" placeholder={`Search followings (${UserData.Followers.length})`} />
                         </div>
                     </div>
                     <div className={styles["content-followings-list"]}>
                         {/* TODO: server route -> get users data by a given user_id array */}
-                        {User.Following.map(f => 
-                            <FollowingItem key={f._id} Following={f} />)}
+                        {UserData.Following.map(f => 
+                            <FollowingItem key={f._id} Following={f} isMe={User._id === f._id} />)}
                     </div>
                 </div>
             </div>

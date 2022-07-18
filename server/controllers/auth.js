@@ -88,7 +88,7 @@ const getProtectedUserData = async (req, res) => {
     if (!user) return responseHandler.userNotFound(res)
     // -- get (secured) detailed user
     const result = await getDetailedUser(user, true)
-    return responseHandler.userSentSuccessfully(res, result)
+    return responseHandler.userSentSuccessfully(res, result, req.user_id === user._id.toString())
 }
 
 

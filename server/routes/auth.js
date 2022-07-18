@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const authController = require('../controllers/auth')
 // middlewares:
-const { isAdmin } = require('../middlewares/isAdmin')
+const { checkUserData } = require('../middlewares/checkUserData')
 const { authUser } = require('../middlewares/authUser')
 
 
@@ -13,7 +13,7 @@ router.get('/search/:query/:limit', authController.searchWithQuery)
 
 // @route   GET /api/auth/:username/
 // @desc    Endpoint for sending back user data (no validation)
-router.get('/:username', authController.getProtectedUserData)
+router.get('/:username', checkUserData, authController.getProtectedUserData)
 
 // @route   GET /api/auth/
 // @desc    Endpoint for sending back user data
@@ -33,7 +33,7 @@ router.post('/signin', authController.signin)
 
 // @route   POST /api/auth/signup/
 // @desc    Endpoint for creating a user (admins can create admin-users)
-router.post('/signup', isAdmin, authController.signup)
+router.post('/signup', checkUserData, authController.signup)
 
 // @route   PATCH /api/auth/followings/:action/:user_id
 // @desc    Endpoing for updating user:following list

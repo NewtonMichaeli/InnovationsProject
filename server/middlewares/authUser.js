@@ -9,7 +9,7 @@ const authUser = async (req, res, next) => {
 
     const token = req.cookies[AUTH_TOKEN] ?? req.header(AUTH_TOKEN)
     if (!token) return responseHandler.accessDenied(res)
-    
+
     // extract token - verify user
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, data) =>
     {

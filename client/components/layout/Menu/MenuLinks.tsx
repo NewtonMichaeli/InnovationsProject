@@ -17,36 +17,36 @@ const getStyles = getModuleStylesMethod(styles)
 // active-link-animation (round) - apply to every link and it'll animate >.<
 const ActiveLinkAnimation: FC = () => (
     <>
-        <div className={styles["highlighted-link-animate-top"]}>
-            <span>&nbsp;</span>
-        </div>
-        <div className={styles["highlighted-link-animate-bottom"]}>
-            <span>&nbsp;</span>
-        </div>
+        <div className={styles["highlighted-link-animate-top"]}></div>
+        <div className={styles["highlighted-link-animate-bottom"]}></div>
     </>
 )
 
 
 // Render menu-links for an Unauthorized user
 export const MenuLinks_UnauthorizedUser: FC = () => {
-    const router = useRouter()
+    // states
+    const { pathname } = useRouter()
+    // shorthand method for checking current path:
+    const path_has = (dest_paths: string[]) => dest_paths.some(dp => pathname.startsWith(dp))
+
     return <>
         <Link href={CLIENT_URIS.LOGIN}>
-            <a className={getStyles(`menu-link ${router.pathname.startsWith(CLIENT_URIS.LOGIN) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.LOGIN, CLIENT_URIS._USER('')]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Login</span>
                 <AiOutlineLogin className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
             </a>
         </Link>
         <Link href={CLIENT_URIS.EXPLORE}>
-            <a className={getStyles(`menu-link ${router.pathname.startsWith(CLIENT_URIS.EXPLORE) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.EXPLORE]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Explore</span>
                 <AiOutlineSearch className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
             </a>
         </Link>
         <Link href={CLIENT_URIS.SETTINGS}>
-            <a className={getStyles(`menu-link ${router.pathname.startsWith(CLIENT_URIS.SETTINGS) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.SETTINGS]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Settings</span>
                 <AiOutlineSetting className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
@@ -57,45 +57,49 @@ export const MenuLinks_UnauthorizedUser: FC = () => {
 
 // Render menu-links for an Authorized user
 export const MenuLinks_AuthorizedUser: FC = () => {
-    const router = useRouter()
+    // states
+    const { pathname } = useRouter()
+    // shorthand method for checking current path:
+    const path_has = (dest_paths: string[]) => dest_paths.some(dp => pathname.startsWith(dp))
+
     return <>
         <Link href={CLIENT_URIS.HOME}>
-            <a className={getStyles(`menu-link ${router.pathname === CLIENT_URIS.HOME ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${pathname === CLIENT_URIS.HOME ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Home</span>
                 <AiOutlineHome className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
             </a>
         </Link>
         <Link href={CLIENT_URIS.EXPLORE}>
-            <a className={getStyles(`menu-link ${router.pathname.startsWith(CLIENT_URIS.EXPLORE) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.EXPLORE, CLIENT_URIS._USER('')]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Explore</span>
                 <AiOutlineSearch className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
             </a>
         </Link>
         <Link href={CLIENT_URIS.PROFILE}>
-            <a className={getStyles(`menu-link ${router.pathname.startsWith(CLIENT_URIS.PROFILE) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.PROFILE]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Profile</span>
                 <BiUser className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
             </a>
         </Link>
         <Link href={CLIENT_URIS.DASHBOARD}>
-            <a className={getStyles(`menu-link ${router.pathname.startsWith(CLIENT_URIS.DASHBOARD) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.DASHBOARD]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Dashboard</span>
                 <MdOutlineSpaceDashboard className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
             </a>
         </Link>
         <Link href={CLIENT_URIS.STATSISTICS}>
-            <a className={getStyles(`menu-link ${router.pathname.startsWith(CLIENT_URIS.STATSISTICS) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.STATSISTICS]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Statistics</span>
                 <BiStats className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
             </a>
         </Link>
         <Link href={CLIENT_URIS.SETTINGS}>
-            <a className={getStyles(`menu-link ${router.pathname.startsWith(CLIENT_URIS.SETTINGS) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.SETTINGS]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Settings</span>
                 <AiOutlineSetting className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
