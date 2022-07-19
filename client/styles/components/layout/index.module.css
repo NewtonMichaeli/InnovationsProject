@@ -42,25 +42,8 @@
     background-repeat: no-repeat;
     background-position: top left;
     background-size: cover;
-    z-index: 1;
+    /* z-index: 1; */
     pointer-events: none;
-}
-
-/* navbar container */
-.app-body .Navbar {
-    background-color: #fff;
-    width: 100%;
-    height: var(--navbar-height);
-    /* layout */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2.5rem;
-    z-index: 1;
-}
-.app-body .Navbar .logo-home-link {
-    cursor: pointer;
-    height: 38%;
 }
 
 /* app content */

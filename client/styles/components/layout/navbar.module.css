@@ -1,0 +1,140 @@
+/* styles for navbar layout-component */
+
+/* navbar container */
+.Navbar {
+    background-color: #fff;
+    width: 100%;
+    height: var(--navbar-height);
+    /* layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    /* z-index: 1; */
+}
+.Navbar .logo-home-link {
+    cursor: pointer;
+    height: 38%;
+    z-index: 1;
+}
+/* profile section */
+.Navbar .profile-section {
+    height: 100%;
+    width: max-content;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* z-index: 2; */
+}
+
+/* login button */
+.btn-login {
+    z-index: 1;
+    font-size: 1.2rem;
+}
+
+/* profile viewer wrapper */
+.profile-viewer-wrapper {
+    height: 100%;
+    width: 4rem;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* z-index: 2; */
+}
+.profile-viewer-wrapper img.btn-view-profile {
+    height: 60%;
+    border-radius: 51%;
+    cursor: pointer;
+}
+/* profile viewer - on view */
+.profile-viewer-wrapper .profile-viewer.view {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: visible;
+    z-index: 5;
+}
+/* profile viewer */
+.profile-viewer-wrapper .profile-viewer {
+    z-index: 3;
+    width: 14.5rem;
+    height: 14.7rem;
+    box-shadow: 0 0 20px #00000044;
+    background-color: #fff;
+    border: 3px solid #666;
+    border-radius: .5rem;
+    /* position */
+    position: absolute;
+    top: calc(var(--navbar-height) - .5rem);
+    right: -.5rem;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: .4rem .6rem;
+    /* transition & init values */
+    transition: all .25s ease;
+    opacity: 0;
+    transform: translateY(-10%);
+    pointer-events: none;
+}
+.profile-viewer .user-data {
+    border-bottom: 1px solid #66666666;
+    width: 95%;
+    height: 8.5rem;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    margin-bottom: .6rem;
+}
+.profile-viewer .user-data img {
+    width: 4rem;
+    border-radius: 51%;
+    aspect-ratio: 1/1;
+    margin-bottom: .2rem;
+}
+.profile-viewer .user-data .data .username {
+    font-size: 1.3rem;
+    text-align: center;
+}
+.profile-viewer .user-data .data .email {
+    font-size: .75rem;
+    font-weight: 400;
+    text-align: center;
+}
+/* buttons */
+.profile-viewer .buttons {
+    width: 90%;
+    height: calc(100% - 8.5rem);
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-bottom: .5rem;
+}
+.profile-viewer .btn-goto-profile,
+.profile-viewer .btn-sign-out {
+    background: linear-gradient(-45deg, #010220 0%, #00034D 0.01%, #000D21 14.06%, #2D0031 100%);
+    color: #fff;
+    font-size: .75rem;
+    border: none;
+    outline: none;
+    width: 80%;
+    height: 1.5rem;
+    border-radius: .3rem;
+    cursor: pointer;
+}
+.profile-viewer .btn-sign-out {
+    border: 2px solid #1C052B;
+    color: #1C052B;
+    background: transparent;
+}

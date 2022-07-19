@@ -1,10 +1,12 @@
 import { FC } from "react"
 
 
-const Loading: FC = () => {
+const Loading: FC<{
+    width?: string
+}> = ({width = '3rem'}) => {
 
     return (
-        <img style={{width: '3rem'}} src="/loading.gif" alt="Loading.." />
+        <img style={{width}} src="/loading.gif" alt="Loading.." />
     )
 }
 

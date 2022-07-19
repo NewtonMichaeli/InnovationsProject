@@ -1,54 +1,20 @@
-import {FC} from 'react'
 // types
-import { MinifiedUserType, UserType } from '../../redux/features/user/user.types'
+import {FC} from 'react'
+import { UserType } from '../../redux/features/user/user.types'
 // redux
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { userActions, userSelector } from '../../redux/features/user'
+import { useAppSelector } from '../../hooks/redux'
+import { userSelector } from '../../redux/features/user'
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
 import { AiOutlineSearch } from 'react-icons/ai'
+// components
+import UserItem from '../shared/UserItem'
 // styles
 import styles from '../../styles/components/profile/list-followers.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
-import Link from 'next/link'
-import { CLIENT_URIS } from '../../configs/_client'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
-
-
-const FollowerItem: FC<{
-    Follower: MinifiedUserType,
-    isMe: boolean,
-    isFollowing: boolean
-}> = ({Follower, isFollowing, isMe}) => {
-    // states
-    const dispatch = useAppDispatch()
-    // handlers
-    const handleFollowBtn = () => {
-        dispatch(userActions.follow({action: isFollowing ? 'remove' : 'add', target_user: Follower._id}))
-    }
-
-    return (
-        <div className={styles["follower-item"]}>
-            <section className={styles["profile-pic"]}>
-                <img src={`/profile-pics/${Follower.Profile_Pic}.jpeg`} alt={Follower.Username} />
-            </section>
-            <Link href={CLIENT_URIS._USER('[key]')} as={CLIENT_URIS._USER(Follower.Username)}>
-                <section className={styles["user-data"]}>
-                    <h2 className={styles["name"]}>{Follower.Fname} {Follower.Sname}</h2>
-                    <h3 className={styles["username-x-email"]}>{Follower.Username} • {Follower.Email}</h3>
-                </section>
-            </Link>
-            {!isMe && <section className={styles["social-btns"]}>
-                <button className={getStyles(`btn-follow ${isFollowing ? 'following':''}`)} title={`${isFollowing ? 'Unfollow':'Follow'} user`} onClick={handleFollowBtn}>
-                    Follow{isFollowing ? 'ing' : ''}
-                </button>
-                <button className={styles["btn-invite-to-project"]} title="Invite to project">Invite to project</button>
-            </section>}
-        </div>
-    )
-}
 
 
 const ListFollowers: FC<{
@@ -84,7 +50,7 @@ const ListFollowers: FC<{
                     <div className={styles["content-followers-list"]}>
                         {/* TODO: server route -> get users data by a given user_id array */}
                         {UserData.Followers.map(f => 
-                            <FollowerItem key={f._id} Follower={f} isFollowing={User?.Following.some(s => s._id === f._id)} isMe={User._id === f._id} />)}
+                            <UserItem key={f._id} User={f} isFollowing={User?.Following.some(s => s._id === f._id)} isSelf={User._id === f._id} />)}
                     </div>
                 </div>
             </div>

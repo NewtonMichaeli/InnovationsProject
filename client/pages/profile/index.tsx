@@ -11,6 +11,7 @@ import ListInventions from '../../components/profile/list-inventions'
 import ListFollowings from '../../components/profile/list-following'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import GoBack from '../../components/shared/GoBack'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -36,6 +37,7 @@ const Profile: FC = () => {
             <Head>
                 <title>Innovation - My Profile</title>
             </Head>
+            {explored && <GoBack />}
             {/* profile header section */}
             <section className={styles["profile-header"]}>
                 <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />

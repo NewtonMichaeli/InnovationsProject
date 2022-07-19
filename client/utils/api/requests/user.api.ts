@@ -10,7 +10,6 @@ const axiosRequest = axios.create({
 
 // userAPI: fetch user data
 export const fetchUserData: fetchUserData_type = async ({ username }, headers) => {
-    console.log('abcd: ', username, `${username}`)
     const res = await axiosRequest.get(
         SERVER_URI__GET_USER_DATA(username),
         headers

@@ -1,0 +1,89 @@
+/* styles for user-item (shared) component */
+
+.user-item {
+    box-shadow: -5px 0 8px #00000055;
+    width: 100%;
+    height: 3.6rem;
+    background: #999;
+    border-radius: 4rem 2rem 2rem 4rem;
+    margin-bottom: .65rem;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+/* profile-pic @ user-item */
+.user-item .profile-pic,
+.user-item .profile-pic img {
+    height: 100%;
+    width: 3.6rem;
+    border-radius: 51%;
+}
+/* user-data @ user-item */
+.user-item .user-data:hover {
+    text-decoration: 1px #00000066 underline;
+}
+.user-item .user-data {
+    cursor: pointer;
+    height: 100%;
+    width: calc(100% - 10rem);
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: .6rem;
+    overflow: hidden;
+}
+.user-item .user-data .name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    height: 1.3rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 95%;
+}
+.user-item .user-data .username-x-email {
+    font-size: .7rem;
+    color: #000000a8;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 95%;
+}
+/* social-btns @ user-item */
+.user-item .social-btns {
+    width: 6.4rem;
+    height: 100%;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    padding: .2rem 0;
+}
+.user-item .social-btns .btn-follow,
+.user-item .social-btns .btn-invite-to-project {
+    border-radius: 1rem;
+    width: 90%;
+    height: 1.2rem;
+    font-size: .6rem;
+    font-weight: 300;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+}
+.user-item .social-btns .btn-follow {
+    background-color: #0085FF;
+    border: 2px solid #005CB0;
+}
+.user-item .social-btns .btn-follow.following {
+    color: #0085FF;
+    background-color: #ddd;
+    font-weight: 400;
+}
+.user-item .social-btns .btn-invite-to-project {
+    background-color: #6A4E6D;
+    border: 2px solid #150628;
+}

@@ -1,0 +1,20 @@
+/* styles for goBack button component */
+
+.GoBack {
+    position: absolute;
+    left: 2.1rem;
+    top: .7rem;
+    cursor: pointer;
+    border-radius: 52%;
+    border: 2.5px solid #333;
+    width: 3.2rem;
+    aspect-ratio: 1/1;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: .7;
+}
+.GoBack:hover {
+    opacity: 1;
+}

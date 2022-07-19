@@ -16,6 +16,7 @@ import styles from '../../styles/pages/user.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
 import { CLIENT_URIS } from '../../configs/_client'
 import { AUTH_TOKEN, tokenHeader } from '../../configs/_headers'
+import GoBack from '../../components/shared/GoBack'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -56,6 +57,8 @@ const User: FC<UserPageProps> = ({UserData}) => {
             <Head>
                 <title>{UserData.Username} - Innovation</title>
             </Head>
+            {/* go-back button */}
+            <GoBack />
             {/* user header section */}
             <section className={styles["user-header"]}>
                 <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
