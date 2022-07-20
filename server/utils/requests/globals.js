@@ -80,6 +80,7 @@ const getDetailedUser = async (user, isProtected) => {
     // return user with updated (fully-detailed) values
     return {
         ...user._doc,
+        Password: undefined,    // password is redundant
         Inventions,
         Shared_Projects,
         Followers,

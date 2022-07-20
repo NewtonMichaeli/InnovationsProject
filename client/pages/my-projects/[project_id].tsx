@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { FC } from "react"
+import { FC, useEffect } from "react"
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
 // components
@@ -14,6 +14,7 @@ import { userSelector } from "../../redux/features/user"
 // styles
 import styles from '../../styles/pages/project.module.css'
 import Loading from "../../components/global/loading"
+import Head from "next/head"
 // import { getModuleStylesMethod } from "../../utils/styles.utils"
 
 // get multiple styles util
@@ -24,12 +25,9 @@ const ProjectViewer: FC = () => {
 
     // states
     const router = useRouter()
-    const { User } = useAppSelector(userSelector)
+    const { User, isLoading, isAuthenticated } = useAppSelector(userSelector)
     const { project_id } = router.query
-    let inventionOwner = {
-        Username: User?.Username,
-        Profile_Pic: User?.Profile_Pic
-    }
+    let inventionOwner = { Username: User?.Username, Profile_Pic: User?.Profile_Pic }
     // find current invention using <project_id>
     const current_invention = 
         User?.Inventions.find(inv => inv._id === project_id) ??     // search invention in user-inventions-list
@@ -43,7 +41,11 @@ const ProjectViewer: FC = () => {
         })?.Project
 
     if (current_invention) return (
-        <div className={styles['Project']}>
+        <main className={styles['Project']}>
+            <Head>
+                <title>{current_invention.Name} - {User.Username}</title>
+                <meta name="description" content={current_invention.Description} />
+            </Head>
             {/* header */}
             <div className={styles['project-header']}>
                 <BsArrowLeftShort className={styles['leave']} size={48} onClick={() => router.back()} title="Go back" />
@@ -70,7 +72,7 @@ const ProjectViewer: FC = () => {
                     <MembersSection Members={current_invention.Contributors} />
                 </div>
             </div>
-        </div>
+        </main>
     )
     else if (!User) return <InventionNotFound />
     else return <></>

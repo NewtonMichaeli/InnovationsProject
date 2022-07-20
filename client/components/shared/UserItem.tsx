@@ -40,8 +40,9 @@ const SocialButtons: FC<{
 const UserItem: FC<{
     User: MinifiedUserType,         // -- my user information
     isSelf: boolean,                // -- am i the user
-    isFollowing?: boolean           // -- am i following this user
-}> = ({User, isFollowing, isSelf}) => {
+    isFollowing?: boolean,          // -- am i following this user
+    isAuthenticated?: boolean       // -- am i authenticated to follow people
+}> = ({User, isFollowing, isSelf, isAuthenticated}) => {
 
     return (
         <div className={styles["user-item"]}>
@@ -57,7 +58,7 @@ const UserItem: FC<{
                 </section>
             </Link>
             {/* social controls section */}
-            {!isSelf && <SocialButtons isFollowing={isFollowing} target_user={User._id} />}
+            {!isSelf && isAuthenticated && <SocialButtons isFollowing={isFollowing} target_user={User._id} />}
         </div>
     )
 }

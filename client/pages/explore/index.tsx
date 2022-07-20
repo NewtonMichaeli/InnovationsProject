@@ -32,7 +32,7 @@ const Explore: FC<ExplorePageProps> = ({query, SearchData}) => {
     return (
         <main className={styles["Explore"]}>
             <Head>
-                <title>Innovation - Explore</title>
+                <title>Explore - Innovation</title>
             </Head>
             <div className={styles["explore-input-wrapper"]}>
                 <div className={styles["explore-input"]}>

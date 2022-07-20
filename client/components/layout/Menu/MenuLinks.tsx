@@ -32,14 +32,14 @@ export const MenuLinks_UnauthorizedUser: FC = () => {
 
     return <>
         <Link href={CLIENT_URIS.LOGIN}>
-            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.LOGIN, CLIENT_URIS._USER('')]) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.LOGIN, CLIENT_URIS.REGISTER]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Login</span>
                 <AiOutlineLogin className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
             </a>
         </Link>
         <Link href={CLIENT_URIS.EXPLORE}>
-            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.EXPLORE]) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.EXPLORE, CLIENT_URIS._USER('')]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Explore</span>
                 <AiOutlineSearch className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />

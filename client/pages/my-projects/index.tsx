@@ -22,7 +22,8 @@ const Index: FC = () => {
     return (
         <main className={styles['MyProjects']}>
             <Head>
-                <title>Innovation - My Projects</title>
+                <title>My Projects - Innovation</title>
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             {/* projects header */}
             <div className={styles["my-projects-header"]}>
@@ -34,8 +35,10 @@ const Index: FC = () => {
             {/* projects list */}
             <div className={styles["my-projects-list"]}>
                 {
-                    inventions.map((inv, i) => 
-                        <Project isCreator={inv.CreatorData._id === User._id} key={i} invention={inv} />)
+                    !inventions?.length
+                        ? <code className={styles["no-inventions"]}>You have no Inventions yet</code>
+                        : inventions.map((inv, i) => 
+                            <Project isCreator={inv.CreatorData._id === User._id} key={i} invention={inv} />)
                 }
             </div>
         </main>

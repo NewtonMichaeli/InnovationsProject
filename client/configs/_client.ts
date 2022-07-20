@@ -15,3 +15,17 @@ export const CLIENT_URIS = {
     _USER: (user_id: string) => `/user/${user_id}`,
     _DASHBOARD: (project_id: string) => `/my-projects/${project_id}`
 }
+
+// all unauthorized uris
+export const CLIENT_SECURED_URIS = [
+    // CLIENT_URIS.HOME,
+    CLIENT_URIS.PROFILE,
+    CLIENT_URIS.PROFILE_REDIRECTED_FROM_EXPLORE_PAGE,
+    CLIENT_URIS.SETTINGS,
+    CLIENT_URIS.STATSISTICS,
+    CLIENT_URIS.DASHBOARD,
+]
+
+// check unauthorized uri using the above array
+export const isAccessingSecuredUri = (pathname: string) =>
+    pathname === CLIENT_URIS.HOME || CLIENT_SECURED_URIS.some(uri => pathname.startsWith(uri))

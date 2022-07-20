@@ -43,6 +43,18 @@
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
 }
+.my-projects-list .no-inventions {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: calc(100% - var(--navbar-height));
+    width: 100%;
+    color: #a00;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 /* invention data styles */
 .my-projects-list .invention {

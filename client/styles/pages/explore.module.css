@@ -9,7 +9,6 @@
     align-items: flex-start;
     justify-content: flex-start;
     padding-top: 2rem;
-    padding-bottom: .4rem;
 }
 
 /* input wrapper */
@@ -67,4 +66,5 @@
     justify-content: flex-start;
     padding: 1rem 4rem 0 4rem;
     overflow-y: auto;
+    mask-image: linear-gradient(to top, #00000088, #000, #000, #000, #000, #000, #00000088);
 }

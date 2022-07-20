@@ -13,8 +13,10 @@ const failedSearchingWithQuery = (res, msg) => res.status(400).json({status: fal
 const successfullSearchWithQuery = (res, data) => res.status(200).json({status: true, data}).end()
 
 // user : success
-const loggedInSuccessfully = (res, token) => res.status(200).cookie(AUTH_TOKEN, token).json({status: true, msg: 'Successfully logged in'}).end()
-const userCreatedSuccessfully = (res, token) => res.status(200).cookie(AUTH_TOKEN, token).json({status: true, msg: 'User created successfully'}).end()
+const loggedInSuccessfully = (res, token, data) => 
+    res.status(200).cookie(AUTH_TOKEN, token).json({status: true, msg: 'Successfully logged in', data}).end()
+const userCreatedSuccessfully = (res, token, data) => 
+    res.status(200).cookie(AUTH_TOKEN, token).json({status: true, msg: 'User created successfully', data}).end()
 const userUpdatedSuccessfully = (res, new_data, new_token) => 
     res.status(200).cookie(AUTH_TOKEN, new_token).json({status: true, msg: 'User updated successfully', data: {new_data}}).end()
 const userDeletedSuccessfully = res => res.status(200).json({status: true, msg: 'User deleted successfully'}).end()

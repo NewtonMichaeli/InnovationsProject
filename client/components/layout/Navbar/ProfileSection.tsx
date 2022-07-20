@@ -8,6 +8,9 @@ import { MdKeyboardArrowDown } from 'react-icons/md'
 // styles
 import styles from '../../../styles/components/layout/navbar.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
+import { deleteAuthTokenCookie } from '../../../configs/_token'
+import { useAppDispatch } from '../../../hooks/redux'
+import { signout } from '../../../redux/features/user/user.actions'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -27,7 +30,13 @@ export const ProfileSection_AuthorizedUser: FC<{
     User: UserType
 }> = ({User}) => {
     // states
+    const dispatch = useAppDispatch()
     const [viewProfile, setViewProfile] = useState(false)
+    // handlers
+    const logoutHandler = () => {
+        document.cookie = deleteAuthTokenCookie()
+        dispatch(signout())
+    }
 
     return (
         <div className={styles["profile-viewer-wrapper"]}>
@@ -47,7 +56,7 @@ export const ProfileSection_AuthorizedUser: FC<{
                     <Link href={CLIENT_URIS.PROFILE}>
                         <button className={styles["btn-goto-profile"]}>My profile</button>
                     </Link>
-                    <button className={styles["btn-sign-out"]}>
+                    <button className={styles["btn-sign-out"]} onClick={logoutHandler}>
                         Sign out
                     </button>
                 </div>

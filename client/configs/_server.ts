@@ -24,3 +24,9 @@ export const SERVER_URI__FOLLOW_USER = (action: 'add' | 'remove', target_user: s
 // search by query
 export const SERVER_URI__SEARCH_BY_QUERY = (query: string, limit: number = 20) =>
     SERVER_AUTH_API + `/search/${query}/${limit}`
+
+// login
+export const SERVER_URI__LOGIN = () => SERVER_AUTH_API + '/signin'
+
+// login
+export const SERVER_URI__REGISTER = () => SERVER_AUTH_API + '/signup'

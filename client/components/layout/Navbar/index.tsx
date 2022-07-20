@@ -5,9 +5,9 @@ import { useAppSelector, useAppDispatch } from '../../../hooks/redux'
 import { userSelector, userActions } from '../../../redux/features/user'
 // components
 import Loading from "../../global/loading"
+import { ProfileSection_AuthorizedUser, ProfileSection_UnauthorizedUser } from "./ProfileSection"
 // styles
 import styles from '../../../styles/components/layout/navbar.module.css'
-import { ProfileSection_AuthorizedUser, ProfileSection_UnauthorizedUser } from "./ProfileSection"
 
 
 const Navbar: FC = () => {

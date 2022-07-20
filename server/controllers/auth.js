@@ -30,7 +30,7 @@ const signup = async (req, res) => {
 
     // generating token
     const token = signNewUserToken(result.data)
-    return responseHandler.userCreatedSuccessfully(res, token)
+    return responseHandler.userCreatedSuccessfully(res, token, await getDetailedUser(result.data, false))
 }
 
 
@@ -45,7 +45,7 @@ const signin = async (req, res) => {
     if (error) return responseHandler.incompleteFields(res, error.message)
     
     // search db for existing account
-    const result = await User.findOne({Username}).select('Username Email IsAdmin _id Password')
+    const result = await User.findOne({Username})
     if (!result) return responseHandler.incorrectCredentials(res)
     
     // compare hashed passwords
@@ -54,7 +54,7 @@ const signin = async (req, res) => {
 
     // generate token
     const token = signNewUserToken(result)
-    return responseHandler.loggedInSuccessfully(res, token)
+    return responseHandler.loggedInSuccessfully(res, token, await getDetailedUser(result, false))
 }
 
 

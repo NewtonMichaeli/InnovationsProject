@@ -1,0 +1,152 @@
+/* styles fot register page */
+
+.Register {
+    width: 100%;
+    height: 100%;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2rem;
+}
+.Register * {
+    font-family: 'Poppins', sans-serif;
+}
+/* register form */
+.Register .register-form {
+    width: 24rem;
+    height: 33rem;
+    background: linear-gradient(136.35deg, #000354 0%, rgba(0, 13, 33, 0.9) 18.14%, #380245 76.56%, #300034 83.52%);
+    border-radius: 1rem;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: .4rem;
+}
+
+/* form header */
+.register-form .form-header {
+    /* background-color: royalblue; */
+    height: 18%;
+    width: 100%;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+.form-header h1 {
+    font-weight: 500;
+}
+.form-header h6 {
+    font-weight: 300;
+}
+
+/* form body */
+.register-form .form-body {
+    /* background-color: blueviolet; */
+    height: 60%;
+    width: 100%;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    /* padding: .5rem 0; */
+}
+.register-form .form-body .input-text-container {
+    width: 80%;
+    height: max-content;
+    /* background-color: yellow; */
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+.form-body .input-text-container label {
+    font-size: .7rem;
+    color: #fff;
+    font-weight: 300;
+    margin: 0 0 .05rem .25rem;
+}
+.form-body .input-text-container select option {
+    background-color: #380245;
+}
+.form-body .input-text-container select,
+.form-body .input-text-container input {
+    height: 2.2rem;
+    width: 100%;
+    padding: .2rem .5rem;
+    color: #ffffffcc;
+    border: 1.5px solid #fff;
+    border-radius: .3rem;
+    background-color: transparent;
+    outline: none;
+}
+/* input name container */
+.form-body .input-name-text-container {
+    /* height: 2.2rem; */
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.form-body .input-name-text-container .input-text-container {
+    width: 48%;
+}
+/* Agree With Terms Of Use */
+.form-body .input-terms-of-use {
+    font-weight: 300;
+    font-size: .75rem;
+    width: 80%;
+    color: #fff;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: .4rem;
+}
+.form-body .input-terms-of-use label {
+    margin-left: .4rem;
+}
+.form-body .input-terms-of-use label span {
+    color: #175CC5;
+}
+
+
+/* form footer */
+.register-form .form-footer {
+    /* background-color: green; */
+    height: 22%;
+    width: 100%;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: .1rem 0 .4rem 0;
+}
+.form-footer input[type=submit] {
+    width: 80%;
+    height: 2.4rem;
+    outline: none;
+    border: none;
+    background-color: #eeeeeec0;
+    cursor: pointer;
+    border-radius: .4rem;
+    margin-bottom: .5rem;
+    font-size: .8rem;
+    font-weight: 600;
+}
+.form-footer .register-link {
+    font-size: .75rem;
+    color: #fff;
+    font-weight: 300;
+}
+.form-footer .register-link span {
+    color: #175CC5;
+}

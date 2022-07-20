@@ -8,13 +8,8 @@ import { userSelector, userActions } from '../../redux/features/user'
 
 const Home: FC = () => {
 
-    const dispatch = useAppDispatch()
     const { User, isLoading } = useAppSelector(userSelector)
   
-    //   useEffect(() => {
-    //     dispatch(userActions.fetchUserData())
-    //   }, [])
-
     return (
         <div>
             <Head>

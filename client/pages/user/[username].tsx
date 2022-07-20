@@ -15,7 +15,7 @@ import ListFollowings from '../../components/profile/list-following'
 import styles from '../../styles/pages/user.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
 import { CLIENT_URIS } from '../../configs/_client'
-import { AUTH_TOKEN, tokenHeader } from '../../configs/_headers'
+import { AUTH_TOKEN, tokenHeader } from '../../configs/_token'
 import GoBack from '../../components/shared/GoBack'
 
 // multiple styles getter util
@@ -44,7 +44,7 @@ const User: FC<UserPageProps> = ({UserData}) => {
         setShowDataItem({ ...defaulDataShowStatus, [type]: status })
     }
     const handleFollowBtn = () => {
-        if (!isAuthenticated) alert('Not logged in!')    // -- temp notification system
+        if (!isAuthenticated) return alert('Not logged in!')    // -- temp notification system
         const action = isFollowing ? 'remove' : 'add'
         dispatch(userActions.follow({action, target_user: UserData._id}))
         // -- update UserData (temp functionality)

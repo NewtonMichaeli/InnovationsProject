@@ -46,7 +46,7 @@ const Home: FC = () => {
   return (
     <main className={styles['Home']}>
       <Head>
-        <title>Innovations - Home</title>
+        <title>Home - Innovation</title>
         <meta name="description" content="Inventions Home Page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

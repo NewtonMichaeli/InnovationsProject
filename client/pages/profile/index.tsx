@@ -35,7 +35,7 @@ const Profile: FC = () => {
     return (
         <main className={styles["Profile"]}>
             <Head>
-                <title>Innovation - My Profile</title>
+                <title>My Profile - Innovation</title>
             </Head>
             {explored && <GoBack />}
             {/* profile header section */}

@@ -23,7 +23,7 @@ const ListFollowers: FC<{
     close: () => unknown
 }> = ({show, close, UserData}) => {
     // states
-    const { User } = useAppSelector(userSelector)
+    const { User, isAuthenticated } = useAppSelector(userSelector)
     // handlers
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
@@ -50,7 +50,7 @@ const ListFollowers: FC<{
                     <div className={styles["content-followers-list"]}>
                         {/* TODO: server route -> get users data by a given user_id array */}
                         {UserData.Followers.map(f => 
-                            <UserItem key={f._id} User={f} isFollowing={User?.Following.some(s => s._id === f._id)} isSelf={User._id === f._id} />)}
+                            <UserItem isAuthenticated={isAuthenticated} key={f._id} User={f} isFollowing={User?.Following.some(s => s._id === f._id)} isSelf={User?._id === f._id} />)}
                     </div>
                 </div>
             </div>
