@@ -1,12 +1,13 @@
 // file renderer util
 
 import { FC, useState } from "react";
-import { SERVER_URI__GET_ASSET } from "../configs/_server";
+// types
+import { SERVER_URI__GET_ASSET } from "../../configs/_server";
+import { AssetType } from "../../redux/features/user/user.types";
 // icons
 import { TbFileText } from 'react-icons/tb'
 // styles
-import styles from '../styles/components/InventionsDataSection/assets.module.css'
-import { AssetType } from "../redux/features/user/user.types";
+import styles from '../../styles/components/shared/file-renderer.module.css'
 
 
 // allowed html file extensions

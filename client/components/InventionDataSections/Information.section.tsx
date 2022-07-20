@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { InventionType } from '../../redux/features/user/user.types'
-import formatTime from '../../utils/formatTime'
+import formatTime from '../../utils/others/formatTime'
 // icons
 import { FiEdit3 } from 'react-icons/fi'
 // styles

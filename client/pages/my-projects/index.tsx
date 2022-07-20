@@ -1,8 +1,12 @@
 import Head from 'next/head'
-import React, { FC } from 'react'
+// types
+import { FC } from 'react'
+import { SharedProjectsResponseType } from '../../redux/features/user/user.types'
+// redux
 import { useAppSelector } from '../../hooks/redux'
 import { userSelector } from '../../redux/features/user'
-import { SharedProjectsResponseType } from '../../redux/features/user/user.types'
+// utils
+import { getSharedProjectsFormattedInventions } from '../../utils/inventions.utils'
 // components
 import Project from '../../components/my-projects/Project'
 // styles
@@ -13,11 +17,12 @@ const Index: FC = () => {
 
     // states
     const { User } = useAppSelector(userSelector)
-    const inventions: SharedProjectsResponseType[] = User ? [
-        ...User.Inventions.map(inv => ({CreatorData: {Username: User.Username, _id: User._id, Profile_Pic: User.Profile_Pic}, Project: inv})),
-        ...User.Shared_Projects
-    ] : []
-    console.log('invs: ', inventions)
+    const inventions: SharedProjectsResponseType[] = getSharedProjectsFormattedInventions(User)
+    // components
+    const RenderInventions: FC = () => !inventions?.length
+        ? <code className={styles["no-inventions"]}>You have no Inventions yet</code>
+        : <>{ inventions.map((inv, i) => 
+            <Project isCreator={inv.CreatorData._id === User._id} key={i} invention={inv} />) }</>
 
     return (
         <main className={styles['MyProjects']}>
@@ -34,12 +39,7 @@ const Index: FC = () => {
             </div>
             {/* projects list */}
             <div className={styles["my-projects-list"]}>
-                {
-                    !inventions?.length
-                        ? <code className={styles["no-inventions"]}>You have no Inventions yet</code>
-                        : inventions.map((inv, i) => 
-                            <Project isCreator={inv.CreatorData._id === User._id} key={i} invention={inv} />)
-                }
+                <RenderInventions />
             </div>
         </main>
     )

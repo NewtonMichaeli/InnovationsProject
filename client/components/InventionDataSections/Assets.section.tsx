@@ -5,7 +5,7 @@ import { FiEdit3 } from 'react-icons/fi'
 import { GrFormView } from 'react-icons/gr'
 // styles
 import styles from '../../styles/components/InventionsDataSection/assets.module.css'
-import RenderFile from '../../utils/file-renderer'
+import RenderFile from '../shared/file-renderer'
 
 
 // components:

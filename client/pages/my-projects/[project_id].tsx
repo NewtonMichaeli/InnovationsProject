@@ -15,6 +15,7 @@ import { userSelector } from "../../redux/features/user"
 import styles from '../../styles/pages/project.module.css'
 import Loading from "../../components/global/loading"
 import Head from "next/head"
+import { findInvention } from "../../utils/inventions.utils"
 // import { getModuleStylesMethod } from "../../utils/styles.utils"
 
 // get multiple styles util
@@ -24,52 +25,41 @@ import Head from "next/head"
 const ProjectViewer: FC = () => {
 
     // states
-    const router = useRouter()
-    const { User, isLoading, isAuthenticated } = useAppSelector(userSelector)
-    const { project_id } = router.query
-    let inventionOwner = { Username: User?.Username, Profile_Pic: User?.Profile_Pic }
-    // find current invention using <project_id>
-    const current_invention = 
-        User?.Inventions.find(inv => inv._id === project_id) ??     // search invention in user-inventions-list
-        User?.Shared_Projects.find(proj => {                        // user doesn't own the invention - search in shared-projects
-            // -- set invention creator username to it's owner
-            if (proj.Project._id === project_id) {
-                inventionOwner = {Username: proj.CreatorData.Username, Profile_Pic: proj.CreatorData.Profile_Pic}
-                return true
-            }
-            return false
-        })?.Project
+    const { query, back } = useRouter()
+    const { project_id } = query
+    const { User } = useAppSelector(userSelector)
+    const { data: inventionData, owner: inventionOwner } = findInvention(User, project_id as string)
 
-    if (current_invention) return (
+    if (inventionData) return (
         <main className={styles['Project']}>
             <Head>
-                <title>{current_invention.Name} - {User.Username}</title>
-                <meta name="description" content={current_invention.Description} />
+                <title>{inventionData.Name} - {User.Username}</title>
+                <meta name="description" content={inventionData.Description} />
             </Head>
             {/* header */}
             <div className={styles['project-header']}>
-                <BsArrowLeftShort className={styles['leave']} size={48} onClick={() => router.back()} title="Go back" />
+                <BsArrowLeftShort className={styles['leave']} size={48} onClick={() => back()} title="Go back" />
                 <img className={styles['owner-profile-pic']} src={`/profile-pics/${inventionOwner.Profile_Pic}.jpeg`} alt={inventionOwner.Username} />
                 <div className={styles['username-x-projectname']}>
                     <code className={styles['username']}>{inventionOwner.Username}</code>
                     &nbsp;/&nbsp;
-                    <code className={styles['projectname']}>{current_invention.Name}</code>
+                    <code className={styles['projectname']}>{inventionData.Name}</code>
                 </div>
             </div>
             {/* content */}
             <div className={styles["invention-content-wrapper"]}>
                 {/* data sections */}
                 <div className={styles["section-container"]}>
-                    <InformationSection Invention={current_invention} />
+                    <InformationSection Invention={inventionData} />
                 </div>
                 <div className={styles["section-container"]}>
-                    <AssetsSection Assets={current_invention.Assets} username={inventionOwner.Username} project_id={current_invention._id} />
+                    <AssetsSection Assets={inventionData.Assets} username={inventionOwner.Username} project_id={inventionData._id} />
                 </div>
                 <div className={styles["section-container"]}>
-                    <AboutYouSection isCreator={User.Username === inventionOwner.Username} roles={current_invention.Roles} />
+                    <AboutYouSection isCreator={User.Username === inventionOwner.Username} roles={inventionData.Roles} />
                 </div>
                 <div className={styles["section-container"]}>
-                    <MembersSection Members={current_invention.Contributors} />
+                    <MembersSection Members={inventionData.Contributors} />
                 </div>
             </div>
         </main>

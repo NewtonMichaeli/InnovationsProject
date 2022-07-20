@@ -1,20 +1,19 @@
+import Head from 'next/head'
 import {FC, useState} from 'react'
+import { useRouter } from 'next/router'
 // redux
 import { useAppSelector } from '../../hooks/redux'
 import { userSelector } from '../../redux/features/user'
 // components
 import ListFollowers from '../../components/profile/list-followers'
-// styles
-import styles from '../../styles/pages/profile.module.css'
-import { getModuleStylesMethod } from '../../utils/styles.utils'
 import ListInventions from '../../components/profile/list-inventions'
 import ListFollowings from '../../components/profile/list-following'
-import Head from 'next/head'
-import { useRouter } from 'next/router'
 import GoBack from '../../components/shared/GoBack'
+// styles
+import styles from '../../styles/pages/profile.module.css'
 
-// multiple styles getter util
-const getStyles = getModuleStylesMethod(styles)
+// display status for each data item - default is false
+const defaulDatatShowStatus = {followers: false, inventions: false, following: false}
 
 
 const Profile: FC = () => {
@@ -22,7 +21,6 @@ const Profile: FC = () => {
     const { User } = useAppSelector(userSelector)
     // -- has redirected from explore page?:
     const { explored } = useRouter().query
-    const defaulDatatShowStatus = {followers: false, inventions: false, following: false}
     // display status for each data item - default is false
     const [showDataItem, setShowDataItem] = useState({...defaulDatatShowStatus})
     // handlers

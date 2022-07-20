@@ -1,25 +1,27 @@
 import {FC, useState} from 'react'
 // types
 import { UserPageProps, UserPageSSR } from '../../types/pages/user.type'
+import { CLIENT_URIS } from '../../configs/_client'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { userActions, userSelector } from '../../redux/features/user'
 // utils
 import { fetchUserData } from '../../utils/api/requests/user.api'
+import { AUTH_TOKEN, tokenHeader } from '../../configs/_token'
 // components
 import Head from 'next/head'
 import ListFollowers from '../../components/profile/list-followers'
 import ListInventions from '../../components/profile/list-inventions'
 import ListFollowings from '../../components/profile/list-following'
+import GoBack from '../../components/shared/GoBack'
 // styles
 import styles from '../../styles/pages/user.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
-import { CLIENT_URIS } from '../../configs/_client'
-import { AUTH_TOKEN, tokenHeader } from '../../configs/_token'
-import GoBack from '../../components/shared/GoBack'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
+// -- display status for each data item - default is false
+const defaulDataShowStatus = {followers: false, inventions: false, following: false}
 
 
 /**
@@ -31,12 +33,10 @@ const getStyles = getModuleStylesMethod(styles)
 const User: FC<UserPageProps> = ({UserData}) => {
     // states
     const dispatch = useAppDispatch()
-    const defaulDataShowStatus = {followers: false, inventions: false, following: false}
-    // data
     const { User, isAuthenticated } = useAppSelector(userSelector)
-    const isFollowing = isAuthenticated && User.Following.some(f => f._id === UserData._id)
     // -- display status for each data item - default is false
     const [showDataItem, setShowDataItem] = useState({...defaulDataShowStatus})
+    const isFollowing = isAuthenticated && User.Following.some(f => f._id === UserData._id)
     // handlers
     const changeShowDataItem = (type: keyof typeof showDataItem, status: boolean) => {
         // -- shorthand for controlling a single key each time
