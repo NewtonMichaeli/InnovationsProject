@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
+const Invention = require('../models/Invention')
 const responseHandler = require('../utils/responses')
 const { AUTH_TOKEN, PRIVILEGES } = require('../configs/_server')
 
@@ -8,20 +9,21 @@ const { AUTH_TOKEN, PRIVILEGES } = require('../configs/_server')
 // Middleware requires the following url-params: username, project_id
 const authInventionPrivacy = async (req, res, next) => {
 
-    const { username, project_id } = req.params
-    const user = await User.findOne({Username: username})       // -- dest user
+    const { user_id, project_id } = req.params
+
+    const user = await User.findById(user_id)       // -- dest user
     if (!user) return responseHandler.userNotFound(res)
     
-    // find associated invention index
-    const index = user.Inventions.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return responseHandler.inventionNotFound(res)
+    // find associated invention
+    const invention = await Invention.findById(project_id)
+    if (!invention) return responseHandler.inventionNotFound(res)
     
     // check token
     const token = req.cookies[AUTH_TOKEN] ?? req.header(AUTH_TOKEN)
     let data
 
     // set init request variables
-    req.inventionIndex = index
+    req.invention = invention
     req.user = user
 
     // check if user is in contribution array
@@ -37,7 +39,8 @@ const authInventionPrivacy = async (req, res, next) => {
             }   
             
             // validate contributor
-            if (user.Inventions[index].Contributors.findIndex(({user_id}) => user_id === data._id.toString()) !== -1) {
+            // if (user.Inventions[index].Contributors.findIndex(({user_id}) => user_id === data._id.toString()) !== -1) {
+            if (invention.Contributors.findIndex(({user_id}) => user_id === data._id.toString()) !== -1) {
                 // -- user is a contributor
                 req.req_privilege = PRIVILEGES.CONTRIBUTOR
                 return next()
@@ -47,7 +50,7 @@ const authInventionPrivacy = async (req, res, next) => {
     }
 
     // user is not a creator nor a contributor - check invention privacy
-    if (user.Inventions[index].Private)
+    if (invention.Private)
         return responseHandler.accessDenied(res)
     
     // user is allowed to a non-private invention

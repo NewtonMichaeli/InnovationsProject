@@ -1,4 +1,3 @@
-const Joi = require('@hapi/joi')
 const { PRIVILEGES } = require('../configs/_server')
 const {Joi_RegionsSchema, AllowedRegions} = require('../validations/Regions')
 // handlers
@@ -17,7 +16,9 @@ const createInvention = async (req, res) => {
     // extract requested invention data
     const {Name, Description, Tags, Roles, Status, Private, Contributors} = req.body, {user} = req
     const InventionData = {
-        Name, Description, Tags, Roles, Status, Contributors, Private ,Assets: [], DoC: new Date().getTime()
+        Name, Description, Tags, Roles, Status, Contributors, Private,
+        // -- predefined values
+        Assets: [], DoC: new Date().getTime(), Owner_id: user._id.toString()
     }
 
     // validate request data
@@ -25,7 +26,7 @@ const createInvention = async (req, res) => {
     if (error) return responseHandler.incompleteFields(res)
     
     // create invention
-    const result = await requestHandler.createInvention(user.Username, InventionData)
+    const result = await requestHandler.createInvention(user._id.toString(), InventionData)
     if (result) responseHandler.inventionCreatedSuccessfully(res, result)
     else responseHandler.failedCreatingInvention(res, `Name \"${Name}\" is already occupied by another project`)
 }
@@ -37,7 +38,7 @@ const deleteInvention = async (req, res) => {
     const {project_id} = req.params, {user} = req
 
     // delete invention
-    const result = await requestHandler.deleteInvention(user.Username, project_id)
+    const result = await requestHandler.deleteInvention(user._id.toString(), project_id)
 
     if (result.status) responseHandler.inventionDeletedSuccessfully(res)
     else if (result.data === 'INV_NOT_FOUND') responseHandler.inventionNotFound(res)
@@ -52,7 +53,7 @@ const updateInventionData = async (req, res) => {
     // update non-empty data
     if (!req.body || !Object.keys(req.body).length) return responseHandler.incompleteFields(res)
     // extract data from request body
-    const {username, project_id} = req.params, new_data = req.body, {user, req_privilege} = req
+    const {user_id, project_id} = req.params, new_data = req.body, {user, req_privilege} = req
 
     // verify request parameters
     let error
@@ -72,7 +73,7 @@ const updateInventionData = async (req, res) => {
     if (error) return responseHandler.incompleteFields(res, error.message)
 
     // update data
-    const result = await requestHandler.updateInvention(username, project_id, new_data)
+    const result = await requestHandler.updateInvention(user_id, project_id, new_data)
     if (result.status) return responseHandler.inventionUpdatedSuccessfully(res, result.data)
     else if (result.data === 'INV_NOT_FOUND') return responseHandler.inventionNotFound(res)
     else if (result.data === 'NAME_OCCUPIED') return responseHandler.failedUpdatingInvention(res, `Name \"${new_data.Name}\" is already occupied by another invention`)
@@ -81,12 +82,12 @@ const updateInventionData = async (req, res) => {
 
 
 // Get invention data
-// requires: <req.user>, <req.inventionIndex>
+// requires: <req.user>, <req.invention>
 const getInventionData = async (req, res) => {
     return responseHandler.inventionSentSuccessfully(res, {
-        ...req.user.Inventions[req.inventionIndex]._doc,
+        ...req.invention._doc,
         Contributors: await _getDetailedUsersByArray(
-            req.user.Inventions[req.inventionIndex].Contributors,
+            req.invention._doc.Contributors,
             MINIFIED_USER_SELECT_VALUES
         )
     })

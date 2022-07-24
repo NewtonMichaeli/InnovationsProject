@@ -13,7 +13,8 @@ const Joi_InventionSchema = Joi.object({
     Private: Joi.bool().required(),
     DoC: Joi.number().required(),
     DoF: Joi.number().optional(),
-    Contributors: Joi.array().items(Joi_ContributorSchema).required()
+    Contributors: Joi.array().items(Joi_ContributorSchema).required(),
+    Owner_id: Joi.string().required()
 })
 
 // <Updating> invention schema (creator privilege) - all fields are optional

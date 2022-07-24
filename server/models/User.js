@@ -37,7 +37,7 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     Inventions: {
-        type: [InventionSchema],
+        type: [String],     // inventions id array
         default: []
     },
     

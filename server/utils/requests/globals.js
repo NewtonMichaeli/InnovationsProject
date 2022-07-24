@@ -1,15 +1,20 @@
 // Global requests utility file
 
 const User = require('../../models/User')
+const Invention = require('../../models/Invention')
 const {MINIFIED_USER_SELECT_VALUES} = require('../../configs/_database')
 const {ObjectId} = require('mongoose').Types
 
 
-// Gets a detailed user for every user_id in a given array
-// Input: user_id[]
-// Output: detailed user array (Username, Email, _id, etc)
+/**
+ * Gets a detailed user for every user_id in a given array
+ * @param users (typeof user_id[])
+ * @param fieldsToSelect (typeof {[key: string]: string})
+ * @returns detailed user array (Username, Email, _id, etc)
+ */
 const _getDetailedUsersByArray = async (users, fieldsToSelect) => {
 
+    if (!users?.length) return []
     const result = await User
     .find({ $or: users.map(user_id => ({_id: ObjectId(user_id)})) })
     .select(fieldsToSelect)
@@ -18,21 +23,27 @@ const _getDetailedUsersByArray = async (users, fieldsToSelect) => {
 }
 
 
-// Gets detailed user fields (e.g Contributors full schema, shared_projects, etc)
+/**
+ * @param user (typeof User)
+ * @param isProtected (typeof boolean)
+ * @returns detailed user (e.g Contributors full schema, shared_projects, etc)
+ */
 const getDetailedUser = async (user, isProtected) => {
 
     // initial states
     let Inventions = [], Shared_Projects = [], Followers = [], Following = []
 
     // Get detailed contributors data
-    await Promise.all(user.Inventions.map(async (inv, i) => {
+    const user_inventions = await Invention.find( {Owner_id: user._id.toString()} )
+    await Promise.all(user_inventions.map(async (inv, i) => {
         // -- push only if secure contributors array is not empty
-        if ((!inv.Private || !isProtected) && inv.Contributors.length) {
+        if (!inv.Private || !isProtected) {
+            console.log('cont', inv.Contributors.map(c => c.user_id),)
             const updatedInvention = {
                 ...inv._doc,
                 Contributors: await _getDetailedUsersByArray(
                     inv.Contributors.map(c => c.user_id),
-                    'Fname Sname Username Email Profile_Pic _id'
+                    MINIFIED_USER_SELECT_VALUES
                 )
             }
             Inventions.push(updatedInvention)
@@ -44,16 +55,20 @@ const getDetailedUser = async (user, isProtected) => {
         // -- find project owner
         const user = await User.findById(sp.user_id)
         if (!user) return
+
         // -- find shared invention
-        const result = user.Inventions.find(inv => inv._id.toString() === sp.project_id)
+        const invention = await Invention.findById(sp.project_id)
+        if (!invention) return
+
         // -- get detailed contributors
-        let Contributors = []
-        if (result.Contributors.length) Contributors = await _getDetailedUsersByArray(
-            result.Contributors.map(c => c.user_id),
-            'Fname Sname Username Email Profile_Pic _id Roles'
+        console.log('sps', inv.Contributors.map(c => c.user_id),)
+        let Contributors = await _getDetailedUsersByArray(
+            invention.Contributors.map(c => c.user_id),
+            MINIFIED_USER_SELECT_VALUES
         )
+
         // -- check privacy and push data to array
-        if (!result.Private || !isProtected)
+        if (!invention.Private || !isProtected)
             Shared_Projects.push({
                 CreatorData: {
                     Username: user.Username,
@@ -61,7 +76,7 @@ const getDetailedUser = async (user, isProtected) => {
                     Profile_Pic: user.Profile_Pic
                 },
                 Project: {
-                    ...result._doc,
+                    ...invention,
                     Contributors
                 }
             })

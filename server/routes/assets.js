@@ -4,6 +4,7 @@ const errorController = require('../controllers/_errors')
 const { PRIVILEGES } = require('../configs/_server')
 // middlewares:
 const { authInventionPrivacy, allowPrivileges } = require('../middlewares/authInventionPrivacy')
+const { checkValidObjectIdParams } = require('../middlewares/globals')
 // multer setup:
 const upload = require('../utils/uploads-setup')
 
@@ -13,7 +14,8 @@ const upload = require('../utils/uploads-setup')
 // @route   GET /api/inventions/assets/:username/:project_id/:filename/
 // @desc    Endpoint for sending back assets
 router.get(
-    '/:username/:project_id/:filename',
+    '/:user_id/:project_id/:filename',
+    checkValidObjectIdParams,
     authInventionPrivacy, 
     assetsController.sendAsset
 )
@@ -21,7 +23,8 @@ router.get(
 // @route   POST /api/inventions/assets/:username/:project_id/
 // @desc    Endpoint for uploading assets associated with an invention
 router.post(
-    '/:username/:project_id',
+    '/:user_id/:project_id',
+    checkValidObjectIdParams,
     authInventionPrivacy,
     allowPrivileges(PRIVILEGES.CREATOR, PRIVILEGES.CONTRIBUTOR),
     upload,
@@ -32,8 +35,9 @@ router.post(
 // @route   DELETE /api/inventions/assets/:username/:project_id/:asset_id/
 // @desc    Endpoint for deleting assets associated with an invention
 router.delete(
-    '/:username/:project_id/:asset_id', 
-    authInventionPrivacy, 
+    '/:user_id/:project_id/:asset_id',
+    checkValidObjectIdParams,
+    authInventionPrivacy,
     allowPrivileges(PRIVILEGES.CREATOR, PRIVILEGES.CONTRIBUTOR),
     assetsController.deleteAsset
 )

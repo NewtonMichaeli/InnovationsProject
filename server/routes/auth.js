@@ -3,6 +3,7 @@ const authController = require('../controllers/auth')
 // middlewares:
 const { checkUserData } = require('../middlewares/checkUserData')
 const { authUser } = require('../middlewares/authUser')
+const { checkValidObjectIdParams } = require('../middlewares/globals')
 
 
 // Routes:  /api/auth/
@@ -37,7 +38,7 @@ router.post('/signup', checkUserData, authController.signup)
 
 // @route   PATCH /api/auth/followings/:action/:user_id
 // @desc    Endpoing for updating user:following list
-router.patch('/followings/:action/:user_id', authUser, authController.updateFollowingList)
+router.patch('/followings/:action/:user_id', checkValidObjectIdParams, authUser, authController.updateFollowingList)
 
 
 module.exports = router

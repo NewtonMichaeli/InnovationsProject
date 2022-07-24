@@ -48,7 +48,12 @@ const InventionSchema = new mongoose.Schema({
     Contributors: {
         type: [ContributorSchema],
         required: true
+    },
+    Owner_id: {
+        type: String,
+        required: true
     }
 })
 
-module.exports = InventionSchema
+// module.exports = InventionSchema
+module.exports = mongoose.model('Inventions', InventionSchema)

@@ -2,59 +2,70 @@
 
 const {ASSETS_FOLDER_PATH} = require('../../configs/_server')
 const User = require('../../models/User')
+const Invention = require('../../models/Invention')
 const fs = require('fs')
 
 
 // Create (or add) a new invention
-const createInvention = async (Username, data) => {
+const createInvention = async (user_id, data) => {
 
-    const user = await User.findOne({Username})
+    const user = await User.findById(user_id)
+    const existing_invention = await Invention.findOne({
+        Owner_id: user_id,
+        Name: data.Name
+    })
     // check if an equaly named project already exists
-    if (user.Inventions.findIndex(inv => inv.Name === data.Name) !== -1) return false
+    if (existing_invention) return false
 
-    // push new invention
-    user.Inventions.push(data)
+    // create & push new invention
+    const new_invention = await new Invention(data).save()
+    user.Inventions.push(new_invention._id.toString())
     const result = await user.save()
-    return result.Inventions[result.Inventions.length - 1] ?? false
+    // return new invention
+    return new_invention ?? false
 }
 
 
 // Update invention data
-const updateInvention = async (Username, project_id, data) => {
+const updateInvention = async (user_id, project_id, data) => {
 
-    const user = await User.findOne({Username})
-    // find invention index by id
-    const index = user.Inventions.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return {status: false, data: 'INV_NOT_FOUND'}
+    const invention = await Invention.findById(project_id)
+
+    // search for inventnions with the same name
+    const existing_invention = await Invention.findOne({
+        Owner_id: user_id,
+        Name: data.Name
+    })
+    if (!invention) return {status: false, data: 'INV_NOT_FOUND'}
     
     // check name (must be unique)
-    if (data.Name && user.Inventions.findIndex(inv => inv.Name === data.Name) !== -1) return {status: false, data: 'NAME_OCCUPIED'}
+    if (data.Name && existing_invention) return {status: false, data: 'NAME_OCCUPIED'}
     
     // assign new properties to invention
     Object.entries(data).map(prop => {
         if (data[prop[0]] !== undefined)
-            user.Inventions[index][prop[0]] = prop[1]
+            invention[prop[0]] = prop[1]
     })
 
     // save new invention
-    const result = await user.save()
+    const result = await invention.save()
     return {
         status: result ? true : false, 
-        data: result.Inventions[index]
+        data: result
     }
 }
 
 
 // Delete an existing invention
-const deleteInvention = async (Username, project_id) => {
+const deleteInvention = async (user_id, project_id) => {
     
-    const user = await User.findOne({Username})
-    // find invention index by id
-    const index = user.Inventions.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return {status: false, data: 'INV_NOT_FOUND'}
+    const user = await User.findById(user_id)
+    const invention = Invention.findById(project_id)
+
+    if (!invention) return {status: false, data: 'INV_NOT_FOUND'}
 
     // delete invention assets
-    user.Inventions[index].Assets.map(({path}) => {
+    invention.Assets.map(({path}) => {
         try {
             fs.unlinkSync(`${ASSETS_FOLDER_PATH}/${path}`)
         }
@@ -64,9 +75,12 @@ const deleteInvention = async (Username, project_id) => {
     })
 
     // delete invention
-    user.Inventions = user.Inventions.filter(inv => inv._id.toString() !== project_id)
-    const result = await user.save()
-    return {status: result ? true : false}
+    user.Inventions = user.Inventions.filter(inv => inv !== project_id.toString())
+    
+    const invention_result = await Invention.findByIdAndDelete(project_id)
+    const user_result = await user.save()
+
+    return {status: invention_result && user_result ? true : false}
 }
 
 
@@ -77,15 +91,15 @@ const updateContributorsList = async (user_id, project_id, action, dest_user_id,
     if (!user) return {status: false, reason: 'USER_NOT_FOUND'}
     
     // find associated invention index
-    const inventionIndex = user.Inventions.findIndex(inv => inv._id.toString() === project_id)
-    if (inventionIndex === -1) return {status: false, reason: 'INV_NOT_FOUND'}
+    const invention = await Invention.findById(project_id)
+    if (!invention) return {status: false, reason: 'INV_NOT_FOUND'}
 
     // update contributors
-    const Contributors = user.Inventions[inventionIndex].Contributors
-    if (action === 'add') {
-        if (user.Inventions[inventionIndex].Contributors.findIndex(({user_id}) => user_id === dest_user_id) !== -1)
+    if (action === 'add') 
+    {
+        if (invention.Contributors.findIndex(({user_id}) => user_id === dest_user_id) !== -1)
             return {status: false, reason: 'CONTRIBUTOR_EXISTS'}
-        user.Inventions[inventionIndex].Contributors.push(data)
+        invention.Contributors.push(data)
         // push project to dest_user's shared_projects
         await User.findByIdAndUpdate(
             dest_user_id, 
@@ -93,9 +107,9 @@ const updateContributorsList = async (user_id, project_id, action, dest_user_id,
         )
     }
     else {
-        if (user.Inventions[inventionIndex].Contributors.findIndex(({user_id}) => user_id === dest_user_id) === -1)
+        if (invention.Contributors.findIndex(({user_id}) => user_id === dest_user_id) === -1)
             return {status: false, reason: 'CONTRIBUTOR_NOT_FOUND'}
-        user.Inventions[inventionIndex].Contributors = Contributors.filter(c => c.user_id !== dest_user_id)
+        invention.Contributors = invention.Contributors.filter(c => c.user_id !== dest_user_id)
         // remove project from dest_user's shared_projects
         await User.findByIdAndUpdate(
             dest_user_id, 
@@ -103,8 +117,8 @@ const updateContributorsList = async (user_id, project_id, action, dest_user_id,
         )
     }
 
-    const result = await user.save()
-    return {status: result ? true:false, data: result.Inventions[inventionIndex].Contributors}
+    const result = await invention.save()
+    return {status: result ? true : false, data: result.Contributors}
 }
 
 
@@ -112,18 +126,10 @@ const getInventionsByRegion = async (Regions, limit) => {
 
     // TODO: finish algorithm
 
-    let inventions = []
-    const result = await User.find({
-        Region: Regions,
-        Inventions: {$elemMatch: {Private: false}}
+    const inventions = await Invention.find({
+        Private: false,
+        // -- other search attributes
     }).limit(limit)
-
-    result.map(user => {
-        user.Inventions.map(inv => {
-            if (!inv.Private)
-                inventions.push({[user.Username]: inv})
-        })
-    })
 
     const shuffled = inventions.sort(() => 0.5 - Math.random()).slice(0, limit)
     return shuffled

@@ -1,4 +1,5 @@
 const { ASSETS_FOLDER_PATH } = require('../configs/_server')
+const Invention = require('../models/Invention')
 // handlers
 const requestHandler = require('../utils/requests/assets')
 const responseHandler = require('../utils/responses')
@@ -16,7 +17,7 @@ const uploadAsset = async (req, res) => {
     // extract file data
     const { path, originalname } = file
 
-    const result = await requestHandler.uploadAsset(user.Username, project_id, {path, originalName: originalname})
+    const result = await requestHandler.uploadAsset(project_id, {path, originalName: originalname})
     if (result) responseHandler.fileUploadedSuccessfully(res)
     else responseHandler.failedUploadingFile(res)
 }
@@ -27,7 +28,7 @@ const deleteAsset = async (req, res) => {
     // extract req data
     const { user } = req, { project_id, asset_id } = req.params
 
-    const result = await requestHandler.deleteAsset(user.Username, project_id, asset_id)
+    const result = await requestHandler.deleteAsset(project_id, asset_id)
     if (result) responseHandler.fileDeletedSuccessfully(res)
     else responseHandler.fileNotfound(res)
 }
@@ -38,16 +39,16 @@ const sendAsset = async (req, res) => {
     // extract req data
     const {project_id, filename} = req.params, {user} = req
 
-    // find associated invention index
-    const index = user.Inventions.findIndex(inv => inv._id.toString() === project_id)
-    if (index === -1) return responseHandler.inventionNotFound(res)
+    // find associated invention
+    const invention = await Invention.findById(project_id)
+    if (!invention) return responseHandler.inventionNotFound(res)
 
     // validate filename
     if (!/^[0-9.a-zA-Z]+$/.test(filename))
         return responseHandler.fileNotfound(res)
 
     // check if user's invention stores the given asset filename
-    if (user.Inventions[index].Assets.findIndex(a => a.path === filename) === -1) return responseHandler.fileNotfound(res)
+    if (invention.Assets.findIndex(a => a.path === filename) === -1) return responseHandler.fileNotfound(res)
     else responseHandler.fileFoundAndTransfered(res, `${ASSETS_FOLDER_PATH}/${filename}`)
 }
 
