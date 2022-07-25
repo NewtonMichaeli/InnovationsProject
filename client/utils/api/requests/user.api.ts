@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { SERVER_URI__FOLLOW_USER, SERVER_URI__GET_INVENTION_DATA, SERVER_URI__GET_USER_DATA, SERVER_URI__LOGIN, SERVER_URI__REGISTER, SERVER_URI__SEARCH_BY_QUERY } from '../../../configs/_server'
+import { SERVER_URI__FOLLOW_USER, SERVER_URI__GET_INVENTION_DATA, SERVER_URI__GET_USER_DATA, SERVER_URI__LOGIN, SERVER_URI__REGISTER, SERVER_URI__SEARCH_BY_QUERY, SERVER_URI__UPDATE_USER } from '../../../configs/_server'
 // types
-import { fetchUserData_type, follow_type, register_type, searchByQuery_type, login_type, fetchInventionData_type } from '../types/user.types'
+import { fetchUserData_type, follow_type, register_type, searchByQuery_type, login_type, fetchInventionData_type, updateUser_type } from '../types/user.types'
 
 // -- create axios instance with default configs
 const axiosRequest = axios.create({
@@ -49,6 +49,16 @@ export const login: login_type = async (data, headers) => {
 export const register: register_type = async (data, headers) => {
     const res = await axiosRequest.post(
         SERVER_URI__REGISTER(),
+        data,
+        headers
+    )
+    return res.data
+}
+
+// userAPI: send update data
+export const updateUser: updateUser_type = async (data, headers) => {
+    const res = await axiosRequest.patch(
+        SERVER_URI__UPDATE_USER(),
         data,
         headers
     )

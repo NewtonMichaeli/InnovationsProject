@@ -1,7 +1,7 @@
 // user reducer cases
 
 import { WritableDraft } from "immer/dist/internal"
-import { fetchUserData, follow, login, register } from "./user.actions"
+import { fetchUserData, follow, login, register, updateUser } from "./user.actions"
 import { UserStateType } from "./user.types"
 
 
@@ -62,6 +62,20 @@ export const registerCases = {
         state.isLoading = false
         state.User = payload
         state.isAuthenticated = true
+    },
+    rejected: (state: WritableUserStateType) => {
+        state.isLoading = false
+    }
+}
+
+
+// update-user cases:
+
+export const updateUserCases = {
+    pending: loginCases.pending,
+    fulfilled: (state: WritableUserStateType, { payload }: ReturnType<typeof updateUser['fulfilled']>) => {
+        state.isLoading = false
+        state.User = payload
     },
     rejected: (state: WritableUserStateType) => {
         state.isLoading = false

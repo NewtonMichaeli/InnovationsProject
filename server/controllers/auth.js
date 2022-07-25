@@ -109,10 +109,13 @@ const updateUserData = async (req, res) => {
     const result = await authRequests.updateUserData(user.Username, new_data)
     if (result.status) {
         // -- generate new token and send it along with thenew data
-        const new_token = signNewUserToken(result.data)
-        return responseHandler.userUpdatedSuccessfully(res, result.data, new_token)
+        return responseHandler.userUpdatedSuccessfully(
+            res, 
+            await getDetailedUser(result.data, false), 
+            signNewUserToken(result.data)
+        )
     }
-    else responseHandler.failedUpdatingUser(res, result.data)
+    else responseHandler.failedUpdatingUser(res)
 }
 
 

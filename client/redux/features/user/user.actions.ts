@@ -31,5 +31,14 @@ export const register = createAsyncThunk('user/register', async (data: register_
     return res.data
 })
 
+export type updateUser__type =
+    { Username?: string, Profile_Pic?: number, Fname?: string, Sname?: string, Email?: string, Region?: REGIONS_ENUM }
+// async action: login
+export const updateUser = createAsyncThunk('user/update', async (data: updateUser__type) => {
+    if (Object.keys(data).length === 0) throw Error("Nothing to update")
+    const res = await userAPI.updateUser(data)
+    return res.data.new_data
+})
+
 // action: sign-out
 export const signout = createAction('user/signout')

@@ -1,71 +1,97 @@
 import Head from 'next/head'
-import {FC, useState} from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+// types
+import {FC, FormEvent, useState} from 'react'
+import { CLIENT_URIS } from '../../configs/_client'
 // redux
-import { useAppSelector } from '../../hooks/redux'
-import { userSelector } from '../../redux/features/user'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { userActions, userSelector } from '../../redux/features/user'
+// icons
+import { FiEdit2 } from 'react-icons/fi'
 // components
-import ListFollowers from '../../components/profile/list-followers'
-import ListInventions from '../../components/profile/list-inventions'
-import ListFollowings from '../../components/profile/list-following'
 import GoBack from '../../components/shared/GoBack'
 // styles
-import styles from '../../styles/pages/profile.module.css'
-
-// display status for each data item - default is false
-const defaulDatatShowStatus = {followers: false, inventions: false, following: false}
+import styles from '../../styles/pages/editProfile.module.css'
+import { updateUserInputHandler } from '../../utils/forms/update.form'
 
 
 const EditProfile: FC = () => {
     // states
-    const { User } = useAppSelector(userSelector)
-    // -- has redirected from explore page?:
-    const { explored } = useRouter().query
-    // display status for each data item - default is false
-    const [showDataItem, setShowDataItem] = useState({...defaulDatatShowStatus})
+    const dispatch = useAppDispatch()
+    const { push } = useRouter()
+    const { User, isLoading, isAuthenticated } = useAppSelector(userSelector)
     // handlers
-    const changeShowDataItem = (type: keyof typeof showDataItem, status: boolean) => {
-        // shorthand for controlling a single key each time
-        // show/hide specified data-item-key while allowing for only 1 key to be true
-        setShowDataItem({ ...defaulDatatShowStatus, [type]: status })
+    const updateUserHandler = (e: FormEvent<HTMLFormElement>) => {
+        try {
+            const data = updateUserInputHandler(e, User)
+            dispatch(userActions.updateUser(data))
+            push(CLIENT_URIS.PROFILE)
+        }
+        catch (err) {
+            // temp - push error notification
+            alert(err)
+        }
     }
 
-    return (
-        <main className={styles["Profile"]}>
+    // -- wait for authorization status
+    if (isLoading) return <></>
+    // -- wait for authorization status
+    else if (isAuthenticated) return (
+        <main className={styles["EditProfile"]}>
             <Head>
-                <title>Edit Profile - Innovation</title>
+                <title>Edit profile - Innovation</title>
             </Head>
-            {/* go-back button - appears when redirected from explore page */}
-            {explored && <GoBack />}
-            {/* edit profile icon button */}
-            <img className={styles["edit-profile-btn"]} src="/edit-profile.svg" alt="Edit profile" title="Edit profile" />
-            {/* profile header section */}
-            <section className={styles["profile-header"]}>
-                <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />
-                <h1 className={styles['fullname']}>{User.Fname} {User.Sname}</h1>
-                <h4 className={styles["username-x-email"]}>{User.Username} • {User.Email}</h4>
-                <button className={styles["btn-edit-profile"]}>Edit profile</button>
-            </section>
-            {/* profile data section */}
-            <section className={styles["user-data"]}>
-                <div className={styles["data-item"]} onClick={() => changeShowDataItem('followers', true)}>
-                    <h1>{User.Followers.length}</h1>
-                    <ListFollowers show={showDataItem.followers} close={() => changeShowDataItem('followers', false)} UserData={User} />
-                    <h5>Followers</h5>
+            <GoBack />
+            <form className={styles["EditProfile-form"]} onSubmit={updateUserHandler}>
+                <div className={styles["input-img-container"]}>
+                    <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt="Profile Picture" />
+                    <div className={styles["change-profile-pic"]} title="Change profile picture">
+                        <FiEdit2 size={20} className={styles['icon']} />
+                    </div>
                 </div>
-                <div className={styles["data-item"]} onClick={() => changeShowDataItem('inventions', true)}>
-                    <h1>{User.Inventions.length + User.Shared_Projects.length}</h1>
-                    <ListInventions show={showDataItem.inventions} close={() => changeShowDataItem('inventions', false)} UserData={User} />
-                    <h5>Inventions</h5>
+                <div className={styles["form-body"]}>
+                    <div className={styles["input-name-text-container"]}>
+                        <div className={styles["input-text-container"]}>
+                            <label htmlFor="fname">First name</label>
+                            <input type="text" name='Fname' id='fname' defaultValue={User.Fname} />
+                        </div>
+                        <div className={styles["input-text-container"]}>
+                            <label htmlFor="fname">Last name</label>
+                            <input type="text" name='Sname' id='sname' defaultValue={User.Sname} />
+                        </div>
+                    </div>
+                    <div className={styles["input-text-container"]}>
+                        <label htmlFor="username">Username</label>
+                        <input type="text" name='Username' id='username' defaultValue={User.Username} />
+                    </div>
+                    <div className={styles["input-text-container"]}>
+                        <label htmlFor="email">Email</label>
+                        <input type="text" name='Email' id='email' defaultValue={User.Email} />
+                    </div>
+                    {/* <div className={styles["input-text-container"]}>
+                        <label htmlFor="password">Password</label>
+                        <input type="password" name='Password' id='password' />
+                    </div> */}
+                    <div className={styles["input-text-container"]}>
+                        <label htmlFor="password">Region</label>
+                        <select name="Region" id="region" defaultValue={User.Region}>
+                            <option value="Asia">Asia</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Americas">Americas</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Africa">Africa</option>
+                        </select>
+                    </div>
                 </div>
-                <div className={styles["data-item"]} onClick={() => changeShowDataItem('following', true)}>
-                    <h1>{User.Following.length}</h1>
-                    <ListFollowings show={showDataItem.following} close={() => changeShowDataItem('following', false)} UserData={User} />
-                    <h5>Following</h5>
+                <div className={styles["form-footer"]}>
+                    <input type="submit" value="UPDATE" />
                 </div>
-            </section>
+            </form>
         </main>
     )
+    // -- avoid EditProfile when already authorized
+    else push(CLIENT_URIS.LOGIN)
 }
 
 export default EditProfile

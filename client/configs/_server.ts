@@ -28,8 +28,11 @@ export const SERVER_URI__SEARCH_BY_QUERY = (query: string, limit: number = 20) =
 // login
 export const SERVER_URI__LOGIN = () => SERVER_AUTH_API + '/signin'
 
-// login
+// register
 export const SERVER_URI__REGISTER = () => SERVER_AUTH_API + '/signup'
+
+// register
+export const SERVER_URI__UPDATE_USER = () => SERVER_AUTH_API
 
 // Get authenticated user data
 export const SERVER_URI__GET_INVENTION_DATA = (project_id?: string) => `${SERVER_INVENTION_API}/${project_id ?? ''}`

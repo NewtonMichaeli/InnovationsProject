@@ -22,7 +22,7 @@ const Profile: FC = () => {
     // states
     const { User } = useAppSelector(userSelector)
     // -- has redirected from explore page?:
-    const { explored } = useRouter().query
+    const { push, query: {explored} } = useRouter()
     // display status for each data item - default is false
     const [showDataItem, setShowDataItem] = useState({...defaulDatatShowStatus})
     // handlers
@@ -48,7 +48,7 @@ const Profile: FC = () => {
                 <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />
                 <h1 className={styles['fullname']}>{User.Fname} {User.Sname}</h1>
                 <h4 className={styles["username-x-email"]}>{User.Username} • {User.Email}</h4>
-                <button className={styles["btn-edit-profile"]}>Edit profile</button>
+                <button className={styles["btn-edit-profile"]} onClick={() => push(CLIENT_URIS.EDIT_PROFILE)}>Edit profile</button>
             </section>
             {/* profile data section */}
             <section className={styles["user-data"]}>
