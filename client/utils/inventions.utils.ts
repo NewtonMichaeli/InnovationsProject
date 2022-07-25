@@ -1,6 +1,16 @@
 // utils for inventions
 
-import { UserType } from "../redux/features/user/user.types"
+import { InventionType, SharedProjectsResponseType, UserType } from "../redux/features/user/user.types"
+
+
+/**
+ * @param User (typeof UserType)
+ * @param Inventions (typeof InventionType[])
+ * @returns InventionType[] => SharedProjectResponseType[]
+ */
+export const formatInventionsToSharedProjects = (User: UserType): SharedProjectsResponseType[] =>
+    User.Inventions.map(inv =>
+        ({ CreatorData: { Username: User.Username, _id: User._id, Profile_Pic: User.Profile_Pic }, Project: inv }))
 
 
 /**
@@ -8,10 +18,9 @@ import { UserType } from "../redux/features/user/user.types"
  * @param User (typeof UserType)
  * @returns Array containing both SharedProjects and Inventions formatted as <SharedProjectsResponseType>
  */
-export const getSharedProjectsFormattedInventions = (User: UserType) => User ? [
+export const getSharedProjectsFormattedInventions = (User: UserType): SharedProjectsResponseType[] => User ? [
     ...User.Shared_Projects,
-    ...User.Inventions.map(inv =>
-        ({ CreatorData: { Username: User.Username, _id: User._id, Profile_Pic: User.Profile_Pic }, Project: inv }))
+    ...formatInventionsToSharedProjects(User)
 ] : []
 
 
@@ -23,13 +32,13 @@ export const getSharedProjectsFormattedInventions = (User: UserType) => User ? [
  */
 export const findInvention = (User: UserType, project_id: string) => {
     // invention owner - default is current one
-    let inventionOwner = { Username: User?.Username, Profile_Pic: User?.Profile_Pic }
+    let inventionOwner = { Username: User?.Username, Profile_Pic: User?.Profile_Pic, _id: User?._id }
     // find invention
     let current_invention = User?.Inventions.find(inv => inv._id === project_id) ??     // search invention in user-inventions-list
         User?.Shared_Projects.find(proj => {                                    // user doesn't own the invention - search in shared-projects
             // -- set invention creator username to it's owner
             if (proj.Project._id === project_id) {
-                inventionOwner = { Username: proj.CreatorData.Username, Profile_Pic: proj.CreatorData.Profile_Pic }
+                inventionOwner = proj.CreatorData
                 return true
             }
             return false
@@ -37,7 +46,7 @@ export const findInvention = (User: UserType, project_id: string) => {
 
     // return value
     return {
-        owner: inventionOwner,
-        data: current_invention
+        CreatorData: inventionOwner,
+        Project: current_invention
     }
 }

@@ -98,9 +98,14 @@ const updateFollowingList = async (Username, action, user_id) => {
 const searchWithQuery = async (query, limit) => {
 
     // search followings
-    const regex = {$regex: query}
+    const regex = {$regex: new RegExp(query, 'i')}
     const result = await User
-        .find({$or: [{Username: regex}, {Email: regex}, {Fname: regex}, {Sname: regex}]})
+        .find({$or: [
+            {Username: regex}, 
+            {Email: regex}, 
+            {Fname: regex}, 
+            {Sname: regex}
+        ]})
         .limit(limit)
         .select(MINIFIED_USER_SELECT_VALUES)
     

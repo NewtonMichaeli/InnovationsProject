@@ -1,33 +1,21 @@
 import {FC, useState} from 'react'
+// redux
 import { useAppSelector } from '../../hooks/redux'
 import { userSelector } from '../../redux/features/user'
+// types
+import { InventionType, SharedProjectsResponseType, UserType } from '../../redux/features/user/user.types'
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
 import { AiOutlineSearch } from 'react-icons/ai'
+// components
+import GoBack from '../shared/GoBack'
+import InventionCards from './inventions/Cards'
 // styles
 import styles from '../../styles/components/profile/list-inventions.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
-import { InventionType, SharedProjectsResponseType, UserType } from '../../redux/features/user/user.types'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
-
-
-const InventionItem: FC<{
-    Invention: InventionType | SharedProjectsResponseType
-}> = ({Invention}) => {
-
-    if ('CreatorData' in Invention) return (
-        <div className={styles["InventionItem"]}>
-            {Invention.Project.Name}
-        </div>
-    )
-    else return (
-        <div className={styles["InventionItem"]}>
-            {Invention.Name}
-        </div>
-    )
-}
 
 
 const ListInventions: FC<{
@@ -61,24 +49,32 @@ const ListInventions: FC<{
             {/* absolute container frame */}
             <div className={styles["list-inventions"]}>
                 {/* content inside container */}
+                <GoBack onClick={onClose} />
                 <div className={styles["content"]}>
-                    <div className={styles["content-header"]}>
-                        <div className={styles["profile-pic"]} onClick={onClose} title="Leave Inventions tab">
-                            <BsArrowLeftShort size={36} />
-                            <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
+                    {/* inventions */}
+                    <section className={styles["inventions"]}>
+                        <div className={styles["section-header"]}>
+                            <div className={styles["title"]}>
+                                <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
+                                <h2 className={styles["username"]}>{UserData.Username}'s Inventions</h2>
+                            </div>
+                            <code className={styles["select-show-as"]}>Cards</code>
                         </div>
-                        <div className={styles['input-search-inventions']}>
-                            <AiOutlineSearch className={styles['icon-search']} size={18} />
-                            <input type="text" placeholder={`Search inventions (${UserData.Inventions.length})`} 
-                                onChange={({target}) => changeSearch(target.value.toLowerCase())} />
+                        {/* render inventions as cards */}
+                        <InventionCards Inventions={UserData.Inventions} />
+                    </section>
+                    {/* shared projects */}
+                    <section className={styles["shared-inventions"]}>
+                        <div className={styles["section-header"]}>
+                            <div className={styles["title"]}>
+                                <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
+                                <h2 className={styles["username"]}>{UserData.Username}'s Shared Inventions</h2>
+                            </div>
+                            <code className={styles["select-show-as"]}>Cards</code>
                         </div>
-                    </div>
-                    <div className={styles["content-inventions-list"]}>
-                        <h4 className={styles["content-inventions-list-title"]}>Personal projects:</h4>
-                        {UserData.Inventions.filter(filterInventions).map(inv => <InventionItem key={inv._id} Invention={inv} />)}
-                        <h4 className={styles["content-inventions-list-title"]}>Shared projects:</h4>
-                        {UserData.Shared_Projects.filter(filterInventions).map(inv => <InventionItem key={inv.Project._id} Invention={inv} />)}
-                    </div>
+                        {/* render inventions as cards */}
+                        <InventionCards Inventions={UserData.Shared_Projects.map(inv => inv.Project)} />
+                    </section>
                 </div>
             </div>
         </div>

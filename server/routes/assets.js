@@ -14,7 +14,7 @@ const upload = require('../utils/uploads-setup')
 // @route   GET /api/inventions/assets/:username/:project_id/:filename/
 // @desc    Endpoint for sending back assets
 router.get(
-    '/:user_id/:project_id/:filename',
+    '/:project_id/:filename',
     checkValidObjectIdParams,
     authInventionPrivacy, 
     assetsController.sendAsset
@@ -23,7 +23,7 @@ router.get(
 // @route   POST /api/inventions/assets/:username/:project_id/
 // @desc    Endpoint for uploading assets associated with an invention
 router.post(
-    '/:user_id/:project_id',
+    '/:project_id',
     checkValidObjectIdParams,
     authInventionPrivacy,
     allowPrivileges(PRIVILEGES.CREATOR, PRIVILEGES.CONTRIBUTOR),
@@ -35,7 +35,7 @@ router.post(
 // @route   DELETE /api/inventions/assets/:username/:project_id/:asset_id/
 // @desc    Endpoint for deleting assets associated with an invention
 router.delete(
-    '/:user_id/:project_id/:asset_id',
+    '/:project_id/:asset_id',
     checkValidObjectIdParams,
     authInventionPrivacy,
     allowPrivileges(PRIVILEGES.CREATOR, PRIVILEGES.CONTRIBUTOR),

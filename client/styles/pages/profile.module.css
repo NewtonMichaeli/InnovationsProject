@@ -14,6 +14,15 @@
     padding-bottom: 2rem;
 }
 
+/* edit profile button */
+.Profile .edit-profile-btn {
+    position: absolute;
+    right: 2rem;
+    top: 1.4rem;
+    width: 3rem;
+    cursor: pointer;
+}
+
 /* profile header */
 .Profile .profile-header {
     width: max-content;

@@ -21,13 +21,12 @@ const allowedFileExtensions = {
 // Output: associated media tag for file rendering (or none)
 const RenderFile: FC<{
     file: AssetType,
-    username: string,
     project_id: string
-}> = ({username, project_id, file}) => {
+}> = ({project_id, file}) => {
 
     // states
     const {path: filename, originalName} = file
-    const file_ext = filename.split('.').at(-1)
+    const file_ext = filename.split('.').slice(-1)[0]
     const [hasError, setHasError] = useState(file_ext === filename)
     // methods
     const onError = () => setHasError(true)
@@ -48,14 +47,14 @@ const RenderFile: FC<{
     else if (allowedFileExtensions._image.includes(file_ext)) 
         return <img 
             className={styles['image-asset']} 
-            src={SERVER_URI__GET_ASSET(username, project_id, filename)} 
+            src={SERVER_URI__GET_ASSET(project_id, filename)} 
             alt={filename} onError={onError} />
 
     // -- check video render capability
     else if (allowedFileExtensions._video.includes(file_ext)) 
         return <video 
             className={styles['video-asset']} 
-            src={SERVER_URI__GET_ASSET(username, project_id, filename)} 
+            src={SERVER_URI__GET_ASSET(project_id, filename)} 
             onError={onError} />
 
     // -- non of the above formats are supported for rendering html media

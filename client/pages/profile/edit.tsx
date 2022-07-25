@@ -11,14 +11,12 @@ import ListFollowings from '../../components/profile/list-following'
 import GoBack from '../../components/shared/GoBack'
 // styles
 import styles from '../../styles/pages/profile.module.css'
-import Link from 'next/link'
-import { CLIENT_URIS } from '../../configs/_client'
 
 // display status for each data item - default is false
 const defaulDatatShowStatus = {followers: false, inventions: false, following: false}
 
 
-const Profile: FC = () => {
+const EditProfile: FC = () => {
     // states
     const { User } = useAppSelector(userSelector)
     // -- has redirected from explore page?:
@@ -35,14 +33,12 @@ const Profile: FC = () => {
     return (
         <main className={styles["Profile"]}>
             <Head>
-                <title>My Profile - Innovation</title>
+                <title>Edit Profile - Innovation</title>
             </Head>
             {/* go-back button - appears when redirected from explore page */}
             {explored && <GoBack />}
             {/* edit profile icon button */}
-            <Link href={CLIENT_URIS.EDIT_PROFILE}>
-                <img className={styles["edit-profile-btn"]} src="/edit-profile.svg" alt="Edit profile" title="Edit profile" />
-            </Link>
+            <img className={styles["edit-profile-btn"]} src="/edit-profile.svg" alt="Edit profile" title="Edit profile" />
             {/* profile header section */}
             <section className={styles["profile-header"]}>
                 <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />
@@ -72,4 +68,4 @@ const Profile: FC = () => {
     )
 }
 
-export default Profile
+export default EditProfile

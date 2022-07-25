@@ -11,7 +11,10 @@ import { getSharedProjectsFormattedInventions } from '../../utils/inventions.uti
 import Project from '../../components/my-projects/Project'
 // styles
 import styles from '../../styles/pages/myProjects.module.css'
+import { getModuleStylesMethod } from '../../utils/styles.utils'
 
+// multiple styles getter util
+const getStyles = getModuleStylesMethod(styles)
 
 const Index: FC = () => {
 
@@ -38,7 +41,7 @@ const Index: FC = () => {
                 </button>
             </div>
             {/* projects list */}
-            <div className={styles["my-projects-list"]}>
+            <div className={getStyles(`my-projects-list ${inventions.length === 1 ? 'single-invention':''}`)}>
                 <RenderInventions />
             </div>
         </main>

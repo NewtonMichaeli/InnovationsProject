@@ -39,7 +39,7 @@ export const MenuLinks_UnauthorizedUser: FC = () => {
             </a>
         </Link>
         <Link href={CLIENT_URIS.EXPLORE}>
-            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.EXPLORE, CLIENT_URIS._USER('')]) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.EXPLORE, CLIENT_URIS._USER(''), CLIENT_URIS._INVENTION('')]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Explore</span>
                 <AiOutlineSearch className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />
@@ -71,7 +71,7 @@ export const MenuLinks_AuthorizedUser: FC = () => {
             </a>
         </Link>
         <Link href={CLIENT_URIS.EXPLORE}>
-            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.EXPLORE, CLIENT_URIS._USER('')]) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.EXPLORE, CLIENT_URIS._USER(''), CLIENT_URIS._INVENTION('')]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Explore</span>
                 <AiOutlineSearch className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />

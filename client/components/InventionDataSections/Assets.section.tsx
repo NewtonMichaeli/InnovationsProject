@@ -31,9 +31,8 @@ const CounterCell: FC<{assetsLeft: number}> = ({assetsLeft}) => (
 // Output: A grid of assets (4 at most)
 const AssetsGrid: FC<{
     Assets: AssetType[],
-    username: string,
     project_id: string
-}> = ({Assets, username, project_id}) => {
+}> = ({Assets, project_id}) => {
 
     // render assets evenly in a grid container:
     switch (Assets.length) {
@@ -44,13 +43,13 @@ const AssetsGrid: FC<{
         case 3:
         case 4: return <>
             {Assets.slice(0, Assets.length).map((f,i) => 
-                <RenderFile key={i} username={username} project_id={project_id} file={f} />)}
+                <RenderFile key={i} project_id={project_id} file={f} />)}
             <EmptyCells amount={4 - Assets.length} />
         </>
         // case 5+: show first 4 assets and indicate the remaining amount of assets
         default: return <>
             {Assets.slice(0, 4).map((f, i) => 
-                <RenderFile key={i} username={username} project_id={project_id} file={f} />)}
+                <RenderFile key={i} project_id={project_id} file={f} />)}
             <CounterCell assetsLeft={Assets.length - 3} />
         </>
     }
@@ -59,9 +58,8 @@ const AssetsGrid: FC<{
 
 const AssetsSection: FC<{
     Assets: AssetType[],
-    username: string,
     project_id: string
-}> = ({Assets, project_id, username}) => {
+}> = ({Assets, project_id}) => {
 
     return (
         <section className={styles["assets-section"]}>
@@ -70,7 +68,7 @@ const AssetsSection: FC<{
                 <FiEdit3 className={styles['edit']} size={20} />
             </div>
             <div className={styles["content"]}>
-                <AssetsGrid Assets={Assets} project_id={project_id} username={username} />
+                <AssetsGrid Assets={Assets} project_id={project_id} />
                 {/* watch button (if at least 1 asset exists) */}
                 {
                     Assets.length

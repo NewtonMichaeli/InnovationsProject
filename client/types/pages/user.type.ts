@@ -1,4 +1,4 @@
-// types for users page
+// types for user page
 
 import { UserType } from "../../redux/features/user/user.types"
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'

@@ -9,14 +9,14 @@ const { AUTH_TOKEN, PRIVILEGES } = require('../configs/_server')
 // Middleware requires the following url-params: username, project_id
 const authInventionPrivacy = async (req, res, next) => {
 
-    const { user_id, project_id } = req.params
+    const { project_id } = req.params
 
-    const user = await User.findById(user_id)       // -- dest user
-    if (!user) return responseHandler.userNotFound(res)
-    
     // find associated invention
     const invention = await Invention.findById(project_id)
     if (!invention) return responseHandler.inventionNotFound(res)
+    
+    const user = await User.findById(invention.Owner_id)       // -- owner user
+    if (!user) return responseHandler.userNotFound(res)
     
     // check token
     const token = req.cookies[AUTH_TOKEN] ?? req.header(AUTH_TOKEN)

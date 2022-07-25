@@ -7,11 +7,17 @@ import { BiArrowBack } from 'react-icons/bi'
 import styles from '../../styles/components/shared/goBack.module.css'
 
 
-const GoBack: FC = () => {
+/**
+ * @param onclick (typeof Function -> custom go-back functionality. default is 'router().back()')
+ * @returns JSX component for going-back functionallity
+ */
+const GoBack: FC<{
+    onClick?: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => unknown
+}> = ({onClick}) => {
     // states
     const back = useRouter().back
     return (
-        <div className={styles["GoBack"]} title="Back" onClick={back}>
+        <div className={styles["GoBack"]} title="Back" onClick={onClick ?? back}>
             <BiArrowBack size={28} />
         </div>
     )

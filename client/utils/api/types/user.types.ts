@@ -1,6 +1,6 @@
 import { RequestWithHeaders } from "."
 import { login__type, register__type } from "../../../redux/features/user/user.actions"
-import { MinifiedUserType, UserType } from "../../../redux/features/user/user.types"
+import { MinifiedUserType, SharedProjectsResponseType, UserType } from "../../../redux/features/user/user.types"
 
 // types for api request utilities
 
@@ -27,4 +27,9 @@ export type login_type = RequestWithHeaders<
 export type register_type = RequestWithHeaders<
     register__type,
     { status: boolean, msg: string, data: UserType }
+>
+
+export type fetchInventionData_type = RequestWithHeaders<
+    { project_id?: string },
+    { status: boolean, msg: string, data: SharedProjectsResponseType, isMyProject?: boolean }
 >

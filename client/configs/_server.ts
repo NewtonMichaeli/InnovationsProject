@@ -14,8 +14,8 @@ export const SERVER_ASSETS_API = SERVER_INVENTION_API + '/assets'
 export const SERVER_URI__GET_USER_DATA = (username?: string) => `${SERVER_AUTH_API}/${username ?? ''}`
 
 // Get asset
-export const SERVER_URI__GET_ASSET = (username: string, project_id: string, filename: string) =>
-    SERVER_ASSETS_API + `/${username}/${project_id}/${filename}`
+export const SERVER_URI__GET_ASSET = (project_id: string, filename: string) =>
+    SERVER_ASSETS_API + `/${project_id}/${filename}`
 
 // Follow/Unfollow user
 export const SERVER_URI__FOLLOW_USER = (action: 'add' | 'remove', target_user: string) =>
@@ -30,3 +30,6 @@ export const SERVER_URI__LOGIN = () => SERVER_AUTH_API + '/signin'
 
 // login
 export const SERVER_URI__REGISTER = () => SERVER_AUTH_API + '/signup'
+
+// Get authenticated user data
+export const SERVER_URI__GET_INVENTION_DATA = (project_id?: string) => `${SERVER_INVENTION_API}/${project_id ?? ''}`

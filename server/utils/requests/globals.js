@@ -61,7 +61,6 @@ const getDetailedUser = async (user, isProtected) => {
         if (!invention) return
 
         // -- get detailed contributors
-        console.log('sps', inv.Contributors.map(c => c.user_id),)
         let Contributors = await _getDetailedUsersByArray(
             invention.Contributors.map(c => c.user_id),
             MINIFIED_USER_SELECT_VALUES
@@ -76,7 +75,7 @@ const getDetailedUser = async (user, isProtected) => {
                     Profile_Pic: user.Profile_Pic
                 },
                 Project: {
-                    ...invention,
+                    ...invention._doc,
                     Contributors
                 }
             })
@@ -103,4 +102,24 @@ const getDetailedUser = async (user, isProtected) => {
     }
 }
 
-module.exports = {getDetailedUser, _getDetailedUsersByArray}
+const getDetailedInvention = async (Invention) => {
+
+    const Owner = await User.findById(Invention.Owner_id)
+    return {
+        Project: {
+            ...Invention,
+            Contributors: await _getDetailedUsersByArray(
+                Invention.Contributors,
+                MINIFIED_USER_SELECT_VALUES
+            )
+        },
+        CreatorData: {
+            Username: Owner.Username,
+            _id: Owner._id,
+            Profile_Pic: Owner.Profile_Pic
+        }
+    }
+}
+
+
+module.exports = {getDetailedUser, _getDetailedUsersByArray, getDetailedInvention}

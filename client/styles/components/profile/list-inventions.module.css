@@ -22,7 +22,7 @@
     cursor: default;
     /* layout */
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     /* transition & init bvalues */
     transition: background-color .8s ease;
@@ -36,76 +36,59 @@
 
 /* content */
 .content {
-    width: 30rem;
-    height: 60%;
-    border: 3.5px solid #666;
-    border-radius: 1.85rem;
-    padding: 1rem;
-}
-/* content header */
-.content .content-header {
     width: 100%;
-    border-bottom: 1px solid #00000053;
-    height: 3.6rem;
-    /* layout */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 1rem;
-}
-.content-header .profile-pic {
     height: 100%;
-    cursor: pointer;
+    padding: 6rem 4rem;
     /* layout */
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: flex-start;
 }
-.content-header .profile-pic img {
-    height: 100%;
-    border-radius: 51%;
-}
-.content-header .input-search-inventions {
-    background-color: #ddd;
-    border: 2.5px solid #200E32;
-    height: 90%;
-    width: 58%;
-    border-radius: 1rem;
+
+/* section header */
+.section-header {
+    width: 100%;
+    height: 3rem;
     /* layout */
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 }
-.content-header .input-search-inventions .icon-search {
+.section-header .title {
     height: 100%;
-    width: 2.4rem;
-    padding: .35rem;
+    /* layout */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 1.5rem;
 }
-.content-header .input-search-inventions input {
-    background-color: transparent;
-    outline: none;
-    border: none;
+.section-header .title img {
     height: 100%;
-    width: calc(100% - 2.4rem);
-    padding: 0 .15rem;
-    padding-top: .15rem;
+    aspect-ratio: 1/1;
+    margin-right: .9rem;
+    border-radius: 51%;
 }
-/* content inventions-list */
-.content .content-inventions-list {
-    width: 100%;
-    height: calc(100% - 3.6rem);
-    padding-top: .3rem;
+.section-header .title .username {
+    font-weight: 400;
 }
-.content .content-inventions-list .content-inventions-list-title {
-    font-size: .9rem;
-    margin-left: .8rem;
-    margin-top: .5rem;
-    width: 100%;
-    font-weight: 500;
+.section-header .select-show-as {
+    font-weight: 600;
 }
-.content .content-inventions-list .InventionItem {
+.section-header .select-show-as::before {
+    content: "Show as: ";
+    font-weight: 400;
+}
+
+/* inventions & shared-inventions */
+.inventions,
+.shared-inventions {
     width: 100%;
-    height: 3.4rem;
-    background-color: lightcyan;
-    margin: .5rem 0;
+    height: max-content;
+    margin-bottom: 3rem;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
