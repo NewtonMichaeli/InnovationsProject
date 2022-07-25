@@ -104,20 +104,14 @@ const getDetailedUser = async (user, isProtected) => {
 
 const getDetailedInvention = async (Invention) => {
 
-    const Owner = await User.findById(Invention.Owner_id)
+    const { Username, _id, Profile_Pic } = await User.findById(Invention.Owner_id)
+    const Contributors = await _getDetailedUsersByArray(
+        Invention.Contributors.map(c => c.user_id),
+        MINIFIED_USER_SELECT_VALUES
+    )
     return {
-        Project: {
-            ...Invention,
-            Contributors: await _getDetailedUsersByArray(
-                Invention.Contributors,
-                MINIFIED_USER_SELECT_VALUES
-            )
-        },
-        CreatorData: {
-            Username: Owner.Username,
-            _id: Owner._id,
-            Profile_Pic: Owner.Profile_Pic
-        }
+        Project: {...Invention, Contributors},
+        CreatorData: {Username, _id, Profile_Pic}
     }
 }
 

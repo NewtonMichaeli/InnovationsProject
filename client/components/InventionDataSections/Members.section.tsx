@@ -16,7 +16,7 @@ const MembersSection: FC<{
     // states
     const { User } = useAppSelector(userSelector)
 
-    return (
+    if (User) return (
         <section className={styles["members-section"]}>
             <div className={styles["section-header"]}>
                 <h3>Members:</h3>
@@ -28,6 +28,7 @@ const MembersSection: FC<{
             </div>
         </section>
     )
+    else return <></>
 }
 
 export default MembersSection
