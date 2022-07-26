@@ -1,7 +1,7 @@
 // user reducer cases
 
 import { WritableDraft } from "immer/dist/internal"
-import { fetchUserData, follow, login, register, updateUser } from "./user.actions"
+import { createInvention, fetchUserData, follow, login, register, updateUser } from "./user.actions"
 import { UserStateType } from "./user.types"
 
 
@@ -89,5 +89,14 @@ export const signoutCases = {
     success: (state: WritableUserStateType) => {
         state.User = null
         state.isAuthenticated = false
+    }
+}
+
+
+// create-invention cases:
+
+export const createInventionCases = {
+    fulfilled: (state: WritableUserStateType, { payload }: ReturnType<typeof createInvention['fulfilled']>) => {
+        state.User.Inventions.push(payload)
     }
 }

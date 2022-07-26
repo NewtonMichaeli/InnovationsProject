@@ -14,9 +14,9 @@ const { MINIFIED_USER_SELECT_VALUES } = require('../configs/_database')
 // create a new invention
 const createInvention = async (req, res) => {
     // extract requested invention data
-    const {Name, Description, Tags, Roles, Status, Private, Contributors} = req.body, {user} = req
+    const {Name, Description, Tags, Roles, Occupations, Status, Private, Contributors} = req.body, {user} = req
     const InventionData = {
-        Name, Description, Tags, Roles, Status, Contributors, Private,
+        Name, Description, Tags, Roles, Occupations, Status, Contributors, Private,
         // -- predefined values
         Assets: [], DoC: new Date().getTime(), Owner_id: user._id.toString()
     }

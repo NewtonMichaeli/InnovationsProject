@@ -5,10 +5,10 @@ import { INVENTION_USER_ROLES } from '../../../configs/_client'
 import { useAppSelector } from '../../../hooks/redux'
 import { inventionSelector } from '../../../redux/features/invention'
 // styles
-import styles from '../../../styles/components/InventionsDataSection/aboutyou.module.css'
+import styles from '../../../styles/components/Invention/DataSections/aboutyou.module.css'
 
 
-const AboutYouSection: FC = () => {
+const AboutYou_DataSection: FC = () => {
     // states
     const { InventionUserRole } = useAppSelector(inventionSelector)
     const roles = ['DevOps', 'UI/X', 'Database Maintainance', 'Design Manager', 'Design']
@@ -40,4 +40,4 @@ const AboutYouSection: FC = () => {
     else return <></>
 }
 
-export default AboutYouSection
+export default AboutYou_DataSection

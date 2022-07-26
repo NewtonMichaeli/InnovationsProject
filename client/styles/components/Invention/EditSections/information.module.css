@@ -1,0 +1,55 @@
+/* styles for information-section @ invention-viewer */
+
+/* information section */
+.information-section {
+    width: 100%;
+    height: calc(100% - var(--navbar-height));
+    position: absolute;
+    background-color: var(--app-bg-color);
+    left: 0;
+    bottom: 0;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 3rem 4rem;
+}
+
+/* editor-header */
+.editor-header {
+    width: 100%;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4rem;
+    font-size: 1.4rem;
+    color: #222;
+}
+
+.data-group {
+    width: 100%;
+    margin-bottom: .7rem;
+}
+.data-group .label {
+    color: #222;
+    font-size: .8rem;
+    font-weight: 500;
+    height: 1rem;
+}
+/* .data-group input {
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.4em;
+} */
+
+
+/* animation */
+
+@keyframes slideDown {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

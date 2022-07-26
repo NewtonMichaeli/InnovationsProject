@@ -11,7 +11,7 @@ import { GrFormView } from 'react-icons/gr'
 import RenderFile from '../../shared/file-renderer'
 import EditSectionBtn from '../../shared/EditInventionSection'
 // styles
-import styles from '../../../styles/components/InventionsDataSection/assets.module.css'
+import styles from '../../../styles/components/Invention/DataSections/assets.module.css'
 
 
 // components:
@@ -62,7 +62,7 @@ const AssetsGrid: FC<{
 }
 
 
-const AssetsSection: FC = () => {
+const Assets_DataSection: FC = () => {
     // states
     const { Invention } = useAppSelector(inventionSelector)
 
@@ -86,4 +86,4 @@ const AssetsSection: FC = () => {
     )
 }
 
-export default AssetsSection
+export default Assets_DataSection

@@ -36,3 +36,6 @@ export const SERVER_URI__UPDATE_USER = () => SERVER_AUTH_API
 
 // Get authenticated user data
 export const SERVER_URI__GET_INVENTION_DATA = (project_id?: string) => `${SERVER_INVENTION_API}/${project_id ?? ''}`
+
+// Create new invention endpoint
+export const SERVER_URI__CREATE_INVENTION = () => SERVER_INVENTION_API

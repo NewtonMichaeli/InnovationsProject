@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { UserStateType } from './user.types'
-import { fetchUserData, follow, login, register, signout, updateUser } from './user.actions'
-import { fetchUserDataCases, followCases, loginCases, registerCases, signoutCases, updateUserCases } from './user.reducer-cases'
+import { fetchUserData, follow, login, register, signout, updateUser, createInvention } from './user.actions'
+import { createInventionCases, fetchUserDataCases, followCases, loginCases, registerCases, signoutCases, updateUserCases } from './user.reducer-cases'
 
 
 const initState: UserStateType = {
@@ -34,4 +34,6 @@ export const userReducer = createReducer(initState, builder => {
         .addCase(follow.fulfilled, followCases.fulfilled)
         // -- outcomes: sign-out
         .addCase(signout, signoutCases.success)
+        // -- outcomes: create-invention
+        .addCase(createInvention.fulfilled, createInventionCases.fulfilled)
 })

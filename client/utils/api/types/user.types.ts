@@ -1,6 +1,6 @@
 import { RequestWithHeaders } from "."
 import { login__type, register__type, updateUser__type } from "../../../redux/features/user/user.actions"
-import { MinifiedUserType, SharedProjectsResponseType, UserType } from "../../../redux/features/user/user.types"
+import { FormInventionType, InventionType, MinifiedUserType, UserType } from "../../../redux/features/user/user.types"
 
 // types for api request utilities
 
@@ -15,7 +15,7 @@ export type follow_type = RequestWithHeaders<
 >
 
 export type searchByQuery_type = RequestWithHeaders<
-    { query: string, limit: number },
+    { query: string, limit: number, excludeUsers?: string[] },
     { status: boolean, msg: string, data: MinifiedUserType[] }
 >
 
@@ -34,7 +34,7 @@ export type updateUser_type = RequestWithHeaders<
     { status: boolean, msg: string, data: { new_data: UserType } }
 >
 
-export type fetchInventionData_type = RequestWithHeaders<
-    { project_id?: string },
-    { status: boolean, msg: string, data: SharedProjectsResponseType, isMyProject?: boolean }
+export type createInvention_type = RequestWithHeaders<
+    { data: FormInventionType },
+    { status: boolean, msg: string, data: InventionType }
 >

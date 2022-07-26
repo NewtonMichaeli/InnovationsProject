@@ -1,0 +1,109 @@
+/* styles for contributors component @ new-project page */
+
+/* styles for list component @ new-project page */
+
+.list {
+    height: 1.8rem;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.list .input-container {
+    height: 100%;
+    position: relative;
+}
+.list .User,
+.list .input-container {
+    margin-bottom: .4rem;
+}
+.list .input-container input[type=text] {
+    height: 100%;
+    font-size: .8rem;
+    border-radius: 2rem;
+    background-color: var(--app-bg-color);
+    outline: none;
+    border: 1px solid #666;
+    padding: 0 .7rem;
+}
+
+/* User */
+.list .User {
+    margin-right: .25rem;
+    width: max-content;
+    height: 100%;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: .3rem;
+    border-radius: 2rem;
+    background-color: #ccc;
+}
+.list .User:last-child {
+    margin-right: .4rem;
+}
+.User img {
+    height: 100%;
+    border-radius: 51%;
+    margin-right: .1rem;
+}
+.User .close-btn {
+    cursor: pointer;
+}
+
+/* users select frame - appears on input change */
+.select-users-frame {
+    position: absolute;
+    bottom: 120%;
+    left: 0;
+    width: max-content;
+    height: max-content;
+    background-color: #e2e2e2;
+    box-shadow: -2px -2px 10px #000000aa;
+    border: 1px solid #666;
+    border-radius: .6rem;
+    padding: .4rem;
+}
+.select-users-frame .user-seperator:last-child {display: none;}
+.select-users-frame .user-seperator {
+    margin: .2rem 0;
+    height: .2px;
+    background-color: #666;
+}
+.select-users-frame .UserOption {
+    border-radius: .3rem;
+    height: 3rem;
+    width: 100%;
+    cursor: pointer;
+    /* layout */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: .4rem;
+}
+.select-users-frame .UserOption:hover {
+    background-color: #ccc;
+}
+.UserOption img {
+    height: 100%;
+    border-radius: 51%;
+    margin-right: .4rem;
+}
+.UserOption .data {
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-right: 1.5rem;
+}
+.UserOption .data .name {
+    font-size: 1.1rem;
+    height: 1.35rem;
+    color: #222;
+}
+.UserOption .data .username-x-email {
+    font-size: .75rem;
+}

@@ -16,7 +16,8 @@ export const CLIENT_URIS = {
     DASHBOARD: '/my-projects',
     LOGIN: '/login',
     REGISTER: '/register',
-    _USER: (user_id: string) => `/user/${user_id}`,
+    NEW_PROJECT: '/new-project',
+    _USER: (username: string) => `/user/${username}`,
     _INVENTION: (project_id: string) => `/invention/${project_id}`,
     _INVENTION_EDIT_TAB: (project_id: string, section: INVENTION_SECTIONS) => `/invention/${project_id}?edit=${section}`,
     _DASHBOARD: (project_id: string) => `/my-projects/${project_id}`
@@ -36,6 +37,7 @@ export const CLIENT_SECURED_URIS = [
     CLIENT_URIS.SETTINGS,
     CLIENT_URIS.STATSISTICS,
     CLIENT_URIS.DASHBOARD,
+    CLIENT_URIS.NEW_PROJECT,
 ]
 
 // check unauthorized uri using the above array

@@ -38,7 +38,6 @@ const getDetailedUser = async (user, isProtected) => {
     await Promise.all(user_inventions.map(async (inv, i) => {
         // -- push only if secure contributors array is not empty
         if (!inv.Private || !isProtected) {
-            console.log('cont', inv.Contributors.map(c => c.user_id),)
             const updatedInvention = {
                 ...inv._doc,
                 Contributors: await _getDetailedUsersByArray(

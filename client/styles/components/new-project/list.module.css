@@ -1,0 +1,58 @@
+/* styles for list component @ new-project page */
+
+.list {
+    height: 1.8rem;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.list .tag,
+.list input[type=text] {
+    margin-bottom: .4rem;
+}
+.list input[type=text] {
+    height: 100%;
+    font-size: .8rem;
+    border-radius: 2rem;
+    background-color: var(--app-bg-color);
+    outline: none;
+    border: 1px solid #666;
+    padding: 0 .7rem;
+}
+.list .tag {
+    margin-right: .2rem;
+    width: max-content;
+    height: 100%;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 .4rem 0 .7rem;
+    border-radius: 2rem;
+}
+/* START list styles */
+.list.tag .tag {
+    background-color: #557aff99;
+    border: 1px solid #233b9499;
+}
+.list.occupation .tag {
+    background-color: #fff65599;
+    border: 1px solid #81942399;
+}
+/* END list styles */
+.list .tag:last-child {
+    margin-right: 1rem;
+    background-color: green;
+}
+.list .tag .value {
+    height: 100%;
+    padding-top: .3rem;
+    font-weight: 400;
+    font-size: .9rem;
+}
+.list .tag .close-btn {
+    margin-left: .3rem;
+    cursor: pointer;
+}

@@ -18,7 +18,8 @@ const createInvention = async (user_id, data) => {
     if (existing_invention) return false
 
     // create & push new invention
-    const new_invention = await new Invention(data).save()
+    const new_invention = await new Invention(data)
+    new_invention.save()
     user.Inventions.push(new_invention._id.toString())
     const result = await user.save()
     // return new invention

@@ -85,7 +85,7 @@ export const MenuLinks_AuthorizedUser: FC = () => {
             </a>
         </Link>
         <Link href={CLIENT_URIS.DASHBOARD}>
-            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.DASHBOARD]) ? 'highlighted' : ''}`)}>
+            <a className={getStyles(`menu-link ${path_has([CLIENT_URIS.DASHBOARD, CLIENT_URIS.NEW_PROJECT]) ? 'highlighted' : ''}`)}>
                 <span className={styles['link-text']}>Dashboard</span>
                 <MdOutlineSpaceDashboard className={styles["icon"]} size={34} />
                 <ActiveLinkAnimation />

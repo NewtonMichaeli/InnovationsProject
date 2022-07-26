@@ -1,8 +1,18 @@
 // types for user reducer
 
 // enums
-export type STATUS_ENUM = 'open' | 'in development' | 'finished'
-export type REGIONS_ENUM = 'Asia' | 'Europe' | 'Americas' | 'Australia' | 'Africa'
+export const STATUS_ENUM = {
+    "open": "open",
+    "in-delevopment": "in-delevopment",
+    "finished": "finished"
+}
+export const REGIONS_ENUM = {
+    "Asia": "Asia",
+    "Europe": "Europe",
+    "Americas": "Americas",
+    "Australia": "Australia",
+    "Africa": "Africa"
+}
 
 // assets type
 export type AssetType = {
@@ -26,13 +36,25 @@ export type ContributorType = MinifiedUserType & {
     Roles: string[]
 }
 
+// new form-invention type
+export type FormInventionType = {
+    Name: string,
+    Description: string,
+    Tags: string[],
+    Status: keyof typeof STATUS_ENUM,
+    Occupations: string[],
+    Roles: string[],
+    Contributors: MinifiedUserType[],
+    Private: boolean
+}
+
 // invantions type
 export type InventionType = {
     Name: string,
     Description: string,
     DoC: number,
     DoF?: number,
-    Status: STATUS_ENUM,
+    Status: keyof typeof STATUS_ENUM,
     Private: boolean,
     Tags: string[],
     Roles: string[],
@@ -59,7 +81,7 @@ export type UserType = {
     IsAdmin: boolean,
     Following: MinifiedUserType[],
     Followers: MinifiedUserType[],
-    Region: REGIONS_ENUM,
+    Region: keyof typeof REGIONS_ENUM,
     Inventions: InventionType[],
     Shared_Projects: SharedProjectsResponseType[],   // -- converted to regular invention struct inside the server
     type: String,

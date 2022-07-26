@@ -12,6 +12,8 @@ import Project from '../../components/my-projects/Project'
 // styles
 import styles from '../../styles/pages/myProjects.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
+import Link from 'next/link'
+import { CLIENT_URIS } from '../../configs/_client'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -36,9 +38,11 @@ const Index: FC = () => {
             {/* projects header */}
             <div className={styles["my-projects-header"]}>
                 <h1 className={styles['title']}>Projects</h1>
-                <button className={styles['new-project']}>
-                    + New Project
-                </button>
+                <Link href={CLIENT_URIS.NEW_PROJECT}>
+                    <button className={styles['new-project']}>
+                        + New Project
+                    </button>
+                </Link>
             </div>
             {/* projects list */}
             <div className={getStyles(`my-projects-list ${inventions.length === 1 ? 'single-invention':''}`)}>

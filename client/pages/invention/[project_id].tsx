@@ -5,7 +5,7 @@ import { FC, useEffect } from "react"
 import { InventionPageProps, InventionPageSSR } from "../../types/pages/invention.type"
 // utils
 import { AUTH_TOKEN, tokenHeader } from "../../configs/_token"
-import { fetchInventionData } from "../../utils/api/requests/user.api"
+import { fetchInventionData } from "../../utils/api/requests/invention.api"
 // redux
 import { inventionActions, inventionSelector } from "../../redux/features/invention"
 import { useAppDispatch, useAppSelector } from "../../hooks/redux"
@@ -13,20 +13,22 @@ import { userSelector } from "../../redux/features/user"
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
 // components
-import InformationSection from "../../components/Invention/DataSections/Information.section"
-import AssetsSection from "../../components/Invention/DataSections/Assets.section"
-import AboutYouSection from "../../components/Invention/DataSections/AboutYou.section"
-import MembersSection from "../../components/Invention/DataSections/Members.section"
+import Information_DataSection from "../../components/Invention/DataSections/Information.data"
+import Assets_DataSection from "../../components/Invention/DataSections/Assets.data"
+import AboutYou_DataSection from "../../components/Invention/DataSections/AboutYou.data"
+import Members_DataSection from "../../components/Invention/DataSections/Members.data"
 import Loading from "../../components/global/loading"
 import InventionNotFound from "../../components/global/404/inventionNotFound"
 // styles
 import styles from '../../styles/pages/project.module.css'
+import EditorSection from "../../components/Invention/EditSections"
+import { CLIENT_URIS } from "../../configs/_client"
 
 
 const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
     // states
     const dispatch = useAppDispatch()
-    const { back } = useRouter()
+    const { back, push } = useRouter()
     const { User, isLoading } = useAppSelector(userSelector)
     const { Invention: InventionState } = useAppSelector(inventionSelector)
 
@@ -44,7 +46,7 @@ const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
             </Head>
             {/* header */}
             <div className={styles['project-header']}>
-                <BsArrowLeftShort className={styles['leave']} size={48} onClick={() => back()} title="Go back" />
+                <BsArrowLeftShort className={styles['leave']} size={48} onClick={() => push(CLIENT_URIS._USER(Invention.CreatorData.Username))} title="Go back" />
                 <img className={styles['owner-profile-pic']} src={`/profile-pics/${Invention.CreatorData.Profile_Pic}.jpeg`} alt={Invention.CreatorData.Username} />
                 <div className={styles['username-x-projectname']}>
                     <code className={styles['username']}>{Invention.CreatorData.Username}</code>
@@ -55,13 +57,13 @@ const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
             {/* content */}
             <div className={styles["invention-content-wrapper"]}>
                 {/* data sections */}
-                <InformationSection />
-                <AssetsSection />
-                <AboutYouSection />
-                <MembersSection />
+                <Information_DataSection />
+                <Assets_DataSection />
+                <AboutYou_DataSection />
+                <Members_DataSection />
             </div>
             {/* section-editor component */}
-            
+            <EditorSection />
         </main>
     )
     else if (isLoading) return <Loading />

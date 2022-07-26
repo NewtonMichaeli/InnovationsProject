@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { SERVER_URI__FOLLOW_USER, SERVER_URI__GET_INVENTION_DATA, SERVER_URI__GET_USER_DATA, SERVER_URI__LOGIN, SERVER_URI__REGISTER, SERVER_URI__SEARCH_BY_QUERY, SERVER_URI__UPDATE_USER } from '../../../configs/_server'
+import { SERVER_URI__CREATE_INVENTION, SERVER_URI__FOLLOW_USER, SERVER_URI__GET_USER_DATA, SERVER_URI__LOGIN, SERVER_URI__REGISTER, SERVER_URI__SEARCH_BY_QUERY, SERVER_URI__UPDATE_USER } from '../../../configs/_server'
+import { createInvention_type } from '../types/user.types'
 // types
-import { fetchUserData_type, follow_type, register_type, searchByQuery_type, login_type, fetchInventionData_type, updateUser_type } from '../types/user.types'
+import { fetchUserData_type, follow_type, register_type, searchByQuery_type, login_type, updateUser_type } from '../types/user.types'
 
 // -- create axios instance with default configs
 const axiosRequest = axios.create({
@@ -27,10 +28,11 @@ export const follow: follow_type = async ({ action, target_user }, headers) => {
 }
 
 // userAPI: search (users/inventions) by query
-export const searchByQuery: searchByQuery_type = async ({ query, limit }, headers) => {
-    const res = await axiosRequest.get(
+export const searchByQuery: searchByQuery_type = async ({ query, limit, excludeUsers }, headers) => {
+    const res = await axiosRequest.post(
         SERVER_URI__SEARCH_BY_QUERY(query, limit),
-        headers
+        { excludeUsers },
+        headers,
     )
     return res.data
 }
@@ -65,10 +67,11 @@ export const updateUser: updateUser_type = async (data, headers) => {
     return res.data
 }
 
-// userAPI: fetch invention data
-export const fetchInventionData: fetchInventionData_type = async ({ project_id }, headers) => {
-    const res = await axiosRequest.get(
-        SERVER_URI__GET_INVENTION_DATA(project_id),
+// inventionAPI: create new invention
+export const createInvention: createInvention_type = async ({ data }, headers) => {
+    const res = await axiosRequest.post(
+        SERVER_URI__CREATE_INVENTION(),
+        data,
         headers
     )
     return res.data

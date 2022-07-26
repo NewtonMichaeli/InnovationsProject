@@ -1,0 +1,11 @@
+/* styles for status component @ new-project page */
+
+.status {
+    height: 1.8rem;
+    width: 25%;
+    border: 1px solid #666;
+    background-color: var(--app-bg-color);
+    border-radius: .3rem;
+    padding: 0 .3rem;
+    outline: none;
+}

@@ -3,6 +3,7 @@ const { ASSETS_FOLDER_PATH } = require('../configs/_server')
 const bcrypt = require('bcrypt')
 const fs = require('fs')
 const {Joi_SigninSchema, Joi_SignupSchema, Joi_UpdatingUserDataSchema} = require('../validations/AuthSchema')
+const { ObjectId } = require('mongoose').Types
 const User = require('../models/User')
 // utils
 const authRequests = require('../utils/requests/auth')
@@ -70,12 +71,14 @@ const getUserData = async (req, res) => {
 // Search database
 const searchWithQuery = async (req, res) => {
     
-    const { query = '', limit = 2 } = req.params
+    const { query = '', limit = 2 } = req.params, { excludeUsers = [] } = req.body
     if (limit < 1) return responseHandler.failedSearchingWithQuery(res, `Invlid limit \"${limit}\". Limit can be 1 and above`)
     if (!query.length || query.length > 36)
         return responseHandler.failedSearchingWithQuery(res, `Invlid query. Queries length should range between 1-36`)
+    if (excludeUsers && excludeUsers.some(id => !ObjectId.isValid(id)))
+        return responseHandler.failedSearchingWithQuery(res, `Invlid query. 'excludeUsers' must contain valid ids`)
     // search by regex
-    const results = await authRequests.searchWithQuery(query, limit)
+    const results = await authRequests.searchWithQuery(query, limit, excludeUsers)
     return responseHandler.successfullSearchWithQuery(res, results)
 }
 

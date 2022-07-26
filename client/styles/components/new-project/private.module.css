@@ -1,0 +1,23 @@
+/* styles for Private ocmponent @ new-invention page */
+
+.radio-opt {
+    height: 3.3rem;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.radio-opt input[type=radio] {
+    width: .8rem;
+    height: .8rem;
+}
+.radio-opt .label {
+    margin-left: .5rem;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.radio-opt .label .text {margin-left: .4rem;}
+.radio-opt .label .text label {font-size: 1.1rem;}
+.radio-opt .label .text p {font-size: .8rem;}

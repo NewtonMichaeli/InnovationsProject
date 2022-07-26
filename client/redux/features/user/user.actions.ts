@@ -2,7 +2,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import * as userAPI from '../../../utils/api/requests/user.api'
 // types
-import { REGIONS_ENUM, UserType } from './user.types'
+import { FormInventionType, REGIONS_ENUM } from './user.types'
 
 // async action: fetch user data
 export const fetchUserData = createAsyncThunk('user/fetchUserData', async () => {
@@ -24,7 +24,8 @@ export const login = createAsyncThunk('user/login', async (data: login__type) =>
     return res.data
 })
 
-export type register__type = { Username: string, Password: string, Fname: string, Sname: string, Email: string, Region: REGIONS_ENUM }
+export type register__type =
+    { Username: string, Password: string, Fname: string, Sname: string, Email: string, Region: keyof typeof REGIONS_ENUM }
 // async action: login
 export const register = createAsyncThunk('user/register', async (data: register__type) => {
     const res = await userAPI.register(data)
@@ -32,7 +33,7 @@ export const register = createAsyncThunk('user/register', async (data: register_
 })
 
 export type updateUser__type =
-    { Username?: string, Profile_Pic?: number, Fname?: string, Sname?: string, Email?: string, Region?: REGIONS_ENUM }
+    { Username?: string, Profile_Pic?: number, Fname?: string, Sname?: string, Email?: string, Region?: keyof typeof REGIONS_ENUM }
 // async action: login
 export const updateUser = createAsyncThunk('user/update', async (data: updateUser__type) => {
     if (Object.keys(data).length === 0) throw Error("Nothing to update")
@@ -42,3 +43,10 @@ export const updateUser = createAsyncThunk('user/update', async (data: updateUse
 
 // action: sign-out
 export const signout = createAction('user/signout')
+
+export type createInvention__type = { new_invention_data: FormInventionType }
+// async action: send new invention
+export const createInvention = createAsyncThunk('invention/newInvention', async ({ new_invention_data }: createInvention__type) => {
+    const res = await userAPI.createInvention({ data: new_invention_data })
+    return res.data
+})

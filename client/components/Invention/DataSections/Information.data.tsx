@@ -9,10 +9,10 @@ import { useAppSelector } from '../../../hooks/redux'
 // components
 import EditSectionBtn from '../../shared/EditInventionSection'
 // styles
-import styles from '../../../styles/components/InventionsDataSection/information.module.css'
+import styles from '../../../styles/components/Invention/DataSections/information.module.css'
 
 
-const InformationSection: FC = () => {
+const Information_DataSection: FC = () => {
     // states
     const { Project: Invention } = useAppSelector(inventionSelector).Invention
 
@@ -55,4 +55,4 @@ const InformationSection: FC = () => {
     )
 }
 
-export default InformationSection
+export default Information_DataSection

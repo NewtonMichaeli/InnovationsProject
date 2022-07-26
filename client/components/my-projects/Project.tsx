@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { FC } from "react"
 import { CLIENT_URIS } from "../../configs/_client"
-import { SharedProjectsResponseType, STATUS_ENUM } from "../../redux/features/user/user.types"
+import { SharedProjectsResponseType } from "../../redux/features/user/user.types"
 // styles
 import styles from '../../styles/pages/myProjects.module.css'
 import { getModuleStylesMethod } from "../../utils/styles.utils"

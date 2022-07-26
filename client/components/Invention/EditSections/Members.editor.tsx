@@ -9,10 +9,10 @@ import { inventionSelector } from '../../../redux/features/invention'
 import UserItem from '../../shared/UserItem'
 import EditSectionBtn from '../../shared/EditInventionSection'
 // styles
-import styles from '../../../styles/components/InventionsDataSection/members.module.css'
+import styles from '../../../styles/components/Invention/EditSections/members.module.css'
 
 
-const MembersSection: FC = () => {
+const Members_EditSection: FC = () => {
     // states
     const { User } = useAppSelector(userSelector)
     const { Invention } = useAppSelector(inventionSelector)
@@ -35,4 +35,4 @@ const MembersSection: FC = () => {
     )
 }
 
-export default MembersSection
+export default Members_EditSection

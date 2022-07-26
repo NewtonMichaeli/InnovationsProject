@@ -14,6 +14,7 @@ const Joi_InventionSchema = Joi.object({
     DoC: Joi.number().required(),
     DoF: Joi.number().optional(),
     Contributors: Joi.array().items(Joi_ContributorSchema).required(),
+    Occupations: Joi.array().items(Joi.string()).required(),
     Owner_id: Joi.string().required()
 })
 
@@ -23,6 +24,7 @@ const Joi_InventionSchema_UpdatingData__creator = Joi.object({
     Description: Joi.string().optional(),
     Tags: Joi.array().items(Joi.string()).optional(),
     Roles: Joi.array().items(Joi.string()).optional(),
+    Occupations: Joi.array().items(Joi.string()).optional(),
     Status: Joi.valid('open', 'in development', 'finished').optional(),
     Private: Joi.bool().optional(),
     Contributors: Joi.array().items(Joi_ContributorSchema).optional()

@@ -8,9 +8,9 @@ const { checkValidObjectIdParams } = require('../middlewares/globals')
 
 // Routes:  /api/auth/
 
-// @route   GET /api/auth/search/:query/:limit
+// @route   POST /api/auth/search/:query/:limit
 // @desc    Endpoint for sending back user search results
-router.get('/search/:query/:limit', authController.searchWithQuery)
+router.post('/search/:query/:limit', authController.searchWithQuery)
 
 // @route   GET /api/auth/:username/
 // @desc    Endpoint for sending back user data (no validation)
