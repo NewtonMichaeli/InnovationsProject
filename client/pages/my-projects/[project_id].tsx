@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 // types
 import { FC } from 'react'
-import { SharedProjectsResponseType } from '../../redux/features/invention/user.types'
+import { SharedProjectsResponseType } from '../../redux/features/user/user.types'
 // redux
 import { useAppSelector } from '../../hooks/redux'
 import { userSelector } from '../../redux/features/user'
@@ -13,7 +13,6 @@ import InventionViewer from '../invention/[project_id]'
 
 
 const InventionViewerWrapper: FC = () => {
-
     // states
     const { User } = useAppSelector(userSelector)
     const Invention: SharedProjectsResponseType = findInvention(User, useRouter().query.project_id as string)

@@ -15,7 +15,7 @@ import styles from '../../styles/components/layout/index.module.css'
 
 const Layout: FC<{children: JSX.Element[]}> = ({children}) => {
     // states
-    const { isLoading, isAuthenticated } = useAppSelector(userSelector)
+    const { isLoading, isAuthenticated, User } = useAppSelector(userSelector)
     const { push, pathname } = useRouter()
     const IsAccessingSecuredUri = isAccessingSecuredUri(pathname)
 
@@ -35,7 +35,7 @@ const Layout: FC<{children: JSX.Element[]}> = ({children}) => {
                 <Navbar />
                 <div className={styles["app-content"]}>
                     {/* content / loading */}
-                    {(isLoading || !isAuthenticated) && IsAccessingSecuredUri ? <Loading /> : children}
+                    {(isLoading || !isAuthenticated || !User) && IsAccessingSecuredUri ? <Loading /> : children}
                 </div>
             </section>
         </div>

@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { UserStateType } from './user.types'
 import { fetchUserData, follow, login, register, signout, updateUser } from './user.actions'
-import { fetchUserDataCases, followCases, loginCases, registerCases, signoutCases, updateUserCases } from './cases.reducer'
+import { fetchUserDataCases, followCases, loginCases, registerCases, signoutCases, updateUserCases } from './user.reducer-cases'
 
 
 const initState: UserStateType = {

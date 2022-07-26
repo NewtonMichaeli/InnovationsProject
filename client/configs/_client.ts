@@ -1,5 +1,8 @@
 // configs for client
 
+// invention sections, currently 3/4 are editable
+export type INVENTION_SECTIONS = 'members' | 'information' | 'assets'
+
 // all client URIs
 // underscore-prefix: methods for concatonating url params
 export const CLIENT_URIS = {
@@ -14,8 +17,15 @@ export const CLIENT_URIS = {
     LOGIN: '/login',
     REGISTER: '/register',
     _USER: (user_id: string) => `/user/${user_id}`,
-    _INVENTION: (user_id: string) => `/invention/${user_id}`,
+    _INVENTION: (project_id: string) => `/invention/${project_id}`,
+    _INVENTION_EDIT_TAB: (project_id: string, section: INVENTION_SECTIONS) => `/invention/${project_id}?edit=${section}`,
     _DASHBOARD: (project_id: string) => `/my-projects/${project_id}`
+}
+
+export enum INVENTION_USER_ROLES {
+    CREATOR = "CREATOR",
+    CONTRIBUTOR = "CONTRIBUTOR",
+    OBSERVER = "OBSERVER"
 }
 
 // all unauthorized uris

@@ -1,38 +1,42 @@
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { FC, useEffect } from "react"
+// types
+import { InventionPageProps, InventionPageSSR } from "../../types/pages/invention.type"
+// utils
+import { AUTH_TOKEN, tokenHeader } from "../../configs/_token"
+import { fetchInventionData } from "../../utils/api/requests/user.api"
+// redux
+import { inventionActions, inventionSelector } from "../../redux/features/invention"
+import { useAppDispatch, useAppSelector } from "../../hooks/redux"
+import { userSelector } from "../../redux/features/user"
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
 // components
+import InformationSection from "../../components/Invention/DataSections/Information.section"
+import AssetsSection from "../../components/Invention/DataSections/Assets.section"
+import AboutYouSection from "../../components/Invention/DataSections/AboutYou.section"
+import MembersSection from "../../components/Invention/DataSections/Members.section"
+import Loading from "../../components/global/loading"
 import InventionNotFound from "../../components/global/404/inventionNotFound"
-import InformationSection from "../../components/InventionDataSections/Information.section"
-import AssetsSection from "../../components/InventionDataSections/Assets.section"
-import AboutYouSection from "../../components/InventionDataSections/AboutYou.section"
-import MembersSection from "../../components/InventionDataSections/Members.section"
-// redux
-import { useAppSelector } from "../../hooks/redux"
-import { userSelector } from "../../redux/features/user"
 // styles
 import styles from '../../styles/pages/project.module.css'
-import Loading from "../../components/global/loading"
-import Head from "next/head"
-import { findInvention } from "../../utils/inventions.utils"
-import { InventionPageProps, InventionPageSSR } from "../../types/pages/invention.type"
-import { fetchInventionData } from "../../utils/api/requests/user.api"
-import { AUTH_TOKEN, tokenHeader } from "../../configs/_token"
-import { CLIENT_URIS } from "../../configs/_client"
-// import { getModuleStylesMethod } from "../../utils/styles.utils"
-
-// get multiple styles util
-// const getStyles = getModuleStylesMethod(styles)
 
 
 const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
-
     // states
-    const { query, back } = useRouter()
-    const { project_id } = query
+    const dispatch = useAppDispatch()
+    const { back } = useRouter()
+    const { User, isLoading } = useAppSelector(userSelector)
+    const { Invention: InventionState } = useAppSelector(inventionSelector)
 
-    if (Invention) return (
+    // effects
+    useEffect(() => {
+        if (User)
+            dispatch(inventionActions.storeInvention({Invention, my_user_id: User._id}))
+    }, [User])
+
+    if (InventionState) return (
         <main className={styles['Project']}>
             <Head>
                 <title>{Invention.Project.Name} - {Invention.CreatorData.Username}</title>
@@ -51,25 +55,21 @@ const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
             {/* content */}
             <div className={styles["invention-content-wrapper"]}>
                 {/* data sections */}
-                <div className={styles["section-container"]}>
-                    <InformationSection Invention={Invention.Project} />
-                </div>
-                <div className={styles["section-container"]}>
-                    <AssetsSection Assets={Invention.Project.Assets} project_id={Invention.Project._id} />
-                </div>
-                <div className={styles["section-container"]}>
-                    <AboutYouSection isCreator={Invention.CreatorData.Username === Invention.CreatorData.Username} roles={Invention.Project.Roles} />
-                </div>
-                <div className={styles["section-container"]}>
-                    <MembersSection Members={Invention.Project.Contributors} />
-                </div>
+                <InformationSection />
+                <AssetsSection />
+                <AboutYouSection />
+                <MembersSection />
             </div>
+            {/* section-editor component */}
+            
         </main>
     )
+    else if (isLoading) return <Loading />
     else return <InventionNotFound />
 }
 
 
+// SSR: Fetch invention data before loading page
 export const getServerSideProps: InventionPageSSR = async context => {
     // get user data
     const project_id = context.params['project_id'] as string

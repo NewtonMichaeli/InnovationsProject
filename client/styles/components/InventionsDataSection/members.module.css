@@ -25,6 +25,9 @@
     align-items: center;
     padding: 0 .7rem;
 }
+.section-header .edit {
+    cursor: pointer;
+}
 .content {
     background-color: #888;
     width: 100%;

@@ -1,21 +1,27 @@
+// types
 import { FC } from 'react'
-import { InventionType } from '../../redux/features/user/user.types'
-import formatTime from '../../utils/others/formatTime'
-// icons
-import { FiEdit3 } from 'react-icons/fi'
+import { INVENTION_USER_ROLES } from '../../../configs/_client'
+// utils
+import formatTime from '../../../utils/others/formatTime'
+// redux
+import { inventionSelector } from '../../../redux/features/invention'
+import { useAppSelector } from '../../../hooks/redux'
+// components
+import EditSectionBtn from '../../shared/EditInventionSection'
 // styles
-import styles from '../../styles/components/InventionsDataSection/information.module.css'
+import styles from '../../../styles/components/InventionsDataSection/information.module.css'
 
 
-const InformationSection: FC<{
-    Invention: InventionType
-}> = ({Invention}) => {
+const InformationSection: FC = () => {
+    // states
+    const { Project: Invention } = useAppSelector(inventionSelector).Invention
 
     return (
         <section className={styles["information-section"]}>
             <div className={styles["section-header"]}>
                 <h3>Information</h3>
-                <FiEdit3 className={styles['edit']} size={20} />
+                {/* edit if either creator or contributor */}
+                <EditSectionBtn className={styles["edit"]} section='information' excludeRole={INVENTION_USER_ROLES.OBSERVER} />
             </div>
             <div className={styles["prim-content"]}>
                 <div className={styles["data-group"]}>

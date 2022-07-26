@@ -1,5 +1,6 @@
 // utils for inventions
 
+import { INVENTION_USER_ROLES } from "../configs/_client"
 import { InventionType, SharedProjectsResponseType, UserType } from "../redux/features/user/user.types"
 
 
@@ -49,4 +50,18 @@ export const findInvention = (User: UserType, project_id: string) => {
         CreatorData: inventionOwner,
         Project: current_invention
     }
+}
+
+
+/**
+ * @param user_id (typeof string)
+ * @param Invention (typeof InventionData)
+ * @returns User role in given invention
+ */
+export const getInventionUserRole = (user_id: string, Invention: InventionType) => {
+    if (Invention.Owner_id === user_id)
+        return INVENTION_USER_ROLES.CREATOR
+    else if (Invention.Contributors.some(c => c._id === user_id))
+        return INVENTION_USER_ROLES.CONTRIBUTOR
+    else return INVENTION_USER_ROLES.OBSERVER
 }

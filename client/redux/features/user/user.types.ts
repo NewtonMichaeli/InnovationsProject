@@ -39,6 +39,7 @@ export type InventionType = {
     Occupations: string[],
     Assets: AssetType[],
     Contributors: ContributorType[],
+    Owner_id: string,
     _id: string
 }
 

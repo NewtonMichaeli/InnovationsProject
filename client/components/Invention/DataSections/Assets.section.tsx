@@ -1,11 +1,17 @@
+// types
 import { FC } from 'react'
-import { AssetType } from '../../redux/features/user/user.types'
+import { AssetType } from '../../../redux/features/user/user.types'
+import { INVENTION_USER_ROLES } from '../../../configs/_client'
+// redux
+import { useAppSelector } from '../../../hooks/redux'
+import { inventionSelector } from '../../../redux/features/invention'
 // icons
-import { FiEdit3 } from 'react-icons/fi'
 import { GrFormView } from 'react-icons/gr'
+// components
+import RenderFile from '../../shared/file-renderer'
+import EditSectionBtn from '../../shared/EditInventionSection'
 // styles
-import styles from '../../styles/components/InventionsDataSection/assets.module.css'
-import RenderFile from '../shared/file-renderer'
+import styles from '../../../styles/components/InventionsDataSection/assets.module.css'
 
 
 // components:
@@ -56,22 +62,22 @@ const AssetsGrid: FC<{
 }
 
 
-const AssetsSection: FC<{
-    Assets: AssetType[],
-    project_id: string
-}> = ({Assets, project_id}) => {
+const AssetsSection: FC = () => {
+    // states
+    const { Invention } = useAppSelector(inventionSelector)
 
     return (
         <section className={styles["assets-section"]}>
             <div className={styles["section-header"]}>
                 <h3>Assets</h3>
-                <FiEdit3 className={styles['edit']} size={20} />
+                {/* edit if either creator or contributor */}
+                <EditSectionBtn className={styles["edit"]} section='assets' excludeRole={INVENTION_USER_ROLES.OBSERVER} />
             </div>
             <div className={styles["content"]}>
-                <AssetsGrid Assets={Assets} project_id={project_id} />
+                <AssetsGrid Assets={Invention.Project.Assets} project_id={Invention.Project._id} />
                 {/* watch button (if at least 1 asset exists) */}
                 {
-                    Assets.length
+                    Invention.Project.Assets.length
                         ? <div className={styles["watch-btn"]} title="View Assets"><GrFormView size={28} /></div>
                         : <></>
                 }
