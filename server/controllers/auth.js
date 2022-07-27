@@ -55,16 +55,15 @@ const signin = async (req, res) => {
 
     // generate token
     const token = signNewUserToken(result)
-    return responseHandler.loggedInSuccessfully(res, token, await getDetailedUser(result, false))
+    return responseHandler.loggedInSuccessfully(res, token, await getDetailedUser(result, false, result._id.toString()))
 }
 
 
 // Get user data
 // Requires the following request parameters: <req.user>
 const getUserData = async (req, res) => {
-    // req.user already holds the user
     // -- get detailed user
-    const result = await getDetailedUser(req.user, false)
+    const result = await getDetailedUser(req.user, false, req.user._id.toString())
     return responseHandler.userSentSuccessfully(res, result)
 }
 
@@ -86,12 +85,12 @@ const searchWithQuery = async (req, res) => {
 // Get user (public) data
 const getProtectedUserData = async (req, res) => {
     
-    const { username } = req.params
+    const { username } = req.params, { user_id } = req
     let user = await User.findOne({Username: username})
     if (!user) return responseHandler.userNotFound(res)
     // -- get (secured) detailed user
-    const result = await getDetailedUser(user, true)
-    return responseHandler.userSentSuccessfully(res, result, req.user_id === user._id.toString())
+    const result = await getDetailedUser(user, true, user_id)
+    return responseHandler.userSentSuccessfully(res, result, user_id === user._id.toString())
 }
 
 
@@ -114,7 +113,7 @@ const updateUserData = async (req, res) => {
         // -- generate new token and send it along with thenew data
         return responseHandler.userUpdatedSuccessfully(
             res, 
-            await getDetailedUser(result.data, false), 
+            await getDetailedUser(result.data, false, user._id.toString(), result.data._id.toString()),
             signNewUserToken(result.data)
         )
     }

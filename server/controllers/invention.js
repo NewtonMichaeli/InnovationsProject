@@ -7,8 +7,7 @@ const responseHandler = require('../utils/responses')
 const Joi_ContributorSchema = require('../validations/ContributorSchema')
 const {Joi_InventionSchema, Joi_InventionSchema_UpdatingData__creator, Joi_InventionSchema_UpdatingData__contributor} = require('../validations/InventionSchema')
 // utils
-const { _getDetailedUsersByArray, getDetailedInvention } = require('../utils/requests/globals')
-const { MINIFIED_USER_SELECT_VALUES } = require('../configs/_database')
+const { getDetailedInvention } = require('../utils/requests/globals')
 
 
 // create a new invention
@@ -92,7 +91,7 @@ const getInventionData = async (req, res) => {
 // requires: <req.user>
 const updateContributorsList = async (req, res) => {
 
-    const {roles} = req.body, {project_id, action, user_id} = req.params, {user} = req
+    const {roles = []} = req.body, {project_id, action, user_id} = req.params, {user} = req
     const data = {roles, user_id}
 
     // validate data

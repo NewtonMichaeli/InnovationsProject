@@ -1,17 +1,17 @@
 // types
 import {FC} from 'react'
-import { UserType } from '../../redux/features/user/user.types'
+import { UserType } from '../../../redux/features/user/user.types'
 // redux
-import { useAppSelector } from '../../hooks/redux'
-import { userSelector } from '../../redux/features/user'
+import { useAppSelector } from '../../../hooks/redux'
+import { userSelector } from '../../../redux/features/user'
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
 import { AiOutlineSearch } from 'react-icons/ai'
 // components
-import UserItem from '../shared/UserItem'
+import UsersList from '../UsersList'
 // styles
-import styles from '../../styles/components/profile/list-following.module.css'
-import { getModuleStylesMethod } from '../../utils/styles.utils'
+import styles from '../../../styles/components/profile/list-following.module.css'
+import { getModuleStylesMethod } from '../../../utils/styles.utils'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -44,12 +44,11 @@ const ListFollowings: FC<{
                         </div>
                         <div className={styles['input-search-followings']}>
                             <AiOutlineSearch className={styles['icon-search']} size={20} />
-                            <input type="text" placeholder={`Search followings (${UserData.Followers.length})`} />
+                            <input type="text" placeholder={`Search followings (${UserData.Following.length})`} />
                         </div>
                     </div>
                     <div className={styles["content-followings-list"]}>
-                        {UserData.Following.map(f => 
-                            <UserItem isAuthenticated={isAuthenticated} key={f._id} User={f} isSelf={User?._id === f._id} isFollowing />)}
+                        <UsersList isFollowing isAuthenticated={isAuthenticated} Users={UserData.Following} isSelf={fid => User?._id === fid} />
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@ const Private: FC<{
     return (    
        <div className={styles["input-field"]}>
             <div className={styles["radio-opt"]}>
-                <input type="radio" name="Private" id="Private-false" value={0} onChange={e => setIsPrivate(false)} checked />
+                <input type="radio" name="Private" id="Private-false" value={0} defaultChecked />
                 <div className={styles["label"]}>
                     <MdOutlinePublic size={26} />
                     <div className={styles["text"]}>
@@ -23,7 +23,7 @@ const Private: FC<{
                 </div>
             </div>
             <div className={styles["radio-opt"]}>
-                <input type="radio" name="Private" id="Private-true" value={1} onChange={e => setIsPrivate(true)} />
+                <input type="radio" name="Private" id="Private-true" value={1} onChange={e => setIsPrivate(e.target.checked)} />
                 <div className={styles["label"]}>
                     <MdOutlineLock size={26} />
                     <div className={styles["text"]}>

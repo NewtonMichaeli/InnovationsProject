@@ -14,6 +14,8 @@ import styles from '../styles/pages/newProject.module.css'
 import { getModuleStylesMethod } from '../utils/styles.utils'
 import { userActions } from '../redux/features/user'
 import { newProjectInputHandler } from '../utils/forms/newProject.form'
+import { useRouter } from 'next/router'
+import { CLIENT_URIS } from '../configs/_client'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -22,6 +24,7 @@ const getStyles = getModuleStylesMethod(styles)
 const NewProject: FC = () => {
     // states
     const dispatch = useAppDispatch()
+    const { push } = useRouter()
     const [data, setData] = useState<FormInventionType>({
         Name: '',
         Description: '',
@@ -32,10 +35,11 @@ const NewProject: FC = () => {
         Contributors: [],
         Roles: []
     })
-    const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            dispatch(userActions.createInvention(newProjectInputHandler(data)))
+            const result = await dispatch(userActions.createInvention(newProjectInputHandler(data)))
+            push(CLIENT_URIS.DASHBOARD, null, {shallow: true})
         }
         catch (err) {
             console.log(err)    // -- temp

@@ -1,16 +1,13 @@
+import Head from 'next/head'
 // types
 import { FC } from 'react'
-import { INVENTION_USER_ROLES } from '../../../configs/_client'
 // utils
 import formatTime from '../../../utils/others/formatTime'
 // redux
 import { inventionSelector } from '../../../redux/features/invention'
 import { useAppSelector } from '../../../hooks/redux'
-// components
-import EditSectionBtn from '../../shared/EditInventionSection'
 // styles
 import styles from '../../../styles/components/Invention/EditSections/information.module.css'
-import Head from 'next/head'
 
 
 const Information_EditSection: FC = () => {
@@ -20,7 +17,7 @@ const Information_EditSection: FC = () => {
     return (
         <section className={styles["information-section"]}>
             <Head>
-                <title>Editing {Invention.Name}'s Information - Innovation</title>
+                {/* <title>Editing {Invention.Name}'s Information - Innovation</title> */}
             </Head>
             <div className={styles["editor-header"]}>
                 <h1 className={styles["title"]}>{Invention.Name}</h1>

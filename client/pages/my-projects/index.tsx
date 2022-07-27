@@ -26,7 +26,7 @@ const Index: FC = () => {
     // components
     const RenderInventions: FC = () => !inventions?.length
         ? <code className={styles["no-inventions"]}>You have no Inventions yet</code>
-        : <>{ inventions.map((inv, i) => 
+        : <>{ inventions.sort((a, b) => b.Project.DoC - a.Project.DoC).map((inv, i) => 
             <Project isCreator={inv.CreatorData._id === User._id} key={i} invention={inv} />) }</>
 
     return (

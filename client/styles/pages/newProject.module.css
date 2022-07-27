@@ -81,9 +81,16 @@
     margin-bottom: .35rem;
     font-weight: 600;
 }
-.input-field:not(.not-required) > label::after {
+.input-field > label::after {
     content: ' *';
     color: #f44;
+}
+.input-field.not-required > label::after {
+    content: ' (optional)';
+    color: #777777cc;
+    font-size: .8rem;
+    vertical-align: baseline;
+    margin-left: .2rem;
 }
 
 /* input-field : inputs (any) */

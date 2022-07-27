@@ -1,12 +1,13 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 // types
 import { FC } from 'react'
 import { CLIENT_URIS, INVENTION_SECTIONS, INVENTION_USER_ROLES } from '../../configs/_client'
-// icons
-import { FiEdit3 } from 'react-icons/fi'
+// redux
 import { useAppSelector } from '../../hooks/redux'
 import { inventionSelector } from '../../redux/features/invention'
-import { useRouter } from 'next/router'
+// icons
+import { FiEdit3 } from 'react-icons/fi'
 
 
 /**

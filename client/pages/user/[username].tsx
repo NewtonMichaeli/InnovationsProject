@@ -1,27 +1,21 @@
+import Head from 'next/head'
 import {FC, useState} from 'react'
 // types
 import { UserPageProps, UserPageSSR } from '../../types/pages/user.type'
 import { CLIENT_URIS } from '../../configs/_client'
 // redux
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { userActions, userSelector } from '../../redux/features/user'
+import { useAppSelector } from '../../hooks/redux'
+import { userSelector } from '../../redux/features/user'
 // utils
 import { fetchUserData } from '../../utils/api/requests/user.api'
 import { AUTH_TOKEN, tokenHeader } from '../../configs/_token'
 // components
-import Head from 'next/head'
-import ListFollowers from '../../components/profile/list-followers'
-import ListInventions from '../../components/profile/list-inventions'
-import ListFollowings from '../../components/profile/list-following'
 import GoBack from '../../components/shared/GoBack'
+import { followHandlerType, inviteToProjectHandler, SocialButtons } from '../../components/shared/UsersList'
+import DataLists from '../../components/shared/user-data-lists'
 // styles
 import styles from '../../styles/pages/user.module.css'
-import { getModuleStylesMethod } from '../../utils/styles.utils'
-
-// multiple styles getter util
-const getStyles = getModuleStylesMethod(styles)
-// -- display status for each data item - default is false
-const defaulDataShowStatus = {followers: false, inventions: false, following: false}
+import { SharedProjectsResponseType } from '../../redux/features/user/user.types'
 
 
 /**
@@ -32,63 +26,53 @@ const defaulDataShowStatus = {followers: false, inventions: false, following: fa
  */
 const User: FC<UserPageProps> = ({UserData}) => {
     // states
-    const dispatch = useAppDispatch()
+    const [InspectedUser, setInspectedUser] = useState(UserData)
     const { User, isAuthenticated } = useAppSelector(userSelector)
-    // -- display status for each data item - default is false
-    const [showDataItem, setShowDataItem] = useState({...defaulDataShowStatus})
-    const isFollowing = isAuthenticated && User.Following.some(f => f._id === UserData._id)
+    const isFollowing = User?.Following.some(f => f._id === InspectedUser._id)
     // handlers
-    const changeShowDataItem = (type: keyof typeof showDataItem, status: boolean) => {
-        // -- shorthand for controlling a single key each time
-        // -- show/hide specified data-item-key while allowing for only 1 key to be true
-        setShowDataItem({ ...defaulDataShowStatus, [type]: status })
-    }
-    const handleFollowBtn = () => {
+    const followHandler: followHandlerType = (action: 'add' | 'remove') => {
         if (!isAuthenticated) return alert('Not logged in!')    // -- temp notification system
-        const action = isFollowing ? 'remove' : 'add'
-        dispatch(userActions.follow({action, target_user: UserData._id}))
-        // -- update UserData (temp functionality)
-        if (action === 'add') UserData.Followers.push(User)
-        else UserData.Followers = UserData.Followers.filter(f => f._id !== User._id)
-    }    
+        // -- update InspectedUser (temp functionality)
+        if (action === 'add') setInspectedUser(iu => ({...iu, Followers: [...iu.Followers, User]}))
+        else setInspectedUser(iu => ({...iu, Followers: iu.Followers.filter(f => f._id !== User._id)}))
+    }
+    const inviteToProjectHandler: inviteToProjectHandler = (project_id: string) => {
+        if (!isAuthenticated) return alert('Not logged in!')    // -- temp notification system
+        // -- update InspectedUser (temp functionality)
+        setInspectedUser(iu => ({
+            ...iu,
+            Shared_Projects: [
+                ...iu.Shared_Projects,
+                {
+                    CreatorData: {_id: User._id, Profile_Pic: User.Profile_Pic, Username: User.Username},
+                    Project: User.Inventions.find(inv => inv._id === project_id)
+                }
+            ]
+        }))
+    }
+    
 
     return (
         <main className={styles["User"]}>
             <Head>
-                <title>{UserData.Username} - Innovation</title>
+                <title>{InspectedUser.Username} - Innovation</title>
             </Head>
             {/* go-back button */}
             <GoBack />
             {/* user header section */}
             <section className={styles["user-header"]}>
-                <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
-                <h1 className={styles['fullname']}>{UserData.Fname} {UserData.Sname}</h1>
-                <h4 className={styles["username-x-email"]}>{UserData.Username} • {UserData.Email}</h4>
-                <div className={styles["social-btns"]}>
-                    <button className={getStyles(`btn-follow ${isFollowing ? 'following':''}`)} onClick={handleFollowBtn}>
-                        Follow{isFollowing?'ing':''}
-                    </button>
-                    <button className={styles["btn-invite-to-project"]}>Invite to project</button>
-                </div>
+                <img src={`/profile-pics/${InspectedUser.Profile_Pic}.jpeg`} alt={InspectedUser.Username} />
+                <h1 className={styles['fullname']}>{InspectedUser.Fname} {InspectedUser.Sname}</h1>
+                <h4 className={styles["username-x-email"]}>{InspectedUser.Username}&nbsp;•&nbsp;{InspectedUser.Email}</h4>
+                <SocialButtons 
+                    invitingUser={InspectedUser._id} 
+                    setInvitingUser={null} 
+                    target_user_id={InspectedUser._id} 
+                    isFollowing={isFollowing} 
+                    singleUserModeCB={[followHandler, inviteToProjectHandler]} />
             </section>
             {/* user data section */}
-            <section className={styles["user-data"]}>
-                <div className={styles["data-item"]} onClick={() => changeShowDataItem('followers', true)}>
-                    <h1>{UserData.Followers.length}</h1>
-                    <ListFollowers show={showDataItem.followers} close={() => changeShowDataItem('followers', false)} UserData={UserData} />
-                    <h5>Followers</h5>
-                </div>
-                <div className={styles["data-item"]} onClick={() => changeShowDataItem('inventions', true)}>
-                    <h1>{UserData.Inventions.length + UserData.Shared_Projects.length}</h1>
-                    <ListInventions show={showDataItem.inventions} close={() => changeShowDataItem('inventions', false)} UserData={UserData} />
-                    <h5>Inventions</h5>
-                </div>
-                <div className={styles["data-item"]} onClick={() => changeShowDataItem('following', true)}>
-                    <h1>{UserData.Following.length}</h1>
-                    <ListFollowings show={showDataItem.following} close={() => changeShowDataItem('following', false)} UserData={UserData} />
-                    <h5>Following</h5>
-                </div>
-            </section>
+            <DataLists User={InspectedUser} />
         </main>
     )
 }

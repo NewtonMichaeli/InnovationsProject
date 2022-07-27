@@ -1,6 +1,6 @@
 import { RequestWithHeaders } from "."
-import { login__type, register__type, updateUser__type } from "../../../redux/features/user/user.actions"
-import { FormInventionType, InventionType, MinifiedUserType, UserType } from "../../../redux/features/user/user.types"
+import { inviteToProject__type, login__type, register__type, updateUser__type } from "../../../redux/features/user/user.actions"
+import { ContributorType, FormInventionType, InventionType, MinifiedUserType, UserType } from "../../../redux/features/user/user.types"
 
 // types for api request utilities
 
@@ -37,4 +37,9 @@ export type updateUser_type = RequestWithHeaders<
 export type createInvention_type = RequestWithHeaders<
     { data: FormInventionType },
     { status: boolean, msg: string, data: InventionType }
+>
+
+export type inviteToProject_type = RequestWithHeaders<
+    inviteToProject__type,
+    { status: boolean, msg: string, action: 'add' | 'remove', data: { updated_contributors_list: ContributorType[], project_id: string } }
 >

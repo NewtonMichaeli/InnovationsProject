@@ -16,7 +16,7 @@ const Tags: FC<{
 }> = ({list, mode}) => {
     return (
         <div className={getStyles(`innovation-tags mode-${mode}`)}>
-            <h4 className={styles['title']}>Innovation {mode}:</h4>
+            <h4 className={styles['title']}>Project's {mode}:</h4>
             <div className={styles['items']}>
                 {
                     list.map((item, i) => (
@@ -40,8 +40,8 @@ const Project: FC<{
                 {/* header */}
                 <div className={styles['invention-header']}>
                     <img className={styles['profile-pic']} src={`/profile-pics/${CreatorData.Profile_Pic}.jpeg`} alt={CreatorData.Username} />
-                    <div className={styles['creator-data']}>
-                        <h2 className={styles['username']}>{CreatorData.Username}</h2>
+                    <div className={styles['project-data']}>
+                        <h2 className={styles['project-name']}>{Project.Name}</h2>
                         <i className={styles['creator-x-access']}>{isCreator ? 'Creator' : 'Contributor'} • {Project.Private ? 'Private' : 'Public'}</i>
                     </div>
                 </div>
@@ -51,10 +51,10 @@ const Project: FC<{
                 </div>
                 {/* tags */}
                 <div className={styles['tags']}>
-                    {/* tags */}
-                    {Project.Tags.length ? <Tags mode='tags' list={Project.Tags} /> : ''}
                     {/* occupations */}
                     {Project.Occupations.length ? <Tags mode='occupations' list={Project.Occupations} /> : ''}
+                    {/* tags */}
+                    {Project.Tags.length ? <Tags mode='tags' list={Project.Tags} /> : ''}
                 </div>
                 <h5 className={styles['status-x-members']}>
                     {Project.Status} • {Project.Contributors.length + 1} members

@@ -4,6 +4,8 @@ const {ASSETS_FOLDER_PATH} = require('../../configs/_server')
 const User = require('../../models/User')
 const Invention = require('../../models/Invention')
 const fs = require('fs')
+const { _getDetailedUsersByArray } = require('./globals')
+const { MINIFIED_USER_SELECT_VALUES } = require('../../configs/_database')
 
 
 // Create (or add) a new invention
@@ -119,7 +121,10 @@ const updateContributorsList = async (user_id, project_id, action, dest_user_id,
     }
 
     const result = await invention.save()
-    return {status: result ? true : false, data: result.Contributors}
+    return {
+        status: result ? true : false, 
+        data: await _getDetailedUsersByArray(result.Contributors.map(c => c.user_id), MINIFIED_USER_SELECT_VALUES)
+    }
 }
 
 

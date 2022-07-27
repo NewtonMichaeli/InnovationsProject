@@ -1,13 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { UserStateType } from './user.types'
-import { fetchUserData, follow, login, register, signout, updateUser, createInvention } from './user.actions'
-import { createInventionCases, fetchUserDataCases, followCases, loginCases, registerCases, signoutCases, updateUserCases } from './user.reducer-cases'
+import { fetchUserData, follow, login, register, signout, updateUser, createInvention, inviteToProject } from './user.actions'
+import { createInventionCases, fetchUserDataCases, followCases, inviteToProjectCases, loginCases, registerCases, signoutCases, updateUserCases } from './user.reducer-cases'
 
 
 const initState: UserStateType = {
     isLoading: true,
     isAuthenticated: false,
-    token: null,
     User: null
 }
 
@@ -36,4 +35,6 @@ export const userReducer = createReducer(initState, builder => {
         .addCase(signout, signoutCases.success)
         // -- outcomes: create-invention
         .addCase(createInvention.fulfilled, createInventionCases.fulfilled)
+        // -- outcomes: invite-to-project
+        .addCase(inviteToProject.fulfilled, inviteToProjectCases.fulfilled)
 })
