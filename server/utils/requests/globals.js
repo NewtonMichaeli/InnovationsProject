@@ -28,7 +28,7 @@ const _getDetailedUsersByArray = async (users, fieldsToSelect) => {
  * @param isProtected (typeof boolean)
  * @returns detailed user (e.g Contributors full schema, shared_projects, etc)
  */
-const getDetailedUser = async (user, isProtected) => {
+const getDetailedUser = async (user, isProtected, req_user_id) => {
 
     // initial states
     let Inventions = [], Shared_Projects = [], Followers = [], Following = []
@@ -36,7 +36,7 @@ const getDetailedUser = async (user, isProtected) => {
     // Get detailed contributors data
     const user_inventions = await Invention.find( {Owner_id: user._id.toString()} )
     await Promise.all(user_inventions.map(async (inv, i) => {
-        // -- push only if secure contributors array is not empty
+        // -- push only if secure
         if (!inv.Private || !isProtected) {
             const updatedInvention = {
                 ...inv._doc,
@@ -66,7 +66,7 @@ const getDetailedUser = async (user, isProtected) => {
         )
 
         // -- check privacy and push data to array
-        if (!invention.Private || !isProtected)
+        if (!invention.Private || !isProtected || req_user_id === user._id.toString()) {
             Shared_Projects.push({
                 CreatorData: {
                     Username: user.Username,
@@ -78,6 +78,7 @@ const getDetailedUser = async (user, isProtected) => {
                     Contributors
                 }
             })
+        }
     }))
     
     // Get detailed follower/following lists

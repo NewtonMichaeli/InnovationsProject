@@ -1,18 +1,18 @@
 import {FC, useState} from 'react'
 // redux
-import { useAppSelector } from '../../hooks/redux'
-import { userSelector } from '../../redux/features/user'
+import { useAppSelector } from '../../../hooks/redux'
+import { userSelector } from '../../../redux/features/user'
 // types
-import { InventionType, SharedProjectsResponseType, UserType } from '../../redux/features/user/user.types'
+import { InventionType, SharedProjectsResponseType, UserType } from '../../../redux/features/user/user.types'
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
 import { AiOutlineSearch } from 'react-icons/ai'
 // components
-import GoBack from '../shared/GoBack'
-import InventionCards from './inventions/Cards'
+import GoBack from '../GoBack'
+import InventionCards from '../../profile/InventionCards'
 // styles
-import styles from '../../styles/components/profile/list-inventions.module.css'
-import { getModuleStylesMethod } from '../../utils/styles.utils'
+import styles from '../../../styles/components/profile/list-inventions.module.css'
+import { getModuleStylesMethod } from '../../../utils/styles.utils'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)

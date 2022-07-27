@@ -1,17 +1,17 @@
 // types
 import {FC} from 'react'
-import { UserType } from '../../redux/features/user/user.types'
+import { UserType } from '../../../redux/features/user/user.types'
 // redux
-import { useAppSelector } from '../../hooks/redux'
-import { userSelector } from '../../redux/features/user'
+import { useAppSelector } from '../../../hooks/redux'
+import { userSelector } from '../../../redux/features/user'
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
 import { AiOutlineSearch } from 'react-icons/ai'
 // components
-import UserItem from '../shared/UserItem'
+import UsersList from '../UsersList'
 // styles
-import styles from '../../styles/components/profile/list-followers.module.css'
-import { getModuleStylesMethod } from '../../utils/styles.utils'
+import styles from '../../../styles/components/profile/list-followers.module.css'
+import { getModuleStylesMethod } from '../../../utils/styles.utils'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -49,8 +49,7 @@ const ListFollowers: FC<{
                     </div>
                     <div className={styles["content-followers-list"]}>
                         {/* TODO: server route -> get users data by a given user_id array */}
-                        {UserData.Followers.map(f => 
-                            <UserItem isAuthenticated={isAuthenticated} key={f._id} User={f} isFollowing={User?.Following.some(s => s._id === f._id)} isSelf={User?._id === f._id} />)}
+                        <UsersList isFollowing={fid => User?.Following.some(s => s._id === fid)} isAuthenticated={isAuthenticated} Users={UserData.Followers} isSelf={fid => User?._id === fid} />
                     </div>
                 </div>
             </div>

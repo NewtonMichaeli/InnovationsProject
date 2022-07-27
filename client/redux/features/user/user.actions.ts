@@ -2,7 +2,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import * as userAPI from '../../../utils/api/requests/user.api'
 // types
-import { FormInventionType, REGIONS_ENUM } from './user.types'
+import { ContributorType, FormInventionType, REGIONS_ENUM } from './user.types'
 
 // async action: fetch user data
 export const fetchUserData = createAsyncThunk('user/fetchUserData', async () => {
@@ -48,5 +48,12 @@ export type createInvention__type = { new_invention_data: FormInventionType }
 // async action: send new invention
 export const createInvention = createAsyncThunk('invention/newInvention', async ({ new_invention_data }: createInvention__type) => {
     const res = await userAPI.createInvention({ data: new_invention_data })
+    return res.data
+})
+
+export type inviteToProject__type = { project_id: string, action: 'add' | 'remove', user_id: string, roles?: ContributorType['Roles'] }
+// async action: send new invention
+export const inviteToProject = createAsyncThunk('invention/inviteToProject', async (data: inviteToProject__type) => {
+    const res = await userAPI.inviteToProject(data)
     return res.data
 })

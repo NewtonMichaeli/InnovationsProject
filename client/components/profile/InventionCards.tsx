@@ -1,11 +1,12 @@
-// types
 import Link from 'next/link'
+// types
 import {FC} from 'react'
-import { CLIENT_URIS } from '../../../configs/_client'
-import { InventionType } from '../../../redux/features/user/user.types'
+import { CLIENT_URIS } from '../../configs/_client'
+import { InventionType } from '../../redux/features/user/user.types'
+// utils
+import formatTime from '../../utils/others/formatTime'
 // styles
-import styles from '../../../styles/components/profile/inventions/Cards.module.css'
-import formatTime from '../../../utils/others/formatTime'
+import styles from '../../styles/components/profile/inventions/Cards.module.css'
 
 
 const Card: FC<{

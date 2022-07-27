@@ -3,7 +3,7 @@
 // enums
 export const STATUS_ENUM = {
     "open": "open",
-    "in-delevopment": "in-delevopment",
+    "in delevopment": "in delevopment",
     "finished": "finished"
 }
 export const REGIONS_ENUM = {
@@ -44,7 +44,7 @@ export type FormInventionType = {
     Status: keyof typeof STATUS_ENUM,
     Occupations: string[],
     Roles: string[],
-    Contributors: MinifiedUserType[],
+    Contributors: ContributorType[],
     Private: boolean
 }
 
@@ -92,7 +92,6 @@ export type UserType = {
 
 // user-reducer state type
 export type UserStateType = {
-    token: string | null,
     isLoading: boolean,
     User: UserType | null,
     isAuthenticated: boolean

@@ -53,7 +53,7 @@
     width: 95%;
 }
 /* social-btns @ user-item */
-.user-item .social-btns {
+.social-btns {
     width: 6.4rem;
     height: 100%;
     /* layout */
@@ -63,8 +63,29 @@
     justify-content: space-evenly;
     padding: .2rem 0;
 }
-.user-item .social-btns .btn-follow,
-.user-item .social-btns .btn-invite-to-project {
+/* START social buttons on single-user-mode */
+.social-btns.single-user-mode {
+    flex-direction: row;
+    height: max-content;
+    width: max-content;
+    margin-top: .2rem;
+}
+.social-btns.single-user-mode .btn-follow,
+.social-btns.single-user-mode .btn-invite-to-project {
+    border-radius: 2rem;
+    font-size: .7rem;
+    padding: 0 1.3rem;
+    cursor: pointer;
+    color: #fff;
+    width: max-content;
+    height: 1.4rem;
+}
+.social-btns.single-user-mode .btn-follow {
+    margin-right: .3rem;
+}
+/* END social buttons on single-user-mode */
+.social-btns .btn-follow,
+.social-btns .btn-invite-to-project {
     border-radius: 1rem;
     width: 90%;
     height: 1.2rem;
@@ -74,16 +95,75 @@
     color: #fff;
     cursor: pointer;
 }
-.user-item .social-btns .btn-follow {
+.social-btns .btn-follow {
     background-color: #0085FF;
     border: 2px solid #005CB0;
 }
-.user-item .social-btns .btn-follow.following {
+.social-btns .btn-follow.following {
     color: #0085FF;
     background-color: #ddd;
     font-weight: 400;
 }
-.user-item .social-btns .btn-invite-to-project {
+.social-btns .btn-invite-to-project {
     background-color: #6A4E6D;
     border: 2px solid #150628;
+    position: relative;
+}
+.social-btns .btn-invite-to-project.disable-btn {
+    opacity: .65;
+    cursor: default;
+}
+.btn-invite-to-project .Inventions-options {
+    background-color: #222;
+    border-radius: .3rem;
+    position: absolute;
+    bottom: 130%;
+    right: -.5rem;
+    width: max-content;
+    min-width: calc(100% + 1rem);
+    height: max-content;
+    max-height: 8rem;
+    overflow: auto;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-bottom: .3rem;
+    padding-top: .2rem;
+    /* init styles and animations */
+    transform: translateY(10%);
+    opacity: 0;
+    pointer-events: none;
+    animation: onSlideShow .2s 0s forwards;
+
+}
+.btn-invite-to-project .Inventions-options .invention:not(:last-child) {
+    border-bottom: 1px solid #66666666;
+}
+.btn-invite-to-project .Inventions-options .invention {
+    width: 100%;
+    /* height: 1.3rem; */
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-invite-to-project .Inventions-options .invention:hover {
+    background-color: #3f3f3f;
+}
+.btn-invite-to-project .Inventions-options .invention code {
+    margin: .3rem .5rem;
+    font-size: .7rem;
+}
+
+
+/* animations */
+
+@keyframes onSlideShow {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: visible;
+    }
 }

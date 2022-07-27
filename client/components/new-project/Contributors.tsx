@@ -1,6 +1,6 @@
 // types
 import { FC, Fragment, KeyboardEvent, SetStateAction, useRef, useState } from "react"
-import { MinifiedUserType } from "../../redux/features/user/user.types"
+import { ContributorType, MinifiedUserType } from "../../redux/features/user/user.types"
 // utils
 import { searchByQuery } from "../../utils/api/requests/user.api"
 // icons
@@ -18,43 +18,33 @@ const getStyles = getModuleStylesMethod(styles)
 const Contributor: FC<{
     user: MinifiedUserType,
     removeContributor: (id: string) => unknown
-}> = ({user, removeContributor}) => {
+}> = ({user: {_id, Username, Profile_Pic}, removeContributor}) => {
     return (
-        <div key={user._id} className={styles["User"]} onClick={() => removeContributor(user._id)} title={user.Username}>
-            <img src={`/profile-pics/${user.Profile_Pic}.jpeg`} alt={user.Username} />
-            <MdClose className={styles["close-btn"]} size={16} onClick={() => removeContributor(user._id)} />
-        </div>
-    )
-}
-
-
-const UserOption: FC<{
-    user: MinifiedUserType,
-    addContributor: (user: MinifiedUserType) => unknown
-}> = ({user, addContributor}) => {
-    return (
-        <div key={user._id} className={styles["UserOption"]} onClick={() => addContributor(user)}>
-            <img src={`/profile-pics/${user.Profile_Pic}.jpeg`} alt={user.Username} />
-            <div className={styles["data"]}>
-                <h2 className={styles["name"]}>{user.Fname}&nbsp;{user.Sname}</h2>
-                <p className={styles["username-x-email"]}>
-                    {user.Username}&nbsp;•&nbsp;{user.Email}
-                </p>
-            </div>
+        <div className={styles["User"]} title={Username}>
+            <img src={`/profile-pics/${Profile_Pic}.jpeg`} alt={Username} />
+            <MdClose className={styles["close-btn"]} size={16} onClick={() => removeContributor(_id)} title={`Remove ${Username}`} />
         </div>
     )
 }
 
 
 const UserOptions: FC<{
-    users: MinifiedUserType[],
-    addContributor: (user: MinifiedUserType) => unknown
+    users: ContributorType[],
+    addContributor: (user: ContributorType) => unknown
 }> = ({users, addContributor}) => {
     return (
         <section className={styles["select-users-frame"]}>
             {users.map(u => (
                 <Fragment key={u._id}>
-                    <UserOption addContributor={addContributor} user={u} />
+                    <div className={styles["UserOption"]} onClick={() => addContributor(u)}>
+                        <img src={`/profile-pics/${u.Profile_Pic}.jpeg`} alt={u.Username} />
+                        <div className={styles["data"]}>
+                            <h2 className={styles["name"]}>{u.Fname}&nbsp;{u.Sname}</h2>
+                            <p className={styles["username-x-email"]}>
+                                {u.Username}&nbsp;•&nbsp;{u.Email}
+                            </p>
+                        </div>
+                    </div>
                     <div className={styles["user-seperator"]}></div>
                 </Fragment>
             ))}
@@ -64,15 +54,15 @@ const UserOptions: FC<{
 
 
 const Contributors: FC<{
-    list: MinifiedUserType[],
-    setList: (vals: MinifiedUserType[]) => unknown
+    list: ContributorType[],
+    setList: (vals: ContributorType[]) => unknown
 }> = ({list, setList}) => {
     // states
     const {User: {_id}} = useAppSelector(userSelector)
     const input_ref = useRef(null)
-    const [userOptions, setUserOptions] = useState([])
+    const [userOptions, setUserOptions] = useState<ContributorType[]>([])
     // handlers
-    const addContributor = (user: MinifiedUserType) => {
+    const addContributor = (user: ContributorType) => {
         if (!list.some(u => u._id === user._id)) {
             setList([...list, user])
             setUserOptions([])
@@ -86,18 +76,20 @@ const Contributors: FC<{
         const {value: query} = e.target
         if (query.length && query.trim().length) {
             const res = await searchByQuery({limit: 4, query, excludeUsers: [_id, ...list.map(u => u._id)]})
-            setUserOptions(res.data)
+            setUserOptions(res.data.map(u => ({...u, Roles: []})))
         }
         else setUserOptions([])
     }
 
     return (
-        <div className={styles[`list`]}>
-            {list.map((t,i) => <Contributor key={i} user={t} removeContributor={removeContributor} />)}
-            <div className={styles["input-container"]}>
-                <input type="text" id="contributor" onChange={onChangeHandler} placeholder={`Add Members`} ref={input_ref} />
-                {/* select list */}
-                {userOptions.length !== 0 && <UserOptions addContributor={addContributor} users={userOptions} />}
+        <div className={styles[`list-wrapper`]}>
+            <div className={styles[`list`]}>
+                {list.map((t,i) => <Contributor key={i} user={t} removeContributor={removeContributor} />)}
+                <div className={styles["input-container"]}>
+                    <input type="text" id="contributor" onChange={onChangeHandler} placeholder={`Add Members`} ref={input_ref} />
+                    {/* select list */}
+                    {userOptions.length !== 0 && <UserOptions addContributor={addContributor} users={userOptions} />}
+                </div>
             </div>
         </div>
     )

@@ -1,21 +1,17 @@
 import Head from 'next/head'
-import {FC, useState} from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+// types
+import {FC} from 'react'
+import { CLIENT_URIS } from '../../configs/_client'
 // redux
 import { useAppSelector } from '../../hooks/redux'
 import { userSelector } from '../../redux/features/user'
 // components
-import ListFollowers from '../../components/profile/list-followers'
-import ListInventions from '../../components/profile/list-inventions'
-import ListFollowings from '../../components/profile/list-following'
 import GoBack from '../../components/shared/GoBack'
+import DataLists from '../../components/shared/user-data-lists'
 // styles
 import styles from '../../styles/pages/profile.module.css'
-import Link from 'next/link'
-import { CLIENT_URIS } from '../../configs/_client'
-
-// display status for each data item - default is false
-const defaulDatatShowStatus = {followers: false, inventions: false, following: false}
 
 
 const Profile: FC = () => {
@@ -23,14 +19,6 @@ const Profile: FC = () => {
     const { User } = useAppSelector(userSelector)
     // -- has redirected from explore page?:
     const { push, query: {explored} } = useRouter()
-    // display status for each data item - default is false
-    const [showDataItem, setShowDataItem] = useState({...defaulDatatShowStatus})
-    // handlers
-    const changeShowDataItem = (type: keyof typeof showDataItem, status: boolean) => {
-        // shorthand for controlling a single key each time
-        // show/hide specified data-item-key while allowing for only 1 key to be true
-        setShowDataItem({ ...defaulDatatShowStatus, [type]: status })
-    }
 
     return (
         <main className={styles["Profile"]}>
@@ -51,23 +39,7 @@ const Profile: FC = () => {
                 <button className={styles["btn-edit-profile"]} onClick={() => push(CLIENT_URIS.EDIT_PROFILE)}>Edit profile</button>
             </section>
             {/* profile data section */}
-            <section className={styles["user-data"]}>
-                <div className={styles["data-item"]} onClick={() => changeShowDataItem('followers', true)}>
-                    <h1>{User.Followers.length}</h1>
-                    <ListFollowers show={showDataItem.followers} close={() => changeShowDataItem('followers', false)} UserData={User} />
-                    <h5>Followers</h5>
-                </div>
-                <div className={styles["data-item"]} onClick={() => changeShowDataItem('inventions', true)}>
-                    <h1>{User.Inventions.length + User.Shared_Projects.length}</h1>
-                    <ListInventions show={showDataItem.inventions} close={() => changeShowDataItem('inventions', false)} UserData={User} />
-                    <h5>Inventions</h5>
-                </div>
-                <div className={styles["data-item"]} onClick={() => changeShowDataItem('following', true)}>
-                    <h1>{User.Following.length}</h1>
-                    <ListFollowings show={showDataItem.following} close={() => changeShowDataItem('following', false)} UserData={User} />
-                    <h5>Following</h5>
-                </div>
-            </section>
+            <DataLists User={User} />
         </main>
     )
 }

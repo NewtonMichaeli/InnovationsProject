@@ -6,7 +6,7 @@ import { useAppSelector } from '../../../hooks/redux'
 import { userSelector } from '../../../redux/features/user'
 import { inventionSelector } from '../../../redux/features/invention'
 // components
-import UserItem from '../../shared/UserItem'
+import UsersList from '../../shared/UsersList'
 import EditSectionBtn from '../../shared/EditInventionSection'
 // styles
 import styles from '../../../styles/components/Invention/DataSections/members.module.css'
@@ -28,8 +28,7 @@ const Members_DataSection: FC = () => {
                 <code className={styles['counter-title']}>
                     {Invention.Project.Contributors.length} Member{Invention.Project.Contributors.length!==1?'s':''}
                 </code>
-                {Invention.Project.Contributors.map(m => 
-                    <UserItem key={m._id} User={m} isFollowing={User.Following.some(f => f._id === m._id)} isSelf={User._id === m._id} isAuthenticated />)}
+                <UsersList isFollowing={mid => User.Following.some(f => f._id === mid)} isAuthenticated={true} Users={Invention.Project.Contributors} isSelf={mid => User._id === mid} />
             </div>
         </section>
     )
