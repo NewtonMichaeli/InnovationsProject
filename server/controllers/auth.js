@@ -159,7 +159,6 @@ const updateFollowingList = async (req, res) => {
         return responseHandler.incompleteFields(res, 'Must provide a valid action: "add" / "remove"')
 
     // avoid following yourself
-    console.log(user._id.toString(), user_id)
     if (user._id.toString() === user_id)
         return responseHandler.incompleteFields(res, 'Cannot follow yourself')
 
