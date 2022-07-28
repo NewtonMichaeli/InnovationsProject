@@ -1,5 +1,7 @@
 // configs for client
 
+import { STATUS_ENUM } from "../redux/features/user/user.types"
+
 // invention sections, currently 3/4 are editable
 export type INVENTION_SECTIONS = 'members' | 'information' | 'assets'
 
@@ -44,5 +46,9 @@ export const CLIENT_SECURED_URIS = [
 export const isAccessingSecuredUri = (pathname: string) =>
     pathname === CLIENT_URIS.HOME || CLIENT_SECURED_URIS.some(uri => pathname.startsWith(uri))
 
-// shorthand for getting profile-pics (temp)
-export const SRC_PROFILE_PIC = (n: number) => `/profile-pics/${n}.jpeg`
+
+// shorthand for getting assets from /public directory
+export const PUBLIC_SRC = {
+    PROFILE_PIC: (n: number) => `/profile-pics/${n}.jpeg`,
+    INVENTION_STATUS: (status: keyof typeof STATUS_ENUM) => `/invention-status-icons/${status.replace(' ', '-')}.svg`
+}

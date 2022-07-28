@@ -7,10 +7,10 @@
     overflow: visible;
     /* clip */
     clip-path: circle(0px);
-    transition: clip-path .9s ease;
+    transition: clip-path 1s ease;
 }
 .list-followers-wrapper.show {
-    clip-path: circle(100vw);
+    clip-path: circle(200vw);
 }
 
 .list-followers-wrapper .list-followers {

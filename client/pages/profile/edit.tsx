@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 // types
 import {FC, FormEvent, useState} from 'react'
-import { CLIENT_URIS, SRC_PROFILE_PIC } from '../../configs/_client'
+import { CLIENT_URIS, PUBLIC_SRC } from '../../configs/_client'
 import { FormUserType, REGIONS_ENUM } from '../../redux/features/user/user.types'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
@@ -60,20 +60,20 @@ const EditProfile: FC = () => {
             <form className={styles["EditProfile-form"]} onSubmit={updateUserHandler}>
                 {/* profile pic */}
                 <div className={styles["input-img-container"]}>
-                    <img src={SRC_PROFILE_PIC(data.Profile_Pic)} alt="Profile Picture" />
-                    <div className={styles["change-profile-pic-btn"]} title="Change profile picture">
-                        <FiEdit2 size={20} className={styles['icon']} onClick={() => setToggleChooseProfilePic(s =>!s)} />
-                    </div>
                     {/* choose profile-pic */}
                     <div className={getStyles(`choose-profile-pic ${toggleChooseProfilePic ? 'show' : ''}`)}>
                         {Array.apply(null, Array(10)).map((v,i: number) => 
-                            <img src={SRC_PROFILE_PIC(i)} alt={`${i}`} onClick={() => {
+                            <img src={PUBLIC_SRC.PROFILE_PIC(i)} alt={`${i}`} onClick={() => {
                                 setData({...data, Profile_Pic: i})
                                 setToggleChooseProfilePic(false)
                             }} style={{
                                 transitionDelay: `${i*.04}s`,
                                 transform: `translate(-3.4rem, ${i*-1}rem)`
                             }}/>)}
+                    </div>
+                    <img src={PUBLIC_SRC.PROFILE_PIC(data.Profile_Pic)} alt="Profile Picture" />
+                    <div className={styles["change-profile-pic-btn"]} title="Change profile picture">
+                        <FiEdit2 size={20} className={styles['icon']} onClick={() => setToggleChooseProfilePic(s =>!s)} />
                     </div>
                 </div>
                 <div className={styles["form-body"]}>

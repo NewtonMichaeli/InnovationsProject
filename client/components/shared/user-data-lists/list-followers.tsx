@@ -1,5 +1,5 @@
 // types
-import {FC} from 'react'
+import {FC, useState} from 'react'
 import { UserType } from '../../../redux/features/user/user.types'
 // redux
 import { useAppSelector } from '../../../hooks/redux'
@@ -12,7 +12,8 @@ import UsersList from '../UsersList'
 // styles
 import styles from '../../../styles/components/profile/list-followers.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
-import { SRC_PROFILE_PIC } from '../../../configs/_client'
+import { PUBLIC_SRC } from '../../../configs/_client'
+import { filterUsersByQuery } from '../../../utils/others/filterUsersByQuery'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -23,9 +24,11 @@ const ListFollowers: FC<{
     UserData: UserType,
     close: () => unknown
 }> = ({show, close, UserData}) => {
-    // states
-    const { User, isAuthenticated } = useAppSelector(userSelector)
-    // handlers
+    // States
+    const { User } = useAppSelector(userSelector)
+    // -- filtered users list
+    const [filteredUsers, setFilteredUsers] = useState(User.Followers)
+    // Handlers
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
         close()
@@ -41,16 +44,19 @@ const ListFollowers: FC<{
                     <div className={styles["content-header"]}>
                         <div className={styles["profile-pic"]} onClick={onClose} title="Leave Followers tab">
                             <BsArrowLeftShort size={36} />
-                            <img src={SRC_PROFILE_PIC(UserData.Profile_Pic)} alt={UserData.Username} />
+                            <img src={PUBLIC_SRC.PROFILE_PIC(UserData.Profile_Pic)} alt={UserData.Username} />
                         </div>
                         <div className={styles['input-search-followers']}>
                             <AiOutlineSearch className={styles['icon-search']} size={20} />
-                            <input type="text" placeholder={`Search followers (${UserData.Followers.length})`} />
+                            <input type="text" placeholder={`Search followers (${UserData.Followers.length})`} 
+                                onChange={e => setFilteredUsers(filterUsersByQuery(User.Followers, e.target.value))} />
                         </div>
                     </div>
                     <div className={styles["content-followers-list"]}>
-                        {/* TODO: server route -> get users data by a given user_id array */}
-                        <UsersList isFollowing={fid => User?.Following.some(s => s._id === fid)} Users={UserData.Followers} isSelf={fid => User?._id === fid} />
+                        <UsersList 
+                            Users={filteredUsers} 
+                            isFollowing={fid => User?.Following.some(s => s._id === fid)} 
+                            isSelf={fid => User?._id === fid} />
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { FC, useState } from 'react'
 // types
-import { CLIENT_URIS, SRC_PROFILE_PIC } from '../../../configs/_client'
+import { CLIENT_URIS, PUBLIC_SRC } from '../../../configs/_client'
 import { UserType } from '../../../redux/features/user/user.types'
 // icons
 import { MdKeyboardArrowDown } from 'react-icons/md'
@@ -41,12 +41,12 @@ export const ProfileSection_AuthorizedUser: FC<{
     return (
         <div className={styles["profile-viewer-wrapper"]}>
             <img className={styles['btn-view-profile']} onClick={() => setViewProfile(!viewProfile)} 
-                src={SRC_PROFILE_PIC(User.Profile_Pic)} alt={User.Username} title="View profile" />
+                src={PUBLIC_SRC.PROFILE_PIC(User.Profile_Pic)} alt={User.Username} title="View profile" />
             <MdKeyboardArrowDown size={20} />
             {/* profile viewer */}
             <div className={getStyles(`profile-viewer ${viewProfile ? 'view':''}`)}>
                 <div className={styles["user-data"]}>
-                    <img src={SRC_PROFILE_PIC(User.Profile_Pic)} alt={User.Username} />
+                    <img src={PUBLIC_SRC.PROFILE_PIC(User.Profile_Pic)} alt={User.Username} />
                     <div className={styles["data"]}>
                         <h2 className={styles["username"]}>{User.Username}</h2>
                         <h5 className={styles["email"]}>{User.Email}</h5>

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import {FC, useState} from 'react'
 // types
 import { UserPageProps, UserPageSSR } from '../../types/pages/user.type'
-import { CLIENT_URIS, SRC_PROFILE_PIC } from '../../configs/_client'
+import { CLIENT_URIS, PUBLIC_SRC } from '../../configs/_client'
 // redux
 import { useAppSelector } from '../../hooks/redux'
 import { userSelector } from '../../redux/features/user'
@@ -63,7 +63,7 @@ const User: FC<UserPageProps> = ({UserData}) => {
             <GoBack />
             {/* user header section */}
             <section className={styles["user-header"]}>
-                <img src={SRC_PROFILE_PIC(InspectedUser.Profile_Pic)} alt={InspectedUser.Username} />
+                <img src={PUBLIC_SRC.PROFILE_PIC(InspectedUser.Profile_Pic)} alt={InspectedUser.Username} />
                 <h1 className={styles['fullname']}>{InspectedUser.Fname} {InspectedUser.Sname}</h1>
                 <h4 className={styles["username-x-email"]}>{InspectedUser.Username}&nbsp;•&nbsp;{InspectedUser.Email}</h4>
                 <SocialButtons 

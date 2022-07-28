@@ -1,7 +1,7 @@
 import Link from "next/link"
 // types
 import { FC } from "react"
-import { CLIENT_URIS, SRC_PROFILE_PIC } from "../../configs/_client"
+import { CLIENT_URIS, PUBLIC_SRC } from "../../configs/_client"
 // redux
 import { useAppSelector } from "../../hooks/redux"
 import { userSelector } from "../../redux/features/user"
@@ -41,7 +41,7 @@ const Project: FC<{
             <div className={getStyles(`invention status-${Project.Status.replace(' ', '-')}`)}>
                 {/* header */}
                 <div className={styles['invention-header']}>
-                    <img className={styles['profile-pic']} src={SRC_PROFILE_PIC(CreatorData.Profile_Pic)} alt={CreatorData.Username} />
+                    <img className={styles['profile-pic']} src={PUBLIC_SRC.PROFILE_PIC(CreatorData.Profile_Pic)} alt={CreatorData.Username} />
                     <div className={styles['project-data']}>
                         <h2 className={styles['project-name']}>{Project.Name}</h2>
                         <i className={styles['creator-x-access']}>{isCreator ? 'Creator' : 'Contributor'} • {Project.Private ? 'Private' : 'Public'}</i>
@@ -59,7 +59,7 @@ const Project: FC<{
                     {Project.Tags.length ? <Tags mode='tags' list={Project.Tags} /> : ''}
                 </div>
                 <h5 className={styles['status-x-members']}>
-                    <img src={`/invention-status-icons/${Project.Status.replace(' ','-')}.svg`} alt={Project.Status} />
+                    <img src={PUBLIC_SRC.INVENTION_STATUS(Project.Status)} alt={Project.Status} />
                     &nbsp;{Project.Status}&nbsp;•&nbsp;{Project.Contributors.length + 1}&nbsp;members
                 </h5>
             </div>
@@ -78,7 +78,8 @@ const RenderProjects: FC<{
     return (
         <div className={getStyles(`my-projects-list ${Inventions.length === 1 ? 'single-invention':''}`)}>
             {!Inventions?.length
-                ? <code className={styles["no-inventions"]}>You have no Inventions yet</code>
+                // ? <code className={styles["no-inventions"]}>You have no Inventions yet</code>
+                ? <></>
                 : Inventions.sort((a, b) => b.Project.DoC - a.Project.DoC).map(inv => 
                     <Project key={inv.Project._id} invention={inv} />)}
         </div>

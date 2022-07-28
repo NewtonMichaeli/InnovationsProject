@@ -1,5 +1,5 @@
 // types
-import {FC} from 'react'
+import {FC, useState} from 'react'
 import { UserType } from '../../../redux/features/user/user.types'
 // redux
 import { useAppSelector } from '../../../hooks/redux'
@@ -12,7 +12,8 @@ import UsersList from '../UsersList'
 // styles
 import styles from '../../../styles/components/profile/list-following.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
-import { SRC_PROFILE_PIC } from '../../../configs/_client'
+import { PUBLIC_SRC } from '../../../configs/_client'
+import { filterUsersByQuery } from '../../../utils/others/filterUsersByQuery'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -24,7 +25,9 @@ const ListFollowings: FC<{
     close: () => unknown
 }> = ({show, close, UserData}) => {
     // states
-    const { User, isAuthenticated } = useAppSelector(userSelector)
+    const { User } = useAppSelector(userSelector)
+    // -- filtered users list
+    const [filteredUsers, setFilteredUsers] = useState(User.Following)
     // handlers
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
@@ -41,15 +44,16 @@ const ListFollowings: FC<{
                     <div className={styles["content-header"]}>
                         <div className={styles["profile-pic"]} onClick={onClose} title="Leave Folowings tab">
                             <BsArrowLeftShort size={36} />
-                            <img src={SRC_PROFILE_PIC(UserData.Profile_Pic)} alt={UserData.Username} />
+                            <img src={PUBLIC_SRC.PROFILE_PIC(UserData.Profile_Pic)} alt={UserData.Username} />
                         </div>
                         <div className={styles['input-search-followings']}>
                             <AiOutlineSearch className={styles['icon-search']} size={20} />
-                            <input type="text" placeholder={`Search followings (${UserData.Following.length})`} />
+                            <input type="text" placeholder={`Search followings (${UserData.Following.length})`}
+                                onChange={e => setFilteredUsers(filterUsersByQuery(User.Following, e.target.value))} />
                         </div>
                     </div>
                     <div className={styles["content-followings-list"]}>
-                        <UsersList isFollowing Users={UserData.Following} isSelf={fid => User?._id === fid} />
+                        <UsersList isFollowing Users={filteredUsers} isSelf={fid => User?._id === fid} />
                     </div>
                 </div>
             </div>

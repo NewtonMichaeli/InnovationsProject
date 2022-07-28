@@ -32,7 +32,6 @@
 /* form profile picture */
 .EditProfile-form .input-img-container {
     height: 28%;
-    /* width: 100%; */
     padding-top: 1rem;
     cursor: pointer;
     position: relative;
@@ -41,12 +40,6 @@
     height: 100%;
     border-radius: 51%;
     border: 2px solid #aaa;
-}
-.EditProfile-form .input-img-container .icon {
-    color: #ffffffaa;
-}
-.EditProfile-form .input-img-container:hover .icon {
-    color: #ffffff;
 }
 .EditProfile-form .input-img-container .change-profile-pic-btn {
     background: linear-gradient(45deg, #25143B, #25143B);
@@ -66,7 +59,11 @@
     width: 100%;
     height: 100%;
     padding: .65rem;
-    z-index: 2;
+    color: #ffffffaa;
+    cursor: pointer;
+}
+.EditProfile-form .input-img-container .change-profile-pic-btn:hover .icon {
+    color: #fff;
 }
 /* choose profile pic */
 .EditProfile-form .input-img-container .choose-profile-pic {
@@ -74,10 +71,10 @@
     background-color: transparent;
     mask-image: linear-gradient(to bottom, #00000066, #000, #000, #000, #000, #000, #000, #000, #00000066);
     top: .5rem;
-    left: calc(100% + .1rem);
+    left: calc(100% - 1.9rem);
     /* width: 3.7rem; */
-    width: 6rem;
-    padding-left: calc(6rem - 3.7rem);
+    width: 8rem;
+    padding-left: calc(8rem - 3.7rem);
     padding-bottom: .5rem;
     height: 14.7rem;
     overflow-y: scroll;
@@ -108,7 +105,7 @@
     border-radius: 51%;
     margin: .2rem 0;
     /* init styles & transition */
-    transition: all .2s ease;
+    transition: transform .2s ease, opacity .4s ease;
     opacity: 0;
 }
 .EditProfile-form .input-img-container .choose-profile-pic.show img {

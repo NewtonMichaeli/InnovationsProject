@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 // types
 import {FC} from 'react'
-import { CLIENT_URIS, SRC_PROFILE_PIC } from '../../configs/_client'
+import { CLIENT_URIS, PUBLIC_SRC } from '../../configs/_client'
 // redux
 import { useAppSelector } from '../../hooks/redux'
 import { userSelector } from '../../redux/features/user'
@@ -33,7 +33,7 @@ const Profile: FC = () => {
             </Link>
             {/* profile header section */}
             <section className={styles["profile-header"]}>
-                <img src={SRC_PROFILE_PIC(User.Profile_Pic)} alt={User.Username} />
+                <img src={PUBLIC_SRC.PROFILE_PIC(User.Profile_Pic)} alt={User.Username} />
                 <h1 className={styles['fullname']}>{User.Fname} {User.Sname}</h1>
                 <h4 className={styles["username-x-email"]}>{User.Username} • {User.Email}</h4>
                 <button className={styles["btn-edit-profile"]} onClick={() => push(CLIENT_URIS.EDIT_PROFILE)}>Edit profile</button>

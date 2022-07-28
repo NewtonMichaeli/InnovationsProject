@@ -3,7 +3,7 @@ import { FC, Fragment, KeyboardEvent, useRef, useState } from "react"
 import { ContributorType, MinifiedUserType } from "../../redux/features/user/user.types"
 // utils
 import { searchByQuery } from "../../utils/api/requests/user.api"
-import { SRC_PROFILE_PIC } from "../../configs/_client"
+import { PUBLIC_SRC } from "../../configs/_client"
 // redux
 import { useAppSelector } from "../../hooks/redux"
 import { userSelector } from "../../redux/features/user"
@@ -19,7 +19,7 @@ const Contributor: FC<{
 }> = ({user: {_id, Username, Profile_Pic}, removeContributor}) => {
     return (
         <div className={styles["User"]} title={Username}>
-            <img src={SRC_PROFILE_PIC(Profile_Pic)} alt={Username} />
+            <img src={PUBLIC_SRC.PROFILE_PIC(Profile_Pic)} alt={Username} />
             <MdClose className={styles["close-btn"]} size={16} onClick={() => removeContributor(_id)} title={`Remove ${Username}`} />
         </div>
     )
@@ -35,7 +35,7 @@ const UserOptions: FC<{
             {users.map(u => (
                 <Fragment key={u._id}>
                     <div className={styles["UserOption"]} onClick={() => addContributor(u)}>
-                        <img src={SRC_PROFILE_PIC(u.Profile_Pic)} alt={u.Username} />
+                        <img src={PUBLIC_SRC.PROFILE_PIC(u.Profile_Pic)} alt={u.Username} />
                         <div className={styles["data"]}>
                             <h2 className={styles["name"]}>{u.Fname}&nbsp;{u.Sname}</h2>
                             <p className={styles["username-x-email"]}>

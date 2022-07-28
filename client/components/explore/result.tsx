@@ -1,7 +1,7 @@
 // types
 import Link from "next/link"
 import { FC } from "react"
-import { CLIENT_URIS, SRC_PROFILE_PIC } from "../../configs/_client"
+import { CLIENT_URIS, PUBLIC_SRC } from "../../configs/_client"
 import { MinifiedUserType } from "../../redux/features/user/user.types"
 // styles
 import styles from '../../styles/components/explore/userResult.module.css'
@@ -15,7 +15,7 @@ const UserResult: FC<{
         <Link href={CLIENT_URIS._USER(data.Username)}>
             <div className={styles["result-user"]}>
                 <div className={styles["profile-pic"]}>
-                    <img src={SRC_PROFILE_PIC(data.Profile_Pic)} alt={data.Username} />
+                    <img src={PUBLIC_SRC.PROFILE_PIC(data.Profile_Pic)} alt={data.Username} />
                 </div>
                 <div className={styles["user-data"]}>
                     <h2 className={styles['name']}>{data.Fname} {data.Sname}</h2>

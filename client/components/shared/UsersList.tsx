@@ -2,7 +2,7 @@ import Link from 'next/link'
 // types
 import {FC, MouseEvent, useState} from 'react'
 import { InventionType, MinifiedUserType } from '../../redux/features/user/user.types'
-import { CLIENT_URIS, SRC_PROFILE_PIC } from '../../configs/_client'
+import { CLIENT_URIS, PUBLIC_SRC } from '../../configs/_client'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { userActions, userSelector } from '../../redux/features/user'
@@ -117,7 +117,7 @@ const UserItem: FC<{
         <div className={styles["user-item"]}>
             {/* profile pic section */}
             <section className={styles["profile-pic"]}>
-                <img src={SRC_PROFILE_PIC(User.Profile_Pic)} alt={User.Username} />
+                <img src={PUBLIC_SRC.PROFILE_PIC(User.Profile_Pic)} alt={User.Username} />
             </section>
             {/* user data section */}
             <Link href={CLIENT_URIS._USER('[key]')} as={CLIENT_URIS._USER(User.Username)}>
@@ -146,13 +146,17 @@ const UsersList: FC<{
     isFollowing?: ((id: string) => boolean) | boolean,
 }> = ({Users, isSelf, isFollowing}) => {
     // states
-    const { isAuthenticated } = useAppSelector(userSelector)
+    const { isAuthenticated, User } = useAppSelector(userSelector)
     const [invitingUser, setInvitingUser] = useState<string>(null)
 
     return <>{
-        Users.map(f => <UserItem isAuthenticated={isAuthenticated} key={f._id} User={f} isSelf={isSelf(f._id)} 
-            isFollowing={typeof isFollowing === 'function' ? isFollowing(f._id) : isFollowing}
-            invitingUser={invitingUser} setInvitingUser={setInvitingUser} />)
+        [...Users]
+        .sort((a,b) => `${b.Fname}${b.Sname}` < `${a.Fname}${a.Sname}` || b.Username === User?.Username ? 1 : -1)
+        .map(f => <UserItem 
+            key={f._id} User={f} isSelf={isSelf(f._id)} isAuthenticated={isAuthenticated} 
+            isFollowing={typeof isFollowing === 'function' ? isFollowing(f._id) : isFollowing} 
+            invitingUser={invitingUser} 
+            setInvitingUser={setInvitingUser} />)
     }</>
 }
 
