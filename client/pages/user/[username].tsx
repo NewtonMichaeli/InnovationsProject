@@ -1,21 +1,21 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import {FC, useState} from 'react'
 // types
 import { UserPageProps, UserPageSSR } from '../../types/pages/user.type'
 import { CLIENT_URIS, PUBLIC_SRC } from '../../configs/_client'
+import { followHandlerType, inviteToProjectHandlerType, SocialButtons } from '../../components/shared/UsersList'
+import { AUTH_TOKEN, tokenHeader } from '../../configs/_token'
 // redux
 import { useAppSelector } from '../../hooks/redux'
 import { userSelector } from '../../redux/features/user'
 // utils
 import { fetchUserData } from '../../utils/api/requests/user.api'
-import { AUTH_TOKEN, tokenHeader } from '../../configs/_token'
 // components
 import GoBack from '../../components/shared/GoBack'
-import { followHandlerType, inviteToProjectHandlerType, SocialButtons } from '../../components/shared/UsersList'
 import DataLists from '../../components/shared/user-data-lists'
 // styles
 import styles from '../../styles/pages/user.module.css'
-import { SharedProjectsResponseType } from '../../types/data/invention.types'
 
 
 /**
@@ -26,20 +26,19 @@ import { SharedProjectsResponseType } from '../../types/data/invention.types'
  */
 const User: FC<UserPageProps> = ({UserData}) => {
     // States
+    const { push } = useRouter()
     const [InspectedUser, setInspectedUser] = useState(UserData)
     const { User, isAuthenticated } = useAppSelector(userSelector)
 
     // Handlers
     // -- follow handler - handle follow button when clicked
     const followHandler: followHandlerType = (action: 'add' | 'remove') => {
-        if (!isAuthenticated) return alert('Not logged in!')    // -- temp notification system
         // -- update InspectedUser (temp functionality)
         if (action === 'add') setInspectedUser(iu => ({...iu, Followers: [...iu.Followers, User]}))
         else setInspectedUser(iu => ({...iu, Followers: iu.Followers.filter(f => f._id !== User._id)}))
     }
     // -- invite-to-project handler - handle when inviting to project
     const inviteToProjectHandler: inviteToProjectHandlerType = (project_id: string) => {
-        if (!isAuthenticated) return alert('Not logged in!')    // -- temp notification system
         // -- update InspectedUser (temp functionality)
         setInspectedUser(iu => ({
             ...iu,
@@ -66,12 +65,14 @@ const User: FC<UserPageProps> = ({UserData}) => {
                 <img src={PUBLIC_SRC.PROFILE_PIC(InspectedUser.Profile_Pic)} alt={InspectedUser.Username} />
                 <h1 className={styles['fullname']}>{InspectedUser.Fname} {InspectedUser.Sname}</h1>
                 <h4 className={styles["username-x-email"]}>{InspectedUser.Username}&nbsp;•&nbsp;{InspectedUser.Email}</h4>
-                <SocialButtons 
-                    invitingUser={InspectedUser._id} 
-                    setInvitingUser={null} 
-                    target_user_id={InspectedUser._id} 
-                    isFollowing={User?.Following.some(f => f._id === InspectedUser._id)} 
-                    singleUserModeCB={[followHandler, inviteToProjectHandler]} />
+                {!isAuthenticated 
+                    ? <button className={styles["login-to-follow"]} onClick={() => push(CLIENT_URIS.LOGIN)}>Sign in to see more</button>
+                    : <SocialButtons 
+                        invitingUser={InspectedUser._id} 
+                        setInvitingUser={null} 
+                        target_user_id={InspectedUser._id} 
+                        isFollowing={User?.Following.some(f => f._id === InspectedUser._id)} 
+                        singleUserModeCB={[followHandler, inviteToProjectHandler]} />}
             </section>
             {/* user data section */}
             <DataLists User={InspectedUser} />

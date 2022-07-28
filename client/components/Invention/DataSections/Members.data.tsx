@@ -28,7 +28,7 @@ const Members_DataSection: FC = () => {
                 <code className={styles['counter-title']}>
                     {Invention.Project.Contributors.length} Member{Invention.Project.Contributors.length!==1?'s':''}
                 </code>
-                <UsersList isFollowing={mid => User.Following.some(f => f._id === mid)} Users={Invention.Project.Contributors} isSelf={mid => User._id === mid} />
+                <UsersList isFollowing={mid => User?.Following.some(f => f._id === mid)} Users={Invention.Project.Contributors} isSelf={mid => User?._id === mid} />
             </div>
         </section>
     )

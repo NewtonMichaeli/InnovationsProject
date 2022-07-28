@@ -1,15 +1,9 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { FC, FormEvent, useState } from 'react'
 // types
 import { FormInventionType } from '../types/data/invention.types'
-import { CLIENT_URIS } from '../configs/_client'
 // redux
 import { useAppDispatch } from '../hooks/redux'
-import { userActions } from '../redux/features/user'
-import { uiActions } from '../redux/features/ui'
-// utils
-import { newProjectInputHandler } from '../utils/forms/newProject.form'
 // components
 import List from '../components/new-project/List'
 import Status from '../components/new-project/Status'
@@ -18,6 +12,10 @@ import Private from '../components/new-project/Private'
 // styles
 import styles from '../styles/pages/newProject.module.css'
 import { getModuleStylesMethod } from '../utils/styles.utils'
+import { userActions } from '../redux/features/user'
+import { newProjectInputHandler } from '../utils/forms/newProject.form'
+import { useRouter } from 'next/router'
+import { CLIENT_URIS } from '../configs/_client'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -40,10 +38,11 @@ const NewProject: FC = () => {
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            await dispatch(userActions.createInvention(newProjectInputHandler(data)))
+            const result = await dispatch(userActions.createInvention(newProjectInputHandler(data)))
+            push(CLIENT_URIS.DASHBOARD, null, {shallow: true})
         }
         catch (err) {
-            dispatch(uiActions.pushFeedback({status: false, msg: err.message}))
+            console.log(err)    // -- temp
         }
     }
 

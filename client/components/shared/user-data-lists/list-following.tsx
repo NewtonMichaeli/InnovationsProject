@@ -26,8 +26,8 @@ const ListFollowings: FC<{
 }> = ({show, close, UserData}) => {
     // states
     const { User } = useAppSelector(userSelector)
-    // -- filtered users list
-    const [filteredUsers, setFilteredUsers] = useState(User.Following)
+    // -- filter users list with query
+    const [search, setSearch] = useState("")
     // handlers
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
@@ -49,11 +49,14 @@ const ListFollowings: FC<{
                         <div className={styles['input-search-followings']}>
                             <AiOutlineSearch className={styles['icon-search']} size={20} />
                             <input type="text" placeholder={`Search followings (${UserData.Following.length})`}
-                                onChange={e => setFilteredUsers(filterUsersByQuery(User.Following, e.target.value))} />
+                                onChange={e => setSearch(e.target.value)} />
                         </div>
                     </div>
                     <div className={styles["content-followings-list"]}>
-                        <UsersList isFollowing Users={filteredUsers} isSelf={fid => User?._id === fid} />
+                        <UsersList 
+                            Users={filterUsersByQuery(UserData.Following, search)}
+                            isFollowing={fid => User?.Following.some(s => s._id === fid)}
+                            isSelf={fid => User?._id === fid} />
                     </div>
                 </div>
             </div>

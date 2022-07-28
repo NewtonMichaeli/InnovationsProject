@@ -5,10 +5,9 @@ import { UserType } from "../types/data/user.types"
 import { InventionType, SharedProjectsResponseType } from '../types/data/invention.types'
 
 
-
 /**
- * @param User (typeof UserType)
- * @param Inventions (typeof InventionType[])
+ * @param User a users list
+ * @param Inventions an inventions list
  * @returns InventionType[] => SharedProjectResponseType[]
  */
 export const formatInventionsToSharedProjects = (User: UserType): SharedProjectsResponseType[] =>
@@ -18,7 +17,7 @@ export const formatInventionsToSharedProjects = (User: UserType): SharedProjects
 
 /**
  * Function unites inventions ans SharedProjects to one-typed-array (typeof SharedProjectsResponseType)
- * @param User (typeof UserType)
+ * @param User a users list
  * @returns Array containing both SharedProjects and Inventions formatted as <SharedProjectsResponseType>
  */
 export const getSharedProjectsFormattedInventions = (User: UserType): SharedProjectsResponseType[] => User ? [
@@ -29,7 +28,7 @@ export const getSharedProjectsFormattedInventions = (User: UserType): SharedProj
 
 /**
  * Function unites inventions ans SharedProjects to one-typed-array (typeof SharedProjectsResponseType)
- * @param User (typeof UserType)
+ * @param User a users list
  * @returns Array containing both SharedProjects and Inventions formatted as <SharedProjectsResponseType>
  */
 export const seperateSharedProjectsFormattedInventions = (User: UserType) => ({
@@ -40,8 +39,8 @@ export const seperateSharedProjectsFormattedInventions = (User: UserType) => ({
 
 /**
  * Function searches for an invention in a given User by a given id
- * @param User (typeof UserType)
- * @param project_id (typeof string)
+ * @param User a users list
+ * @param project_id the project id
  * @returns Invention at User[ idxof project_id ]
  */
 export const findInvention = (User: UserType, project_id: string) => {
@@ -73,10 +72,13 @@ export const findInvention = (User: UserType, project_id: string) => {
  * @param Invention (typeof InventionData)
  * @returns User role in given invention
  */
-export const getInventionUserRole = (user_id: string, Invention: InventionType) => {
-    if (Invention.Owner_id === user_id)
-        return INVENTION_USER_ROLES.CREATOR
-    else if (Invention.Contributors.some(c => c._id === user_id))
-        return INVENTION_USER_ROLES.CONTRIBUTOR
+export const getInventionUserRole = (Invention: InventionType, user_id?: string) => {
+    // -- no user id
+    if (!user_id) return INVENTION_USER_ROLES.OBSERVER
+    // -- user is the owner
+    else if (Invention.Owner_id === user_id) return INVENTION_USER_ROLES.CREATOR
+    // -- user is a contributor
+    else if (Invention.Contributors.some(c => c._id === user_id)) return INVENTION_USER_ROLES.CONTRIBUTOR
+    // -- user is neither
     else return INVENTION_USER_ROLES.OBSERVER
 }

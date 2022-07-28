@@ -1,16 +1,17 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 // types
 import { FC, FormEvent } from 'react'
 import { CLIENT_URIS } from '../configs/_client'
 // redux
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { userActions, userSelector } from '../redux/features/user'
+import { uiActions } from '../redux/features/ui'
 // utils
 import { loginInputHandler } from '../utils/forms/login.form'
 // styles
 import styles from '../styles/pages/login.module.css'
-import { useRouter } from 'next/router'
 
 
 const Login: FC = () => {
@@ -21,12 +22,10 @@ const Login: FC = () => {
     // handlers
     const loginHandler = (e: FormEvent<HTMLFormElement>) => {
         try {
-            const data = loginInputHandler(e)
-            dispatch(userActions.login(data))
+            dispatch(userActions.login(loginInputHandler(e)))
         }
         catch (err) {
-            // temp - push error notification
-            alert(err)
+            dispatch(uiActions.pushFeedback({status: false, msg: err.message}))
         }
     }
 

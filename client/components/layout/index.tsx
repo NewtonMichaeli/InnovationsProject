@@ -11,6 +11,7 @@ import Navbar from "./Navbar"
 import Loading from "../global/loading"
 // styles
 import styles from '../../styles/components/layout/index.module.css'
+import UINotifications from "./Ui"
 
 
 const Layout: FC<{children: JSX.Element[]}> = ({children}) => {
@@ -36,6 +37,8 @@ const Layout: FC<{children: JSX.Element[]}> = ({children}) => {
                 <div className={styles["app-content"]}>
                     {/* content / loading */}
                     {(isLoading || !isAuthenticated || !User) && IsAccessingSecuredUri ? <Loading /> : children}
+                    {/* ui-notifications */}
+                    <UINotifications />
                 </div>
             </section>
         </div>

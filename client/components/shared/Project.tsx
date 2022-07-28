@@ -37,7 +37,7 @@ const Project: FC<{
     // states
     const isCreator = useAppSelector(userSelector).User?._id === CreatorData._id
     return (
-        <Link href={CLIENT_URIS._DASHBOARD(Project._id)} shallow>
+        <Link href={isCreator ? CLIENT_URIS._DASHBOARD(Project._id) : CLIENT_URIS._INVENTION(Project._id)} shallow>
             <div className={getStyles(`invention status-${Project.Status.replace(' ', '-')}`)}>
                 {/* header */}
                 <div className={styles['invention-header']}>

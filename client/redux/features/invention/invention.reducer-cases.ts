@@ -13,5 +13,5 @@ type WritableInventionStateType = WritableDraft<InventionStateType>
 
 export const storeInventionCase = (state: WritableInventionStateType, { payload }: ReturnType<typeof storeInvention>) => {
     state.Invention = payload.Invention
-    state.InventionUserRole = getInventionUserRole(payload.my_user_id, payload.Invention.Project)
+    state.InventionUserRole = getInventionUserRole(payload.Invention.Project, payload.my_user_id)
 }

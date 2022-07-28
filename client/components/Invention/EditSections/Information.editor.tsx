@@ -1,54 +1,95 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { FC, FormEvent, useState } from 'react'
 // types
-import { FC } from 'react'
-// utils
-import formatTime from '../../../utils/others/formatTime'
+import { FormInventionType } from '../../../types/data/invention.types'
+import { CLIENT_URIS } from '../../../configs/_client'
 // redux
-import { inventionSelector } from '../../../redux/features/invention'
-import { useAppSelector } from '../../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { userActions } from '../../../redux/features/user'
+// utils
+import { newProjectInputHandler } from '../../../utils/forms/newProject.form'
+// components
+import Private from '../../new-project/Private'
+import Status from '../../new-project/Status'
+import List from '../../new-project/List'
 // styles
-import styles from '../../../styles/components/Invention/EditSections/information.module.css'
+import styles from '../../../styles/pages/newProject.module.css'
+import { getModuleStylesMethod } from '../../../utils/styles.utils'
 
+// multiple styles getter util
+const getStyles = getModuleStylesMethod(styles)
 
 const Information_EditSection: FC = () => {
     // states
-    const { Project: Invention } = useAppSelector(inventionSelector).Invention
+    const dispatch = useAppDispatch()
+    const { push } = useRouter()
+    const [data, setData] = useState<FormInventionType>({
+        Name: '',
+        Description: '',
+        Status: 'open',
+        Private: false,
+        Tags: [],
+        Occupations: [],
+        Contributors: [],
+        Roles: []
+    })
+    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        try {
+            const result = await dispatch(userActions.createInvention(newProjectInputHandler(data)))
+            push(CLIENT_URIS.DASHBOARD, null, {shallow: true})
+        }
+        catch (err) {
+            console.log(err)    // -- temp
+        }
+    }
 
     return (
-        <section className={styles["information-section"]}>
+        <section className={styles["NewProject"]}>
             <Head>
-                {/* <title>Editing {Invention.Name}'s Information - Innovation</title> */}
+                {/* <title>Edit Information - Innovation</title> */}
             </Head>
-            <div className={styles["editor-header"]}>
-                <h1 className={styles["title"]}>{Invention.Name}</h1>
-            </div>
-            <div className={styles["data-group"]}>
-                <h5 className={styles['label']}>Project Name:</h5>
-                <input type="text" id='Name' name='Name' defaultValue={Invention.Name} />
-            </div>
-            <div className={styles["data-group"]}>
-                <h5 className={styles['label']}>Date of creation:</h5>
-                <h3 className={styles['data']}>{formatTime(Invention.DoC)}</h3>
-            </div>
-            <div className={styles["data-group"]}>
-                <h5 className={styles['label']}>Description:</h5>
-                <textarea name="Description" id="Description" cols={30} rows={10}>
-                    {Invention.Description}
-                </textarea>
-            </div>
-            <div className={styles["data-group"]}>
-                <h5 className={styles['label']}>Is Private</h5>
-                <button>{Invention.Private ? 'true' : 'false'}</button>
-            </div>
-            <div className={styles["data-group"]}>
-                <h5 className={styles['label']}>Status</h5>
-                <select name="Status" id="Status" defaultValue={Invention.Status}>
-                    
-                </select>
-            </div>
-            <div className={styles["data-group"]}>
-                <h5 className={styles['label']}>Members</h5>
-                <h3 className={styles['data']}>{Invention.Contributors.length + 1}</h3>
+            <div className={styles["content"]}>
+                <div className={styles["header"]}>
+                    <h1>Create a new Project</h1>
+                    <p>Your own invention, where you can plan everything, upload assets and share with others.</p>
+                </div>
+                <form className={styles["form"]} onSubmit={submitHandler} onKeyDown={e => e.key === "Enter" ? e.preventDefault() : null}>
+                    {/* projec name */}
+                    <div className={styles["input-field"]}>
+                        <label htmlFor="Name">Project Name</label>
+                        <input type="text" name='Name' id='Name' onChange={e => setData({...data, Name: e.target.value})} />
+                    </div>
+                    {/* prject description */}
+                    <div className={styles["input-field"]}>
+                        <label htmlFor="Description">Project Description</label>
+                        <textarea name="Description" id="Description" onChange={e => setData({...data, Description: e.target.value})} />
+                    </div>
+                    {/* project private indicator */}
+                    <div className={styles["input-field"]}>
+                        <Private setIsPrivate={(is) => setData({...data, Private: is})} />
+                    </div>
+                    {/* project status */}
+                    <div className={styles["input-field"]}>
+                        <label htmlFor="Status">Status</label>
+                        <Status status={data.Status} setStatus={val => setData({...data, Status: val})} />
+                    </div>
+                    {/* project occupations */}
+                    <div className={styles["input-field"]}>
+                        <label htmlFor="occupation">Project Occupations</label>
+                        <List setList={vals => setData({...data, Occupations: vals})} list={data.Occupations} mode="occupation" />
+                    </div>
+                    {/* project tags */}
+                    <div className={getStyles("input-field not-required")}>
+                        <label htmlFor="tag">Project Tags</label>
+                        <List setList={vals => setData({...data, Tags: vals})} list={data.Tags} mode="tag" />
+                    </div>
+                    {/* submit */}
+                    <div className={styles["input-field"]}>
+                        <input type="submit" value="Create Invention" />
+                    </div>
+                </form>
             </div>
         </section>
     )

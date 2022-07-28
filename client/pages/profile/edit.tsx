@@ -1,14 +1,15 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import {useState, FC, FormEvent} from 'react'
 // types
-import {FC, FormEvent, useState} from 'react'
 import { CLIENT_URIS, PUBLIC_SRC } from '../../configs/_client'
 import { FormUserType, REGIONS_ENUM } from '../../types/data/user.types'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { userActions, userSelector } from '../../redux/features/user'
+import { uiActions } from '../../redux/features/ui'
 // utils
-import { updateUserInputHandler } from '../../utils/forms/update.form'
+import { updateUserInputHandler } from '../../utils/forms/updateUser.form'
 // icons
 import { FiEdit2 } from 'react-icons/fi'
 // components
@@ -19,6 +20,7 @@ import { getModuleStylesMethod } from '../../utils/styles.utils'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
+
 
 const EditProfile: FC = () => {
     // states
@@ -38,12 +40,10 @@ const EditProfile: FC = () => {
     const updateUserHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const result = await dispatch(userActions.updateUser(updateUserInputHandler(User, data)))
-            push(CLIENT_URIS.PROFILE, null, {shallow: true})
+            await dispatch(userActions.updateUser(updateUserInputHandler(User, data)))
         }
         catch (err) {
-            // temp - push error notification
-            alert(err)
+            dispatch(uiActions.pushFeedback({status: false, msg: err.message}))
         }
     }
 
@@ -63,7 +63,7 @@ const EditProfile: FC = () => {
                     {/* choose profile-pic */}
                     <div className={getStyles(`choose-profile-pic ${toggleChooseProfilePic ? 'show' : ''}`)}>
                         {Array.apply(null, Array(10)).map((v,i: number) => 
-                            <img src={PUBLIC_SRC.PROFILE_PIC(i)} alt={`${i}`} onClick={() => {
+                            <img key={i} src={PUBLIC_SRC.PROFILE_PIC(i)} alt={`${i}`} onClick={() => {
                                 setData({...data, Profile_Pic: i})
                                 setToggleChooseProfilePic(false)
                             }} style={{

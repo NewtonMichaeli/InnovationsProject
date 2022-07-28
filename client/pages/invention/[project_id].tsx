@@ -28,14 +28,13 @@ import { CLIENT_URIS, PUBLIC_SRC } from "../../configs/_client"
 const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
     // states
     const dispatch = useAppDispatch()
-    const { back, push } = useRouter()
+    const { push } = useRouter()
     const { User, isLoading } = useAppSelector(userSelector)
     const { Invention: InventionState } = useAppSelector(inventionSelector)
 
     // effects
     useEffect(() => {
-        if (User)
-            dispatch(inventionActions.storeInvention({Invention, my_user_id: User._id}))
+        dispatch(inventionActions.storeInvention({Invention, my_user_id: User?._id}))
     }, [User])
 
     if (InventionState) return (
@@ -63,7 +62,7 @@ const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
                 <Members_DataSection />
             </div>
             {/* section-editor component */}
-            <EditorSection />
+            {/* <EditorSection /> */}
         </main>
     )
     else if (isLoading) return <Loading />

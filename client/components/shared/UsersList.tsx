@@ -7,6 +7,7 @@ import { CLIENT_URIS, PUBLIC_SRC } from '../../configs/_client'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { userActions, userSelector } from '../../redux/features/user'
+import { uiActions } from '../../redux/features/ui'
 // styles
 import styles from '../../styles/components/shared/userItem.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
@@ -63,7 +64,7 @@ export const SocialButtons: FC<{
 }> = ({isFollowing, target_user_id, setInvitingUser, invitingUser, singleUserModeCB}) => {
     // States
     const dispatch = useAppDispatch()
-    const { User } = useAppSelector(userSelector)
+    const { User, isAuthenticated } = useAppSelector(userSelector)
     // -- conditional rendering states
     const [showInventionsOnSingleUserMode, setShowInventionsOnSingleUserMode] = useState(false)
     const isMe = invitingUser === target_user_id
@@ -82,7 +83,12 @@ export const SocialButtons: FC<{
         singleUserModeCB?.[1]?.(project_id)         // call callback when on single-user-mode
     }
     const setInvitingUserMode = () => {
-        if (singleUserModeCB) setShowInventionsOnSingleUserMode(s => !s)
+        if (!isAuthenticated) dispatch(uiActions.pushFeedback({
+            status: false,
+            msg: "Can't invite users to projects while not logged in",
+            redirect: { uri: CLIENT_URIS.LOGIN }
+        }))
+        else if (singleUserModeCB) setShowInventionsOnSingleUserMode(s => !s)
         else setInvitingUser(isMe ? null : target_user_id)
     }
 
@@ -138,13 +144,13 @@ const UserItem: FC<{
 /**
  * @param Users         Minified Users array
  * @param isSelf        a callback, used to determine if the currently rendered user is the client
- * @param isFollowing   a (callback / boolean), used to determine if client follows the rendered user
+ * @param isFollowing   a callback, used to determine if client follows the rendered user
  * @returns a minified users list, with social buttons attached conditionally
  */
 const UsersList: FC<{
     Users: MinifiedUserType[],
     isSelf: (id: string) => boolean,
-    isFollowing?: ((id: string) => boolean) | boolean,
+    isFollowing?: (id: string) => boolean,
 }> = ({Users, isSelf, isFollowing}) => {
     // states
     const { isAuthenticated, User } = useAppSelector(userSelector)
@@ -155,7 +161,7 @@ const UsersList: FC<{
         .sort((a,b) => `${b.Fname}${b.Sname}` < `${a.Fname}${a.Sname}` || b.Username === User?.Username ? 1 : -1)
         .map(f => <UserItem 
             key={f._id} User={f} isSelf={isSelf(f._id)} isAuthenticated={isAuthenticated} 
-            isFollowing={typeof isFollowing === 'function' ? isFollowing(f._id) : isFollowing} 
+            isFollowing={isFollowing(f._id)}
             invitingUser={invitingUser} 
             setInvitingUser={setInvitingUser} />)
     }</>

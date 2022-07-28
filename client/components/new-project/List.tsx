@@ -22,7 +22,7 @@ const Tag: FC<{
 }
 
 
-const Tags: FC<{
+const List: FC<{
     list: string[],
     setList: (vals: string[]) => unknown
     mode: 'tag' | 'occupation'
@@ -48,4 +48,4 @@ const Tags: FC<{
     )
 }
 
-export default Tags
+export default List

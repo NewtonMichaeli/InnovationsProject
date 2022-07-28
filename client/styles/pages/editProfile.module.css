@@ -72,7 +72,7 @@
     mask-image: linear-gradient(to bottom, #00000066, #000, #000, #000, #000, #000, #000, #000, #00000066);
     top: .5rem;
     left: calc(100% - 1.9rem);
-    /* width: 3.7rem; */
+    scrollbar-width: none;
     width: 8rem;
     padding-left: calc(8rem - 3.7rem);
     padding-bottom: .5rem;

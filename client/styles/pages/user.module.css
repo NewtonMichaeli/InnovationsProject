@@ -24,24 +24,43 @@
     align-items: center;
     justify-content: flex-start;
 }
+
 .User .user-header img {
     width: 11rem;
     border-radius: 51%;
     margin-bottom: .7rem;
 }
+
 .User .user-header .fullname {
     font-size: 1.5rem;
     margin-bottom: .1rem;
 }
+
 .User .user-header .username-x-email {
     color: #00000090;
     font-size: .9rem;
     font-weight: 500;
 }
+
+/* login for more actions button */
+.login-to-follow {
+    border: 2px solid rgb(43, 30, 108);
+    background-color: rgb(75, 108, 179);
+    color: #fff;
+    font-weight: 300;
+    outline: none;
+    cursor: pointer;
+    margin-top: .5rem;
+    padding: .1rem .8rem;
+    border-radius: 1rem;
+    font-size: .75rem;
+}
+
 /* user header buttons */
 .User .user-header .social-btns {
     margin-top: .7rem;
 }
+
 .User .user-header .btn-follow,
 .User .user-header .btn-invite-to-project {
     border-radius: 2rem;
@@ -50,16 +69,19 @@
     cursor: pointer;
     color: #fff;
 }
+
 .User .user-header .social-btns .btn-follow {
     background-color: #0085FF;
     border: 2px solid #005CB0;
     margin-right: .3rem;
 }
+
 .User .user-header .social-btns .btn-follow.following {
     color: #0085FF;
     background-color: #ddd;
     font-weight: 400;
 }
+
 .User .user-header .social-btns .btn-invite-to-project {
     background-color: #6A4E6D;
     border: 2px solid #150628;
@@ -73,6 +95,7 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .User .user-data .data-item {
     width: 7rem;
     aspect-ratio: 4/3;
@@ -87,12 +110,14 @@
     justify-content: center;
     /* clip */
 }
+
 .User .user-data .data-item h1 {
     /* data-item counter */
     font-size: 1.8rem;
     font-weight: 400;
     height: 2.25rem;
 }
+
 .User .user-data .data-item h5 {
     /* data-item title */
     color: #00000096;

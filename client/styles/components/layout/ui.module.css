@@ -1,0 +1,87 @@
+/* styles for ui component @ layout */
+
+.UiNotifications {
+    mask-image: linear-gradient(to bottom, #00000044, #000, #000);
+    pointer-events: none;
+    width: fit-content;
+    height: 9rem;
+    /* position */
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 1rem;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    overflow: hidden;
+    /* mouse */
+    z-index: 20;
+}
+
+/* notification container */
+.notification {
+    width: fit-content;
+    max-width: 90vw;
+    height: 2.5rem;
+    min-height: 2.5rem;
+    background-color: #e5e5e5dd;
+    border-radius: 0 5px;
+    /* layout */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 1rem;
+    overflow: hidden;
+    margin-top: 0.3rem;
+    /* animation */
+    transition: all 0.6s ease;
+    animation: onPushNotification 3.6s 0s forwards;
+    /* init state */
+    opacity: 0;
+    transform: translateY(80%);
+}
+
+/* span text */
+.notification span {
+    font-size: 0.8rem;
+    color: #888;
+    white-space: pre-line;
+}
+
+/*  good msg notification */
+.notification.bad-msg {
+    border-left: 4px solid #f55;
+}
+
+.notification.bad-msg span::before {
+    content: "Error: ";
+    color: #f55;
+}
+
+/*  bad msg notification */
+.notification.good-msg {
+    border-left: 4px solid #8f9;
+}
+
+.notification.good-msg span::before {
+    content: "Success: ";
+    color: #0aa;
+}
+
+/* animations */
+
+@keyframes onPushNotification {
+
+    10%,
+    80% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-80%);
+    }
+}
