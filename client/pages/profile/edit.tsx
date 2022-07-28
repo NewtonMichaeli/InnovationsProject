@@ -1,32 +1,45 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 // types
 import {FC, FormEvent, useState} from 'react'
-import { CLIENT_URIS } from '../../configs/_client'
+import { CLIENT_URIS, SRC_PROFILE_PIC } from '../../configs/_client'
+import { FormUserType, REGIONS_ENUM } from '../../redux/features/user/user.types'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { userActions, userSelector } from '../../redux/features/user'
+// utils
+import { updateUserInputHandler } from '../../utils/forms/update.form'
 // icons
 import { FiEdit2 } from 'react-icons/fi'
 // components
 import GoBack from '../../components/shared/GoBack'
 // styles
 import styles from '../../styles/pages/editProfile.module.css'
-import { updateUserInputHandler } from '../../utils/forms/update.form'
+import { getModuleStylesMethod } from '../../utils/styles.utils'
 
+// multiple styles getter util
+const getStyles = getModuleStylesMethod(styles)
 
 const EditProfile: FC = () => {
     // states
     const dispatch = useAppDispatch()
     const { push } = useRouter()
     const { User, isLoading, isAuthenticated } = useAppSelector(userSelector)
+    const [toggleChooseProfilePic, setToggleChooseProfilePic] = useState(false)
+    const [data, setData] = useState<FormUserType>({
+        Email: User.Email,
+        Fname: User.Fname,
+        Sname: User.Sname,
+        Profile_Pic: User.Profile_Pic,
+        Region: User.Region,
+        Username: User.Username
+    })
     // handlers
-    const updateUserHandler = (e: FormEvent<HTMLFormElement>) => {
+    const updateUserHandler = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
         try {
-            const data = updateUserInputHandler(e, User)
-            dispatch(userActions.updateUser(data))
-            push(CLIENT_URIS.PROFILE)
+            const result = await dispatch(userActions.updateUser(updateUserInputHandler(User, data)))
+            push(CLIENT_URIS.PROFILE, null, {shallow: true})
         }
         catch (err) {
             // temp - push error notification
@@ -42,40 +55,58 @@ const EditProfile: FC = () => {
             <Head>
                 <title>Edit profile - Innovation</title>
             </Head>
+            {/* go back */}
             <GoBack />
             <form className={styles["EditProfile-form"]} onSubmit={updateUserHandler}>
+                {/* profile pic */}
                 <div className={styles["input-img-container"]}>
-                    <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt="Profile Picture" />
-                    <div className={styles["change-profile-pic"]} title="Change profile picture">
-                        <FiEdit2 size={20} className={styles['icon']} />
+                    <img src={SRC_PROFILE_PIC(data.Profile_Pic)} alt="Profile Picture" />
+                    <div className={styles["change-profile-pic-btn"]} title="Change profile picture">
+                        <FiEdit2 size={20} className={styles['icon']} onClick={() => setToggleChooseProfilePic(s =>!s)} />
+                    </div>
+                    {/* choose profile-pic */}
+                    <div className={getStyles(`choose-profile-pic ${toggleChooseProfilePic ? 'show' : ''}`)}>
+                        {Array.apply(null, Array(10)).map((v,i: number) => 
+                            <img src={SRC_PROFILE_PIC(i)} alt={`${i}`} onClick={() => {
+                                setData({...data, Profile_Pic: i})
+                                setToggleChooseProfilePic(false)
+                            }} style={{
+                                transitionDelay: `${i*.04}s`,
+                                transform: `translate(-3.4rem, ${i*-1}rem)`
+                            }}/>)}
                     </div>
                 </div>
                 <div className={styles["form-body"]}>
+                    {/* fname & sname */}
                     <div className={styles["input-name-text-container"]}>
                         <div className={styles["input-text-container"]}>
                             <label htmlFor="fname">First name</label>
-                            <input type="text" name='Fname' id='fname' defaultValue={User.Fname} />
+                            <input type="text" name='Fname' id='fname' 
+                                defaultValue={User.Fname} onChange={e => setData({...data, Fname: e.target.value})} />
                         </div>
                         <div className={styles["input-text-container"]}>
                             <label htmlFor="fname">Last name</label>
-                            <input type="text" name='Sname' id='sname' defaultValue={User.Sname} />
+                            <input type="text" name='Sname' id='sname' 
+                                defaultValue={User.Sname} onChange={e => setData({...data, Sname: e.target.value})} />
                         </div>
                     </div>
+                    {/* username */}
                     <div className={styles["input-text-container"]}>
                         <label htmlFor="username">Username</label>
-                        <input type="text" name='Username' id='username' defaultValue={User.Username} />
+                        <input type="text" name='Username' id='username' 
+                            defaultValue={User.Username} onChange={e => setData({...data, Username: e.target.value})} />
                     </div>
+                    {/* email */}
                     <div className={styles["input-text-container"]}>
                         <label htmlFor="email">Email</label>
-                        <input type="text" name='Email' id='email' defaultValue={User.Email} />
+                        <input type="text" name='Email' id='email' 
+                            defaultValue={User.Email} onChange={e => setData({...data, Email: e.target.value})} />
                     </div>
-                    {/* <div className={styles["input-text-container"]}>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" name='Password' id='password' />
-                    </div> */}
+                    {/* region */}
                     <div className={styles["input-text-container"]}>
-                        <label htmlFor="password">Region</label>
-                        <select name="Region" id="region" defaultValue={User.Region}>
+                        <label htmlFor="Region">Region</label>
+                        <select name="Region" id="region" defaultValue={User.Region} 
+                            onChange={e => setData({...data, Region: e.target.value as keyof typeof REGIONS_ENUM})}>
                             <option value="Asia">Asia</option>
                             <option value="Europe">Europe</option>
                             <option value="Americas">Americas</option>

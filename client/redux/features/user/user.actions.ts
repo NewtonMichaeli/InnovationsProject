@@ -2,7 +2,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import * as userAPI from '../../../utils/api/requests/user.api'
 // types
-import { ContributorType, FormInventionType, REGIONS_ENUM } from './user.types'
+import { ContributorType, FormInventionType, FormUserType, REGIONS_ENUM } from './user.types'
 
 // async action: fetch user data
 export const fetchUserData = createAsyncThunk('user/fetchUserData', async () => {
@@ -32,8 +32,7 @@ export const register = createAsyncThunk('user/register', async (data: register_
     return res.data
 })
 
-export type updateUser__type =
-    { Username?: string, Profile_Pic?: number, Fname?: string, Sname?: string, Email?: string, Region?: keyof typeof REGIONS_ENUM }
+export type updateUser__type = Partial<FormUserType>
 // async action: login
 export const updateUser = createAsyncThunk('user/update', async (data: updateUser__type) => {
     if (Object.keys(data).length === 0) throw Error("Nothing to update")

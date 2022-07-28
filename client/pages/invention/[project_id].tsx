@@ -22,7 +22,7 @@ import InventionNotFound from "../../components/global/404/inventionNotFound"
 // styles
 import styles from '../../styles/pages/project.module.css'
 import EditorSection from "../../components/Invention/EditSections"
-import { CLIENT_URIS } from "../../configs/_client"
+import { CLIENT_URIS, SRC_PROFILE_PIC } from "../../configs/_client"
 
 
 const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
@@ -47,7 +47,7 @@ const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
             {/* header */}
             <div className={styles['project-header']}>
                 <BsArrowLeftShort className={styles['leave']} size={48} onClick={() => push(CLIENT_URIS._USER(Invention.CreatorData.Username))} title="Go back" />
-                <img className={styles['owner-profile-pic']} src={`/profile-pics/${Invention.CreatorData.Profile_Pic}.jpeg`} alt={Invention.CreatorData.Username} />
+                <img className={styles['owner-profile-pic']} src={SRC_PROFILE_PIC(Invention.CreatorData.Profile_Pic)} alt={Invention.CreatorData.Username} />
                 <div className={styles['username-x-projectname']}>
                     <code className={styles['username']}>{Invention.CreatorData.Username}</code>
                     &nbsp;/&nbsp;

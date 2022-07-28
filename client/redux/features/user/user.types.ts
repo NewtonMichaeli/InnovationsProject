@@ -71,6 +71,16 @@ export type SharedProjectsResponseType = {
     Project: InventionType
 }
 
+// new form-user type
+export type FormUserType = {
+    Fname: string,
+    Sname: string,
+    Username: string,
+    Email: string,
+    Region: keyof typeof REGIONS_ENUM,
+    Profile_Pic: number
+}
+
 // user type
 export type UserType = {
     Fname: string,

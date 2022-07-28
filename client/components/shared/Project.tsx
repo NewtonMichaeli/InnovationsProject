@@ -1,7 +1,7 @@
 import Link from "next/link"
 // types
 import { FC } from "react"
-import { CLIENT_URIS } from "../../configs/_client"
+import { CLIENT_URIS, SRC_PROFILE_PIC } from "../../configs/_client"
 // redux
 import { useAppSelector } from "../../hooks/redux"
 import { userSelector } from "../../redux/features/user"
@@ -41,7 +41,7 @@ const Project: FC<{
             <div className={getStyles(`invention status-${Project.Status.replace(' ', '-')}`)}>
                 {/* header */}
                 <div className={styles['invention-header']}>
-                    <img className={styles['profile-pic']} src={`/profile-pics/${CreatorData.Profile_Pic}.jpeg`} alt={CreatorData.Username} />
+                    <img className={styles['profile-pic']} src={SRC_PROFILE_PIC(CreatorData.Profile_Pic)} alt={CreatorData.Username} />
                     <div className={styles['project-data']}>
                         <h2 className={styles['project-name']}>{Project.Name}</h2>
                         <i className={styles['creator-x-access']}>{isCreator ? 'Creator' : 'Contributor'} • {Project.Private ? 'Private' : 'Public'}</i>

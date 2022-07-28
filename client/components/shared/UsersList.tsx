@@ -2,7 +2,7 @@ import Link from 'next/link'
 // types
 import {FC, MouseEvent, useState} from 'react'
 import { InventionType, MinifiedUserType } from '../../redux/features/user/user.types'
-import { CLIENT_URIS } from '../../configs/_client'
+import { CLIENT_URIS, SRC_PROFILE_PIC } from '../../configs/_client'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { userActions, userSelector } from '../../redux/features/user'
@@ -117,7 +117,7 @@ const UserItem: FC<{
         <div className={styles["user-item"]}>
             {/* profile pic section */}
             <section className={styles["profile-pic"]}>
-                <img src={`/profile-pics/${User.Profile_Pic}.jpeg`} alt={User.Username} />
+                <img src={SRC_PROFILE_PIC(User.Profile_Pic)} alt={User.Username} />
             </section>
             {/* user data section */}
             <Link href={CLIENT_URIS._USER('[key]')} as={CLIENT_URIS._USER(User.Username)}>

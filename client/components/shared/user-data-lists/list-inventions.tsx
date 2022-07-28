@@ -9,6 +9,7 @@ import RenderProjects from '../Project'
 // styles
 import styles from '../../../styles/components/profile/list-inventions.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
+import { SRC_PROFILE_PIC } from '../../../configs/_client'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -38,7 +39,7 @@ const ListInventions: FC<{
                     <section className={styles["inventions"]}>
                         <div className={styles["section-header"]}>
                             <div className={styles["title"]}>
-                                <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
+                                <img src={SRC_PROFILE_PIC(UserData.Profile_Pic)} alt={UserData.Username} />
                                 <h2 className={styles["username"]}>{UserData.Username}'s Inventions</h2>
                             </div>
                         </div>
@@ -49,7 +50,7 @@ const ListInventions: FC<{
                     <section className={styles["shared-inventions"]}>
                         <div className={styles["section-header"]}>
                             <div className={styles["title"]}>
-                                <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
+                                <img src={SRC_PROFILE_PIC(UserData.Profile_Pic)} alt={UserData.Username} />
                                 <h2 className={styles["username"]}>{UserData.Username}'s Shared Inventions</h2>
                             </div>
                         </div>

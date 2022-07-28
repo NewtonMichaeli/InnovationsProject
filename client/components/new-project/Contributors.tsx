@@ -1,18 +1,16 @@
+import { FC, Fragment, KeyboardEvent, useRef, useState } from "react"
 // types
-import { FC, Fragment, KeyboardEvent, SetStateAction, useRef, useState } from "react"
 import { ContributorType, MinifiedUserType } from "../../redux/features/user/user.types"
 // utils
 import { searchByQuery } from "../../utils/api/requests/user.api"
+import { SRC_PROFILE_PIC } from "../../configs/_client"
+// redux
+import { useAppSelector } from "../../hooks/redux"
+import { userSelector } from "../../redux/features/user"
 // icons
 import { MdClose } from "react-icons/md"
 // styles
 import styles from '../../styles/components/new-project/contributors.module.css'
-import { getModuleStylesMethod } from '../../utils/styles.utils'
-import { useAppSelector } from "../../hooks/redux"
-import { userSelector } from "../../redux/features/user"
-
-// multiple styles getter util
-const getStyles = getModuleStylesMethod(styles)
 
 
 const Contributor: FC<{
@@ -21,7 +19,7 @@ const Contributor: FC<{
 }> = ({user: {_id, Username, Profile_Pic}, removeContributor}) => {
     return (
         <div className={styles["User"]} title={Username}>
-            <img src={`/profile-pics/${Profile_Pic}.jpeg`} alt={Username} />
+            <img src={SRC_PROFILE_PIC(Profile_Pic)} alt={Username} />
             <MdClose className={styles["close-btn"]} size={16} onClick={() => removeContributor(_id)} title={`Remove ${Username}`} />
         </div>
     )
@@ -37,7 +35,7 @@ const UserOptions: FC<{
             {users.map(u => (
                 <Fragment key={u._id}>
                     <div className={styles["UserOption"]} onClick={() => addContributor(u)}>
-                        <img src={`/profile-pics/${u.Profile_Pic}.jpeg`} alt={u.Username} />
+                        <img src={SRC_PROFILE_PIC(u.Profile_Pic)} alt={u.Username} />
                         <div className={styles["data"]}>
                             <h2 className={styles["name"]}>{u.Fname}&nbsp;{u.Sname}</h2>
                             <p className={styles["username-x-email"]}>

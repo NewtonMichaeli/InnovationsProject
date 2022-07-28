@@ -43,3 +43,6 @@ export const CLIENT_SECURED_URIS = [
 // check unauthorized uri using the above array
 export const isAccessingSecuredUri = (pathname: string) =>
     pathname === CLIENT_URIS.HOME || CLIENT_SECURED_URIS.some(uri => pathname.startsWith(uri))
+
+// shorthand for getting profile-pics (temp)
+export const SRC_PROFILE_PIC = (n: number) => `/profile-pics/${n}.jpeg`

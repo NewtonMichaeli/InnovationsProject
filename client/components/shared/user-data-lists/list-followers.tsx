@@ -12,6 +12,7 @@ import UsersList from '../UsersList'
 // styles
 import styles from '../../../styles/components/profile/list-followers.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
+import { SRC_PROFILE_PIC } from '../../../configs/_client'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -40,7 +41,7 @@ const ListFollowers: FC<{
                     <div className={styles["content-header"]}>
                         <div className={styles["profile-pic"]} onClick={onClose} title="Leave Followers tab">
                             <BsArrowLeftShort size={36} />
-                            <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
+                            <img src={SRC_PROFILE_PIC(UserData.Profile_Pic)} alt={UserData.Username} />
                         </div>
                         <div className={styles['input-search-followers']}>
                             <AiOutlineSearch className={styles['icon-search']} size={20} />
