@@ -20,7 +20,7 @@ const NoAssets: FC = () => (
     // -- load when no assets exist
     <div className={styles["no-assets"]}>
         <h4 className={styles["title"]}>This project doesn't have any Assets.</h4>
-        <h3 className={styles["add-asset"]}>+ Add asset</h3>
+        <h3 className={styles["add-asset"]}>+ Add an asset</h3>
     </div>
 )
 const EmptyCells: FC<{amount: number}> = ({amount}) =>  (amount ? <>{

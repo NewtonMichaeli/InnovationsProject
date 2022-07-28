@@ -29,7 +29,6 @@ const Members_EditSection: FC = () => {
                     {Invention.Project.Contributors.length} Member{Invention.Project.Contributors.length!==1?'s':''}
                 </code>
                 <UsersList isFollowing={mid => User.Following.some(f => f._id === mid)} 
-                    isAuthenticated 
                     Users={Invention.Project.Contributors} 
                     isSelf={fid => User._id === fid} />
             </div>

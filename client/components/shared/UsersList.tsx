@@ -42,28 +42,33 @@ const InviteToProject: FC<{
 }
 
 
+export type followHandlerType = (action: 'add' | 'remove') => unknown
+export type inviteToProjectHandlerType = (project_id: string) => unknown
 /**
  * Component shorthandendly renders the social buttons of a user-item, or as an independant single-user-mode component
- * @returns Social buttons - follow, invite-to-ptoject functionallity
+ * @param isFollowing       am i following the target user?
+ * @param target_user_id    target user id
+ * @param invitingUser      shared state, indicating the current id. (pass `target_user_id` when compnent is being used independantly)
+ * @param setInviteUser     shared state setter, setting `invitingUser`. (pass null if `singleUserModeCD` exists)
+ * @param singleUserModeCB  callback array. `param[0]` is the follow-handler cb, `param[1]` is the invite-to-project-handler cb. Pass these handlers when SocialButtons is an independant component.
+ * @returns social buttons - handling follow & invite-to-project functionallities
  */
-export type followHandlerType = (action: 'add' | 'remove') => unknown
-export type inviteToProjectHandler = (project_id: string) => unknown
 export const SocialButtons: FC<{
     isFollowing?: boolean,
     target_user_id: string,
     invitingUser: string,
     setInvitingUser: (id: string) => unknown,
-    singleUserModeCB?: [followHandlerType, inviteToProjectHandler]
+    singleUserModeCB?: [followHandlerType, inviteToProjectHandlerType]
 }> = ({isFollowing, target_user_id, setInvitingUser, invitingUser, singleUserModeCB}) => {
-    // states
-    const { User } = useAppSelector(userSelector)
+    // States
     const dispatch = useAppDispatch()
+    const { User } = useAppSelector(userSelector)
     // -- conditional rendering states
     const [showInventionsOnSingleUserMode, setShowInventionsOnSingleUserMode] = useState(false)
     const isMe = invitingUser === target_user_id
     // -- participating inventions
     const UnparticipatingInventions = User?.Inventions.filter(inv => !inv.Contributors.some(c => c._id === target_user_id)) ?? []
-    // handlers
+    // Handlers
     const handleFollowBtn = async (e: MouseEvent<any>) => {
         e.stopPropagation()
         const action = isFollowing ? 'remove' : 'add'
@@ -129,13 +134,19 @@ const UserItem: FC<{
 }
 
 
+/**
+ * @param Users         Minified Users array
+ * @param isSelf        a callback, used to determine if the currently rendered user is the client
+ * @param isFollowing   a (callback / boolean), used to determine if client follows the rendered user
+ * @returns a minified users list, with social buttons attached conditionally
+ */
 const UsersList: FC<{
-    Users: MinifiedUserType[],                              // -- my user information
-    isSelf: (id: string) => boolean,                        // -- am i the user
-    isFollowing?: ((id: string) => boolean) | boolean,      // -- am i following this user
-    isAuthenticated?: boolean                               // -- am i authenticated to follow people
-}> = ({Users, isSelf, isAuthenticated, isFollowing}) => {
+    Users: MinifiedUserType[],
+    isSelf: (id: string) => boolean,
+    isFollowing?: ((id: string) => boolean) | boolean,
+}> = ({Users, isSelf, isFollowing}) => {
     // states
+    const { isAuthenticated } = useAppSelector(userSelector)
     const [invitingUser, setInvitingUser] = useState<string>(null)
 
     return <>{

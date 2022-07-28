@@ -1,9 +1,13 @@
 import Link from "next/link"
+// types
 import { FC } from "react"
 import { CLIENT_URIS } from "../../configs/_client"
+// redux
+import { useAppSelector } from "../../hooks/redux"
+import { userSelector } from "../../redux/features/user"
 import { SharedProjectsResponseType } from "../../redux/features/user/user.types"
 // styles
-import styles from '../../styles/pages/myProjects.module.css'
+import styles from '../../styles/components/shared/project.module.css'
 import { getModuleStylesMethod } from "../../utils/styles.utils"
 
 // multiple styles getter util
@@ -18,11 +22,8 @@ const Tags: FC<{
         <div className={getStyles(`innovation-tags mode-${mode}`)}>
             <h4 className={styles['title']}>Project's {mode}:</h4>
             <div className={styles['items']}>
-                {
-                    list.map((item, i) => (
-                        <code key={i} className={styles['item']}>{item}</code>
-                    ))
-                }
+                {list.map((item, i) => 
+                    <code key={i} className={styles['item']}>{item}</code>)}
             </div>
         </div>
     )
@@ -31,12 +32,13 @@ const Tags: FC<{
 
 // a project component
 const Project: FC<{
-    isCreator: boolean,
     invention: SharedProjectsResponseType
-}> = ({isCreator, invention: {CreatorData, Project}}) => {
+}> = ({invention: {CreatorData, Project}}) => {
+    // states
+    const isCreator = useAppSelector(userSelector).User?._id === CreatorData._id
     return (
         <Link href={CLIENT_URIS._DASHBOARD(Project._id)} shallow>
-            <div className={styles['invention']}>
+            <div className={getStyles(`invention status-${Project.Status.replace(' ', '-')}`)}>
                 {/* header */}
                 <div className={styles['invention-header']}>
                     <img className={styles['profile-pic']} src={`/profile-pics/${CreatorData.Profile_Pic}.jpeg`} alt={CreatorData.Username} />
@@ -57,11 +59,31 @@ const Project: FC<{
                     {Project.Tags.length ? <Tags mode='tags' list={Project.Tags} /> : ''}
                 </div>
                 <h5 className={styles['status-x-members']}>
-                    {Project.Status} • {Project.Contributors.length + 1} members
+                    <img src={`/invention-status-icons/${Project.Status.replace(' ','-')}.svg`} alt={Project.Status} />
+                    &nbsp;{Project.Status}&nbsp;•&nbsp;{Project.Contributors.length + 1}&nbsp;members
                 </h5>
             </div>
         </Link>
     )
 }
 
-export default Project
+
+/**
+ * @param Inventions (typeof SharedProjectResponseType[]) 
+ * @returns component rendering the given projects in a responsive way
+ */
+const RenderProjects: FC<{
+    Inventions: SharedProjectsResponseType[]
+}> = ({Inventions}) => {
+    return (
+        <div className={getStyles(`my-projects-list ${Inventions.length === 1 ? 'single-invention':''}`)}>
+            {!Inventions?.length
+                ? <code className={styles["no-inventions"]}>You have no Inventions yet</code>
+                : Inventions.sort((a, b) => b.Project.DoC - a.Project.DoC).map(inv => 
+                    <Project key={inv.Project._id} invention={inv} />)}
+        </div>
+    )
+}
+
+
+export default RenderProjects

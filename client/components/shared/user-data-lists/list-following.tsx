@@ -48,7 +48,7 @@ const ListFollowings: FC<{
                         </div>
                     </div>
                     <div className={styles["content-followings-list"]}>
-                        <UsersList isFollowing isAuthenticated={isAuthenticated} Users={UserData.Following} isSelf={fid => User?._id === fid} />
+                        <UsersList isFollowing Users={UserData.Following} isSelf={fid => User?._id === fid} />
                     </div>
                 </div>
             </div>

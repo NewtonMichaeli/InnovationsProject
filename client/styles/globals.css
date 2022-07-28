@@ -46,5 +46,9 @@ input[type=text]::selection {
   /* menu */
   --menu-width: 5.5rem;
   /* navbar */
-  --navbar-height: 5rem
+  --navbar-height: 5rem;
+  /* invention statuses */
+  --status-open: #8C2A44;
+  --status-in-development: #B48D53;
+  --status-finished: #328C2A;
 }

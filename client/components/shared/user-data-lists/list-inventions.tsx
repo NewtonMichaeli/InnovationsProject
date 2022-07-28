@@ -1,15 +1,11 @@
-import {FC, useState} from 'react'
-// redux
-import { useAppSelector } from '../../../hooks/redux'
-import { userSelector } from '../../../redux/features/user'
 // types
-import { InventionType, SharedProjectsResponseType, UserType } from '../../../redux/features/user/user.types'
-// icons
-import { BsArrowLeftShort } from 'react-icons/bs'
-import { AiOutlineSearch } from 'react-icons/ai'
+import {FC} from 'react'
+import { UserType } from '../../../redux/features/user/user.types'
+// utils
+import { seperateSharedProjectsFormattedInventions } from '../../../utils/inventions.utils'
 // components
 import GoBack from '../GoBack'
-import InventionCards from '../../profile/InventionCards'
+import RenderProjects from '../Project'
 // styles
 import styles from '../../../styles/components/profile/list-inventions.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
@@ -17,30 +13,17 @@ import { getModuleStylesMethod } from '../../../utils/styles.utils'
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
 
-
 const ListInventions: FC<{
     show: boolean,
     UserData: UserType,
     close: () => unknown
 }> = ({show, close, UserData}) => {
     // states
-    const [search, changeSearch] = useState('')
+    const Inventions = seperateSharedProjectsFormattedInventions(UserData)
     // handlers
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
         close()
-    }
-    const filterInventions = (invention: InventionType | SharedProjectsResponseType) => {
-        if ('CreatorData' in invention) return (
-            invention.CreatorData.Username.toLowerCase().includes(search) ||
-            invention.Project.Name.toLowerCase().includes(search) ||
-            invention.Project.Tags.some(t => t.toLowerCase().includes(search))
-        )
-        else return (
-            UserData.Username.toLowerCase().includes(search) ||
-            invention.Name.toLowerCase().includes(search) ||
-            invention.Tags.some(t => t.toLowerCase().includes(search))
-        )
     }
 
     return (
@@ -58,10 +41,9 @@ const ListInventions: FC<{
                                 <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
                                 <h2 className={styles["username"]}>{UserData.Username}'s Inventions</h2>
                             </div>
-                            <code className={styles["select-show-as"]}>Cards</code>
                         </div>
-                        {/* render inventions as cards */}
-                        <InventionCards Inventions={UserData.Inventions} />
+                        {/* render inventions */}
+                        <RenderProjects Inventions={Inventions.Inventions} />
                     </section>
                     {/* shared projects */}
                     <section className={styles["shared-inventions"]}>
@@ -70,10 +52,9 @@ const ListInventions: FC<{
                                 <img src={`/profile-pics/${UserData.Profile_Pic}.jpeg`} alt={UserData.Username} />
                                 <h2 className={styles["username"]}>{UserData.Username}'s Shared Inventions</h2>
                             </div>
-                            <code className={styles["select-show-as"]}>Cards</code>
                         </div>
-                        {/* render inventions as cards */}
-                        <InventionCards Inventions={UserData.Shared_Projects.map(inv => inv.Project)} />
+                        {/* render shared-projects */}
+                        <RenderProjects Inventions={Inventions.Shared_Projects} />
                     </section>
                 </div>
             </div>

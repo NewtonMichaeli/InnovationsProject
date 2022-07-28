@@ -11,7 +11,7 @@ import { fetchUserData } from '../../utils/api/requests/user.api'
 import { AUTH_TOKEN, tokenHeader } from '../../configs/_token'
 // components
 import GoBack from '../../components/shared/GoBack'
-import { followHandlerType, inviteToProjectHandler, SocialButtons } from '../../components/shared/UsersList'
+import { followHandlerType, inviteToProjectHandlerType, SocialButtons } from '../../components/shared/UsersList'
 import DataLists from '../../components/shared/user-data-lists'
 // styles
 import styles from '../../styles/pages/user.module.css'
@@ -19,24 +19,26 @@ import { SharedProjectsResponseType } from '../../redux/features/user/user.types
 
 
 /**
- * @TODO fix "following while not logged in" behavior, seperate util functionallity for adding/removing follower
+ * @_DONE fix "following while not logged in" behavior, seperate util functionallity for adding/removing follower
  * Component is prerendered with the requested user-data.
  * @param UserData (typeof UserType)
  * @returns User-JSX for user page
  */
 const User: FC<UserPageProps> = ({UserData}) => {
-    // states
+    // States
     const [InspectedUser, setInspectedUser] = useState(UserData)
     const { User, isAuthenticated } = useAppSelector(userSelector)
-    const isFollowing = User?.Following.some(f => f._id === InspectedUser._id)
-    // handlers
+
+    // Handlers
+    // -- follow handler - handle follow button when clicked
     const followHandler: followHandlerType = (action: 'add' | 'remove') => {
         if (!isAuthenticated) return alert('Not logged in!')    // -- temp notification system
         // -- update InspectedUser (temp functionality)
         if (action === 'add') setInspectedUser(iu => ({...iu, Followers: [...iu.Followers, User]}))
         else setInspectedUser(iu => ({...iu, Followers: iu.Followers.filter(f => f._id !== User._id)}))
     }
-    const inviteToProjectHandler: inviteToProjectHandler = (project_id: string) => {
+    // -- invite-to-project handler - handle when inviting to project
+    const inviteToProjectHandler: inviteToProjectHandlerType = (project_id: string) => {
         if (!isAuthenticated) return alert('Not logged in!')    // -- temp notification system
         // -- update InspectedUser (temp functionality)
         setInspectedUser(iu => ({
@@ -68,7 +70,7 @@ const User: FC<UserPageProps> = ({UserData}) => {
                     invitingUser={InspectedUser._id} 
                     setInvitingUser={null} 
                     target_user_id={InspectedUser._id} 
-                    isFollowing={isFollowing} 
+                    isFollowing={User?.Following.some(f => f._id === InspectedUser._id)} 
                     singleUserModeCB={[followHandler, inviteToProjectHandler]} />
             </section>
             {/* user data section */}

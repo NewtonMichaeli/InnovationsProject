@@ -74,7 +74,7 @@ const Contributors: FC<{
     }
     const onChangeHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
         const {value: query} = e.target
-        if (query.length && query.trim().length) {
+        if (query.length > 2 && query.trim().length) {
             const res = await searchByQuery({limit: 4, query, excludeUsers: [_id, ...list.map(u => u._id)]})
             setUserOptions(res.data.map(u => ({...u, Roles: []})))
         }

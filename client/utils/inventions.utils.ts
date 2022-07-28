@@ -26,6 +26,17 @@ export const getSharedProjectsFormattedInventions = (User: UserType): SharedProj
 
 
 /**
+ * Function unites inventions ans SharedProjects to one-typed-array (typeof SharedProjectsResponseType)
+ * @param User (typeof UserType)
+ * @returns Array containing both SharedProjects and Inventions formatted as <SharedProjectsResponseType>
+ */
+export const seperateSharedProjectsFormattedInventions = (User: UserType) => ({
+    Shared_Projects: User.Shared_Projects,
+    Inventions: formatInventionsToSharedProjects(User)
+})
+
+
+/**
  * Function searches for an invention in a given User by a given id
  * @param User (typeof UserType)
  * @param project_id (typeof string)
@@ -35,8 +46,10 @@ export const findInvention = (User: UserType, project_id: string) => {
     // invention owner - default is current one
     let inventionOwner = { Username: User?.Username, Profile_Pic: User?.Profile_Pic, _id: User?._id }
     // find invention
-    let current_invention = User?.Inventions.find(inv => inv._id === project_id) ??     // search invention in user-inventions-list
-        User?.Shared_Projects.find(proj => {                                    // user doesn't own the invention - search in shared-projects
+    // -- search invention in user-inventions-list
+    let current_invention = User?.Inventions.find(inv => inv._id === project_id) ??
+        // -- user doesn't own the invention - search in shared-projects
+        User?.Shared_Projects.find(proj => {
             // -- set invention creator username to it's owner
             if (proj.Project._id === project_id) {
                 inventionOwner = proj.CreatorData

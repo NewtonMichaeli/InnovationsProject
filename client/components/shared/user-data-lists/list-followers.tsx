@@ -49,7 +49,7 @@ const ListFollowers: FC<{
                     </div>
                     <div className={styles["content-followers-list"]}>
                         {/* TODO: server route -> get users data by a given user_id array */}
-                        <UsersList isFollowing={fid => User?.Following.some(s => s._id === fid)} isAuthenticated={isAuthenticated} Users={UserData.Followers} isSelf={fid => User?._id === fid} />
+                        <UsersList isFollowing={fid => User?.Following.some(s => s._id === fid)} Users={UserData.Followers} isSelf={fid => User?._id === fid} />
                     </div>
                 </div>
             </div>
