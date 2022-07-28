@@ -1,5 +1,5 @@
 import { RequestWithHeaders } from "."
-import { SharedProjectsResponseType } from "../../../redux/features/user/user.types"
+import { SharedProjectsResponseType } from "../../../types/data/invention.types"
 
 // types for api request utilities
 

@@ -1,6 +1,7 @@
 import { FC, Fragment, KeyboardEvent, useRef, useState } from "react"
 // types
-import { ContributorType, MinifiedUserType } from "../../redux/features/user/user.types"
+import { ContributorType } from "../../types/data/invention.types"
+import { MinifiedUserType } from "../../types/data/user.types"
 // utils
 import { searchByQuery } from "../../utils/api/requests/user.api"
 import { PUBLIC_SRC } from "../../configs/_client"

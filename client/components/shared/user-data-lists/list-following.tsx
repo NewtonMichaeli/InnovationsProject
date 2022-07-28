@@ -1,6 +1,6 @@
 // types
 import {FC, useState} from 'react'
-import { UserType } from '../../../redux/features/user/user.types'
+import { UserType } from '../../../types/data/user.types'
 // redux
 import { useAppSelector } from '../../../hooks/redux'
 import { userSelector } from '../../../redux/features/user'

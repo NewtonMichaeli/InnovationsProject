@@ -1,6 +1,7 @@
 import { RequestWithHeaders } from "."
 import { inviteToProject__type, login__type, register__type, updateUser__type } from "../../../redux/features/user/user.actions"
-import { ContributorType, FormInventionType, InventionType, MinifiedUserType, UserType } from "../../../redux/features/user/user.types"
+import { MinifiedUserType, UserType } from "../../../types/data/user.types"
+import { ContributorType, FormInventionType, InventionType } from '../../../types/data/invention.types'
 
 // types for api request utilities
 

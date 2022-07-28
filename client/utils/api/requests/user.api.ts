@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { SERVER_URI__CREATE_INVENTION, SERVER_URI__FOLLOW_USER, SERVER_URI__GET_USER_DATA, SERVER_URI__INVITE_TO_PROJECT, SERVER_URI__LOGIN, SERVER_URI__REGISTER, SERVER_URI__SEARCH_BY_QUERY, SERVER_URI__UPDATE_USER } from '../../../configs/_server'
-import { inviteToProject__type } from '../../../redux/features/user/user.actions'
 import { createInvention_type, inviteToProject_type } from '../types/user.types'
 // types
 import { fetchUserData_type, follow_type, register_type, searchByQuery_type, login_type, updateUser_type } from '../types/user.types'

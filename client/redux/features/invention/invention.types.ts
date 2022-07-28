@@ -1,7 +1,7 @@
 // types for invention reducer
 
 import { INVENTION_USER_ROLES } from "../../../configs/_client"
-import { SharedProjectsResponseType } from "../user/user.types"
+import { SharedProjectsResponseType } from '../../../types/data/invention.types'
 
 
 // invention-reducer state type

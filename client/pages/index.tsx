@@ -1,8 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { IconType } from 'react-icons'
-import { CLIENT_URIS } from '../configs/_client'
 // icons
 import { AiOutlineSearch, AiOutlineSetting } from 'react-icons/ai'
 import { BiStats, BiUser } from 'react-icons/bi'
@@ -40,7 +39,7 @@ const Home: FC = () => {
     sharedProjectsAmount: User.Shared_Projects.length,
     finishedProjects: all_inventions.filter(p => p.Status === 'finished').length,
     openProjects: all_inventions.filter(p => p.Status === 'open').length,
-    projectsInDevelopment: all_inventions.filter(p => p.Status === 'in development').length,
+    projectsInDevelopment: all_inventions.filter(p => p.Status === 'in delevopment').length,
   }
 
   return (

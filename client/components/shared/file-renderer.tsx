@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 // types
 import { SERVER_URI__GET_ASSET } from "../../configs/_server";
-import { AssetType } from "../../redux/features/user/user.types";
+import { AssetType } from "../../types/data/invention.types"
 // icons
 import { TbFileText } from 'react-icons/tb'
 // styles

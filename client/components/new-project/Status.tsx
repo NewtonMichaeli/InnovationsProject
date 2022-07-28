@@ -1,8 +1,6 @@
 // types
-import { Dispatch, FC, KeyboardEvent, SetStateAction } from "react"
-import { STATUS_ENUM } from "../../redux/features/user/user.types"
-// icons
-import { MdClose } from "react-icons/md"
+import { FC } from "react"
+import { STATUS_ENUM } from "../../types/data/invention.types"
 // styles
 import styles from '../../styles/components/new-project/status.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
@@ -17,9 +15,10 @@ const Status: FC<{
 }> = ({status, setStatus: setStatue}) => {
 
     return (
-        <select name="Status" id="Status" className={styles["status"]}>
+        <select name="Status" id="Status" className={styles["status"]} defaultValue={status}
+            onChange={e => setStatue(e.target.value as keyof typeof STATUS_ENUM)}>
             <option value="open" defaultChecked>Open</option>
-            <option value="in-development">In development</option>
+            <option value="in development">In development</option>
             <option value="finished">Finished</option>
         </select>
     )

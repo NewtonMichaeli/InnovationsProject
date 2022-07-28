@@ -1,7 +1,7 @@
 // types for explore page
 
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
-import { MinifiedUserType } from "../../redux/features/user/user.types"
+import { MinifiedUserType } from '../data/user.types'
 
 export interface ExplorePageProps {
     query: string

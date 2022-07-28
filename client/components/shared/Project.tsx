@@ -5,7 +5,7 @@ import { CLIENT_URIS, PUBLIC_SRC } from "../../configs/_client"
 // redux
 import { useAppSelector } from "../../hooks/redux"
 import { userSelector } from "../../redux/features/user"
-import { SharedProjectsResponseType } from "../../redux/features/user/user.types"
+import { SharedProjectsResponseType } from "../../types/data/invention.types"
 // styles
 import styles from '../../styles/components/shared/project.module.css'
 import { getModuleStylesMethod } from "../../utils/styles.utils"

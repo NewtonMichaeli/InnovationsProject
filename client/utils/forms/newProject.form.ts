@@ -1,6 +1,6 @@
 // form handler for new-project page
-import { createInvention__type, login__type } from "../../redux/features/user/user.actions"
-import { FormInventionType, STATUS_ENUM } from "../../redux/features/user/user.types"
+import { createInvention__type } from "../../redux/features/user/user.actions"
+import { FormInventionType, STATUS_ENUM } from '../../types/data/invention.types'
 
 
 type newProjectInputHandler_type = (data: FormInventionType) => createInvention__type

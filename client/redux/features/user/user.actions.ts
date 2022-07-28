@@ -2,7 +2,8 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import * as userAPI from '../../../utils/api/requests/user.api'
 // types
-import { ContributorType, FormInventionType, FormUserType, REGIONS_ENUM } from './user.types'
+import { FormUserType, REGIONS_ENUM } from '../../../types/data/user.types'
+import { ContributorType, FormInventionType } from '../../../types/data/invention.types'
 
 // async action: fetch user data
 export const fetchUserData = createAsyncThunk('user/fetchUserData', async () => {

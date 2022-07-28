@@ -1,6 +1,6 @@
 // filter users-list by given query util
 
-import { MinifiedUserType } from "../../redux/features/user/user.types";
+import { MinifiedUserType } from '../../types/data/user.types'
 
 /**
  * @param Users     the users list to filter

@@ -1,7 +1,8 @@
 import Link from 'next/link'
 // types
 import {FC, MouseEvent, useState} from 'react'
-import { InventionType, MinifiedUserType } from '../../redux/features/user/user.types'
+import { InventionType } from '../../types/data/invention.types'
+import { MinifiedUserType } from '../../types/data/user.types'
 import { CLIENT_URIS, PUBLIC_SRC } from '../../configs/_client'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'

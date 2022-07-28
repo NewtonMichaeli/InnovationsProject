@@ -1,6 +1,6 @@
 import {FC, useState} from 'react'
 // types
-import { UserType } from '../../../redux/features/user/user.types'
+import { UserType } from '../../../types/data/user.types'
 // components
 import ListFollowers from './list-followers'
 import ListFollowings from './list-following'

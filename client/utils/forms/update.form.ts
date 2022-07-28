@@ -1,6 +1,6 @@
 // form handler for register page
 import { updateUser__type } from "../../redux/features/user/user.actions"
-import { FormUserType, UserType } from "../../redux/features/user/user.types"
+import { FormUserType, UserType } from '../../types/data/user.types'
 
 
 type updateUserInputHandler_type = (ExistingUser: UserType, data: FormUserType) => updateUser__type

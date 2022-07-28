@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 // types
 import { FC } from 'react'
-import { SharedProjectsResponseType } from '../../redux/features/user/user.types'
+import { SharedProjectsResponseType } from '../../types/data/invention.types'
 // redux
 import { useAppSelector } from '../../hooks/redux'
 import { userSelector } from '../../redux/features/user'

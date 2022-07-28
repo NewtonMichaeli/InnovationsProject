@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 // types
 import { FC } from 'react'
-import { SharedProjectsResponseType } from '../../redux/features/user/user.types'
+import { SharedProjectsResponseType } from '../../types/data/invention.types'
 import { CLIENT_URIS } from '../../configs/_client'
 // redux
 import { useAppSelector } from '../../hooks/redux'

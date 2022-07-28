@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 // types
 import { ExplorePageSSR, ExplorePageProps } from '../../types/pages/explore.type'
+import { MinifiedUserType } from '../../types/data/user.types'
 // utils
 import { searchByQuery } from '../../utils/api/requests/user.api'
 // icons
@@ -11,7 +12,6 @@ import Head from 'next/head'
 import UserResult from '../../components/explore/result'
 // styles
 import styles from '../../styles/pages/explore.module.css'
-import { MinifiedUserType } from '../../redux/features/user/user.types'
 
 
 const Explore: FC<ExplorePageProps> = ({query, SearchData}) => {

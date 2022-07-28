@@ -1,7 +1,9 @@
 // utils for inventions
 
 import { INVENTION_USER_ROLES } from "../configs/_client"
-import { InventionType, SharedProjectsResponseType, UserType } from "../redux/features/user/user.types"
+import { UserType } from "../types/data/user.types"
+import { InventionType, SharedProjectsResponseType } from '../types/data/invention.types'
+
 
 
 /**

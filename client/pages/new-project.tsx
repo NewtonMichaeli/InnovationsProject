@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { FC, FormEvent, useState } from 'react'
 // types
-import { FormInventionType } from '../redux/features/user/user.types'
+import { FormInventionType } from '../types/data/invention.types'
 // redux
 import { useAppDispatch } from '../hooks/redux'
 // components

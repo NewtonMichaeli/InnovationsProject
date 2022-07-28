@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 // types
 import {FC, FormEvent, useState} from 'react'
 import { CLIENT_URIS, PUBLIC_SRC } from '../../configs/_client'
-import { FormUserType, REGIONS_ENUM } from '../../redux/features/user/user.types'
+import { FormUserType, REGIONS_ENUM } from '../../types/data/user.types'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { userActions, userSelector } from '../../redux/features/user'

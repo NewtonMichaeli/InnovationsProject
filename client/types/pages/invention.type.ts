@@ -1,6 +1,6 @@
 // types for invention page
 
-import { SharedProjectsResponseType } from "../../redux/features/user/user.types"
+import { SharedProjectsResponseType } from "../data/invention.types"
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 
 export interface InventionPageProps {

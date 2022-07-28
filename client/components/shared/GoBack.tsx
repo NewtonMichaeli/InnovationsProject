@@ -1,9 +1,9 @@
 // types
 import { useRouter } from 'next/router'
 import { FC } from 'react'
+import { CLIENT_URIS } from '../../configs/_client'
 // icons
 import { BiArrowBack } from 'react-icons/bi'
-import { CLIENT_URIS } from '../../configs/_client'
 // styles
 import styles from '../../styles/components/shared/goBack.module.css'
 

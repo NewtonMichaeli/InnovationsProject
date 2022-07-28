@@ -1,5 +1,5 @@
 // types
-import { Dispatch, FC, KeyboardEvent, SetStateAction } from "react"
+import { FC, KeyboardEvent } from "react"
 // icons
 import { MdClose } from "react-icons/md"
 // styles

@@ -15,7 +15,7 @@ import { followHandlerType, inviteToProjectHandlerType, SocialButtons } from '..
 import DataLists from '../../components/shared/user-data-lists'
 // styles
 import styles from '../../styles/pages/user.module.css'
-import { SharedProjectsResponseType } from '../../redux/features/user/user.types'
+import { SharedProjectsResponseType } from '../../types/data/invention.types'
 
 
 /**

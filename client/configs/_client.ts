@@ -1,6 +1,6 @@
 // configs for client
 
-import { STATUS_ENUM } from "../redux/features/user/user.types"
+import { STATUS_ENUM } from "../types/data/invention.types"
 
 // invention sections, currently 3/4 are editable
 export type INVENTION_SECTIONS = 'members' | 'information' | 'assets'

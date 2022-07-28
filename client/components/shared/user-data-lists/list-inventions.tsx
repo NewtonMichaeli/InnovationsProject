@@ -1,6 +1,6 @@
 // types
 import {FC} from 'react'
-import { UserType } from '../../../redux/features/user/user.types'
+import { UserType } from '../../../types/data/user.types'
 // utils
 import { seperateSharedProjectsFormattedInventions } from '../../../utils/inventions.utils'
 // components

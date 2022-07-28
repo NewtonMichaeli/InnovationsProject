@@ -1,6 +1,6 @@
 // actions file for user
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { SharedProjectsResponseType } from '../user/user.types'
+import { SharedProjectsResponseType } from '../../../types/data/invention.types'
 
 export type storeInvention__type = { Invention: SharedProjectsResponseType, my_user_id: string }
 // action: store invention

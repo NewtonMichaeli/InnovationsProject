@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { FC, useState } from 'react'
 // types
 import { CLIENT_URIS, PUBLIC_SRC } from '../../../configs/_client'
-import { UserType } from '../../../redux/features/user/user.types'
+import { UserType } from '../../../types/data/user.types'
 // icons
 import { MdKeyboardArrowDown } from 'react-icons/md'
 // styles
