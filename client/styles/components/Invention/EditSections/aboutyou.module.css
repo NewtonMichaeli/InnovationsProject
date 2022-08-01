@@ -1,4 +1,4 @@
-/* styles for assets section @ invention-data-viewer */
+/* styles for assets section @ invention-editor */
 
 .aboutyou-section {
     width: 20rem;
@@ -15,6 +15,7 @@
     transform: translateY(-15%);
     opacity: 0;
 }
+
 .section-header {
     width: 100%;
     height: 2rem;
@@ -24,6 +25,7 @@
     align-items: center;
     padding: 0 .8rem;
 }
+
 .content {
     /* border: 3px solid #aaa; */
     background: linear-gradient(59.04deg, rgba(119, 119, 119, 0.36) 26.25%, rgba(68, 68, 68, 0.6) 100%);
@@ -46,16 +48,19 @@
     margin-bottom: .7rem;
     margin-left: 2rem;
 }
+
 .data-group .label {
     color: #000;
     font-size: .8rem;
     font-weight: 500;
     height: 1rem;
 }
+
 .data-group .data {
     font-weight: 700;
     font-size: 1.1rem;
 }
+
 .data-group .list {
     /* layout */
     width: 100%;
@@ -66,6 +71,7 @@
     margin-top: .25rem;
     margin-left: -.4rem;
 }
+
 .data-group .list code {
     font-size: .8rem;
     font-weight: 400;

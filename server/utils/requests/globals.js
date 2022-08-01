@@ -7,6 +7,46 @@ const {ObjectId} = require('mongoose').Types
 
 
 /**
+ * Gets a detailed contributor
+ * @param users (typeof {user_id, roles}[])
+ * @param fieldsToSelect (typeof {[key: string]: string})
+ * @returns detailed contributors array (with Roles)
+ */
+const _getDetailedContributorsByArray = async (users, fieldsToSelect) => {
+
+    if (!users?.length) return []
+    const result = await User
+        .find({ $or: users.map(c => ({_id: ObjectId(c.user_id)})) })
+        .select(fieldsToSelect)
+
+    return result.map(u => ({
+        ...u._doc,
+        Roles: users.find(({user_id}) => user_id === u._doc._id.toString())?.roles ?? []
+    }))
+}
+
+
+/**
+ * Gets a detailed user for every asset uploader in a given array
+ * @param users (typeof user_id[])
+ * @param fieldsToSelect (typeof {[key: string]: string})
+ * @returns detailed user array (Username, Email, _id, etc)
+ */
+
+const _getDetailedAssetUploadersByArray = async (users, fieldsToSelect) => {
+    if (!users?.length) return []
+    const result = await User
+        .find({ $or: users.map(({src}) => ({_id: ObjectId(src)})) })
+        .select(fieldsToSelect)
+
+    return users.map(u => ({
+        ...u._doc,
+        src: result.find(user => user._id.toString() === u.src)
+    }))
+}
+
+    
+/**
  * Gets a detailed user for every user_id in a given array
  * @param users (typeof user_id[])
  * @param fieldsToSelect (typeof {[key: string]: string})
@@ -16,8 +56,8 @@ const _getDetailedUsersByArray = async (users, fieldsToSelect) => {
 
     if (!users?.length) return []
     const result = await User
-    .find({ $or: users.map(user_id => ({_id: ObjectId(user_id)})) })
-    .select(fieldsToSelect)
+        .find({ $or: users.map(user_id => ({_id: ObjectId(user_id)})) })
+        .select(fieldsToSelect)
 
     return result.map(u => u._doc)
 }
@@ -40,10 +80,8 @@ const getDetailedUser = async (user, isProtected, req_user_id) => {
         if (!inv.Private || !isProtected) {
             const updatedInvention = {
                 ...inv._doc,
-                Contributors: await _getDetailedUsersByArray(
-                    inv.Contributors.map(c => c.user_id),
-                    MINIFIED_USER_SELECT_VALUES
-                )
+                Contributors: await _getDetailedContributorsByArray(inv.Contributors, MINIFIED_USER_SELECT_VALUES),
+                Assets: await _getDetailedAssetUploadersByArray(inv.Assets, MINIFIED_USER_SELECT_VALUES)
             }
             Inventions.push(updatedInvention)
         }
@@ -60,10 +98,8 @@ const getDetailedUser = async (user, isProtected, req_user_id) => {
         if (!invention) return
 
         // -- get detailed contributors
-        let Contributors = await _getDetailedUsersByArray(
-            invention.Contributors.map(c => c.user_id),
-            MINIFIED_USER_SELECT_VALUES
-        )
+        let Contributors = await _getDetailedContributorsByArray(invention.Contributors, MINIFIED_USER_SELECT_VALUES)
+        let Assets = await _getDetailedAssetUploadersByArray(invention.Assets, MINIFIED_USER_SELECT_VALUES)
 
         // -- check privacy and push data to array
         if (!invention.Private || !isProtected || req_user_id === user._id.toString()) {
@@ -75,7 +111,8 @@ const getDetailedUser = async (user, isProtected, req_user_id) => {
                 },
                 Project: {
                     ...invention._doc,
-                    Contributors
+                    Contributors,
+                    Assets
                 }
             })
         }
@@ -105,12 +142,11 @@ const getDetailedUser = async (user, isProtected, req_user_id) => {
 const getDetailedInvention = async (Invention) => {
 
     const { Username, _id, Profile_Pic } = await User.findById(Invention.Owner_id)
-    const Contributors = await _getDetailedUsersByArray(
-        Invention.Contributors.map(c => c.user_id),
-        MINIFIED_USER_SELECT_VALUES
-    )
+    const Contributors = await _getDetailedContributorsByArray(Invention.Contributors, MINIFIED_USER_SELECT_VALUES)
+    const Assets = await _getDetailedAssetUploadersByArray(Invention.Assets, MINIFIED_USER_SELECT_VALUES)
+
     return {
-        Project: {...Invention, Contributors},
+        Project: {...Invention, Contributors, Assets},
         CreatorData: {Username, _id, Profile_Pic}
     }
 }

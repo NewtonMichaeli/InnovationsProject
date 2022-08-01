@@ -73,7 +73,7 @@ const updateInventionData = async (req, res) => {
 
     // update data
     const result = await requestHandler.updateInvention(user_id, project_id, new_data)
-    if (result.status) return responseHandler.inventionUpdatedSuccessfully(res, result.data)
+    if (result.status) return responseHandler.inventionUpdatedSuccessfully(res, await getDetailedInvention(result.data._doc))
     else if (result.data === 'INV_NOT_FOUND') return responseHandler.inventionNotFound(res)
     else if (result.data === 'NAME_OCCUPIED') return responseHandler.failedUpdatingInvention(res, `Name \"${new_data.Name}\" is already occupied by another invention`)
     else return responseHandler.failedUpdatingInvention(res)

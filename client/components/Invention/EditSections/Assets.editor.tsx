@@ -1,86 +1,104 @@
+import Head from 'next/head'
 // types
-import { FC } from 'react'
-import { AssetType } from '../../../redux/features/user/user.types'
-import { INVENTION_USER_ROLES } from '../../../configs/_client'
+import { ChangeEvent, Dispatch, FC, MouseEvent, SetStateAction, useState } from 'react'
+import { AssetType, UploadAssetType } from '../../../types/data/invention.types'
 // redux
-import { useAppSelector } from '../../../hooks/redux'
-import { inventionSelector } from '../../../redux/features/invention'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { inventionActions, inventionSelector } from '../../../redux/features/invention'
 // icons
-import { GrFormView } from 'react-icons/gr'
+import { AiOutlineCloudUpload } from 'react-icons/ai'
+import { BsArrowRight } from 'react-icons/bs'
 // components
 import RenderFile from '../../shared/file-renderer'
-import EditSectionBtn from '../../shared/EditInventionSection'
+import GoBack from '../../shared/GoBack'
+import AssetsListViewer from '../../shared/asset-viewer'
 // styles
 import styles from '../../../styles/components/Invention/EditSections/assets.module.css'
+import { getModuleStylesMethod } from '../../../utils/styles.utils'
 
+// multiple styles getter util
+const getStyles = getModuleStylesMethod(styles)
 
-// components:
-
-const NoAssets: FC = () => (
-    // -- load when no assets exist
-    <div className={styles["no-assets"]}>
-        <h4 className={styles["title"]}>This project doesn't have any Assets.</h4>
-        <h3 className={styles["add-asset"]}>+ Add asset</h3>
-    </div>
-)
-const EmptyCells: FC<{amount: number}> = ({amount}) =>  (amount ? <>{
-    // -- load when less the 4 assets are rendered - fill all blank spots
-    Array.apply(null, Array(amount)).map((v,i) => <span key={i} className={styles["empty-cell"]}></span>)
-}</> : <></>)
-const CounterCell: FC<{assetsLeft: number}> = ({assetsLeft}) => (
-    // -- load when 4+ assets exist - show amount of total assets instead of renderung them all
-    <span className={styles["counter-cell"]}>+{assetsLeft}</span>
-)
-
-
-// Input: assets-array, username, project_id
-// Output: A grid of assets (4 at most)
-const AssetsGrid: FC<{
-    Assets: AssetType[],
-    project_id: string
-}> = ({Assets, project_id}) => {
-
-    // render assets evenly in a grid container:
-    switch (Assets.length) {
-        case 0: return <NoAssets />
-        // cases 1-4: devide assets equally an fill the blank areas
-        case 1:
-        case 2:
-        case 3:
-        case 4: return <>
-            {Assets.slice(0, Assets.length).map((f,i) => 
-                <RenderFile key={i} project_id={project_id} file={f} />)}
-            <EmptyCells amount={4 - Assets.length} />
-        </>
-        // case 5+: show first 4 assets and indicate the remaining amount of assets
-        default: return <>
-            {Assets.slice(0, 4).map((f, i) => 
-                <RenderFile key={i} project_id={project_id} file={f} />)}
-            <CounterCell assetsLeft={Assets.length - 3} />
-        </>
-    }
+const AssetItem: FC<{
+    Asset: AssetType,
+    idx: number,
+    setIdx: Dispatch<SetStateAction<number>>
+}> = ({Asset, idx, setIdx}) => {
+    const { Invention } = useAppSelector(inventionSelector)
+    return (
+        <div className={styles["Asset"]} title="Open Asset" onClick={() => setIdx(idx)}>
+            <div className={styles["file"]}>
+                <RenderFile project_id={Invention.Project._id} file={Asset} />
+            </div>
+            <div className={styles["data"]}>
+                <h4 className={styles["uploader"]}>{Asset.src.Username}</h4>
+                <p className={styles["description"]}>{Asset.description}</p>
+            </div>
+        </div>
+    )
 }
 
 
 const Assets_EditSection: FC = () => {
     // states
+    const dispatch = useAppDispatch()
     const { Invention } = useAppSelector(inventionSelector)
+    const [assetIdx, setAssetIdx] = useState<number>(null)
+    const [sliceIdx, setSliceIdx] = useState(5)
+    // data
+    const [data, setData] = useState<UploadAssetType>({
+        file: null,
+        description: ''
+    })
+    // handlers
+    const submitHandler = (e: MouseEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        try {
+            dispatch(inventionActions.updateInvention())
+        }
+    }
 
     return (
-        <section className={styles["assets-section"]}>
-            <div className={styles["section-header"]}>
-                <h3>Assets</h3>
-                {/* edit if either creator or contributor */}
-                <EditSectionBtn className={styles["edit"]} section='assets' excludeRole={INVENTION_USER_ROLES.OBSERVER} />
-            </div>
+        <section className={styles["Assets"]}>
+            <Head>
+                {/* <title>Assets - Innovation</title> */}
+            </Head>
+            {/* go-back */}
+            <GoBack />
             <div className={styles["content"]}>
-                <AssetsGrid Assets={Invention.Project.Assets} project_id={Invention.Project._id} />
-                {/* watch button (if at least 1 asset exists) */}
-                {
-                    Invention.Project.Assets.length
-                        ? <div className={styles["watch-btn"]} title="View Assets"><GrFormView size={28} /></div>
-                        : <></>
-                }
+                {/* header */}
+                <div className={styles["header"]}>
+                    <h3>Assets</h3>
+                    <p>Your project-related assets, uploaded by you and your group members.</p>
+                </div>
+                {/* upload assets form */}
+                <form className={styles["upload-asset-form"]}>
+                    <div className={getStyles(`input-file ${data.file ? 'valid' : ''}`)}>
+                        <AiOutlineCloudUpload size={40} />
+                        <p>Drag & Drop your Asset here</p>
+                        <input type="file" name="file" id="File" onChange={e => setData({...data, file: e.target.files?.[0]})} />
+                    </div>
+                    <div className={getStyles(`input-description ${data.description.length > 2 ? 'valid' : ''} ${data.file ? '' : 'hidden-step'}`)}>
+                        <BsArrowRight className={styles["arrow-step-indicator"]} size={40} />
+                        <textarea name="description" id="Description" placeholder='Enter some description'
+                            onChange={e => setData({...data, description: e.target.value})} />
+                    </div>
+                    <div className={getStyles(`input-submit ${data.description.length > 2 ? '' : 'hidden-step'}`)}>
+                        <BsArrowRight className={styles["arrow-step-indicator"]} size={40} />
+                        <input type="submit" value="Upload" onClick={submitHandler} />
+                    </div>
+                </form>
+                {/* assets list */}
+                <div className={styles["assets-list"]}>
+                    {Invention.Project.Assets
+                        .slice(0, sliceIdx)
+                        .map((a,i) => <AssetItem key={a._id} Asset={a} idx={i} setIdx={setAssetIdx} />)}
+                    {sliceIdx < Invention.Project.Assets.length &&
+                        <span className={styles["show-more-assets-btn"]} onClick={() => setSliceIdx(s => s + 5)}>Show more</span>}
+                </div>
+                {/* *floating wndow* - assets list viewer */}
+                <AssetsListViewer Assets={Invention.Project.Assets} 
+                    idx={assetIdx} setIdx={setAssetIdx} project_id={Invention.Project._id} />
             </div>
         </section>
     )

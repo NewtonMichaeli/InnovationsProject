@@ -1,20 +1,20 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { FC, FormEvent, useState } from 'react'
 // types
 import { FormInventionType } from '../../../types/data/invention.types'
-import { CLIENT_URIS } from '../../../configs/_client'
 // redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { userActions } from '../../../redux/features/user'
+import { inventionActions } from '../../../redux/features/invention'
+import { inventionSelector } from '../../../redux/features/invention'
 // utils
-import { newProjectInputHandler } from '../../../utils/forms/newProject.form'
+import { updateInventionInputHandler } from '../../../utils/forms/updateInvention.form'
 // components
 import Private from '../../new-project/Private'
 import Status from '../../new-project/Status'
 import List from '../../new-project/List'
+import GoBack from '../../shared/GoBack'
 // styles
-import styles from '../../../styles/pages/newProject.module.css'
+import styles from '../../../styles/components/Invention/EditSections/information.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
 
 // multiple styles getter util
@@ -23,22 +23,21 @@ const getStyles = getModuleStylesMethod(styles)
 const Information_EditSection: FC = () => {
     // states
     const dispatch = useAppDispatch()
-    const { push } = useRouter()
+    const { Invention } = useAppSelector(inventionSelector)
     const [data, setData] = useState<FormInventionType>({
-        Name: '',
-        Description: '',
-        Status: 'open',
-        Private: false,
-        Tags: [],
-        Occupations: [],
-        Contributors: [],
-        Roles: []
+        Name: Invention.Project.Name,
+        Description: Invention.Project.Description,
+        Status: Invention.Project.Status,
+        Private: Invention.Project.Private,
+        Tags: Invention.Project.Tags,
+        Occupations: Invention.Project.Occupations,
+        Contributors: Invention.Project.Contributors,
+        Roles: Invention.Project.Roles
     })
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const result = await dispatch(userActions.createInvention(newProjectInputHandler(data)))
-            push(CLIENT_URIS.DASHBOARD, null, {shallow: true})
+            await dispatch(inventionActions.updateInvention(updateInventionInputHandler(data, Invention.Project._id)))
         }
         catch (err) {
             console.log(err)    // -- temp
@@ -46,29 +45,31 @@ const Information_EditSection: FC = () => {
     }
 
     return (
-        <section className={styles["NewProject"]}>
+        <section className={styles["Information"]}>
             <Head>
-                {/* <title>Edit Information - Innovation</title> */}
+                {/* <title>Information - Innovation</title> */}
             </Head>
+            {/* go-back */}
+            <GoBack />
             <div className={styles["content"]}>
                 <div className={styles["header"]}>
-                    <h1>Create a new Project</h1>
+                    <h1>Edit "{Invention.Project.Name}" information</h1>
                     <p>Your own invention, where you can plan everything, upload assets and share with others.</p>
                 </div>
                 <form className={styles["form"]} onSubmit={submitHandler} onKeyDown={e => e.key === "Enter" ? e.preventDefault() : null}>
                     {/* projec name */}
                     <div className={styles["input-field"]}>
                         <label htmlFor="Name">Project Name</label>
-                        <input type="text" name='Name' id='Name' onChange={e => setData({...data, Name: e.target.value})} />
+                        <input type="text" name='Name' id='Name' defaultValue={data.Name} onChange={e => setData({...data, Name: e.target.value})} />
                     </div>
                     {/* prject description */}
                     <div className={styles["input-field"]}>
                         <label htmlFor="Description">Project Description</label>
-                        <textarea name="Description" id="Description" onChange={e => setData({...data, Description: e.target.value})} />
+                        <textarea name="Description" id="Description" defaultValue={data.Description} onChange={e => setData({...data, Description: e.target.value})} />
                     </div>
                     {/* project private indicator */}
                     <div className={styles["input-field"]}>
-                        <Private setIsPrivate={(is) => setData({...data, Private: is})} />
+                        <Private setIsPrivate={(is) => setData({...data, Private: is})} isPrivate={data.Private} />
                     </div>
                     {/* project status */}
                     <div className={styles["input-field"]}>
@@ -87,7 +88,7 @@ const Information_EditSection: FC = () => {
                     </div>
                     {/* submit */}
                     <div className={styles["input-field"]}>
-                        <input type="submit" value="Create Invention" />
+                        <input type="submit" value="Save Changes" />
                     </div>
                 </form>
             </div>

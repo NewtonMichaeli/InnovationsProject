@@ -14,9 +14,10 @@ const uploadAsset = async (project_id, data) => {
     if (!invention) return false
 
     // insert file data to database
-    invention.Assets.push({...data, path: data.path.replace(`${ASSETS_FOLDER_NAME}\\`, '')})
+    const new_data = {...data, path: data.path.replace(`${ASSETS_FOLDER_NAME}\\`, '')}
+    invention.Assets.push(new_data)
     const result = await invention.save()
-    return result ? true : false
+    return {status: result ? true : false, data: result.Assets}
 }
 
 

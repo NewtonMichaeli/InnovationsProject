@@ -25,7 +25,7 @@ const Tag: FC<{
 const List: FC<{
     list: string[],
     setList: (vals: string[]) => unknown
-    mode: 'tag' | 'occupation'
+    mode: 'tag' | 'occupation' | 'roles'
 }> = ({list, setList, mode}) => {
     // handlers
     const addValue = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -43,7 +43,7 @@ const List: FC<{
     return (
         <div className={getStyles(`list ${mode}`)}>
             {list.map(t => <Tag key={t} value={t} removeValue={removeValue} />)}
-            <input type="text" id={mode} onKeyDown={addValue} placeholder={`Add ${mode}`} />
+            <input type="text" id={mode} onKeyDown={addValue} placeholder={`Add ${mode}`} autoFocus />
         </div>
     )
 }

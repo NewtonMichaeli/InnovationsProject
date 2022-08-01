@@ -1,6 +1,6 @@
 // types
 import { FC } from 'react'
-import { AssetType } from '../../../redux/features/user/user.types'
+import { AssetType } from '../../../types/data/invention.types'
 import { CLIENT_URIS, INVENTION_USER_ROLES } from '../../../configs/_client'
 // redux
 import { useAppSelector } from '../../../hooks/redux'
@@ -58,13 +58,17 @@ const AssetsGrid: FC<{
         case 3:
         case 4: return <>
             {Assets.slice(0, Assets.length).map((f,i) => 
-                <RenderFile key={i} project_id={project_id} file={f} />)}
+                <div className={styles["file"]}>
+                    <RenderFile key={i} project_id={project_id} file={f} />
+                </div>)}
             <EmptyCells amount={4 - Assets.length} />
         </>
         // case 5+: show first 4 assets and indicate the remaining amount of assets
         default: return <>
             {Assets.slice(0, 4).map((f, i) => 
-                <RenderFile key={i} project_id={project_id} file={f} />)}
+            <div className={styles["file"]}>
+                <RenderFile key={i} project_id={project_id} file={f} />
+            </div>)}
             <CounterCell assetsLeft={Assets.length - 3} />
         </>
     }

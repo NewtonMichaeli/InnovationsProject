@@ -12,14 +12,27 @@ import { userSelector } from "../../redux/features/user"
 import { MdClose } from "react-icons/md"
 // styles
 import styles from '../../styles/components/new-project/contributors.module.css'
+import { getModuleStylesMethod } from "../../utils/styles.utils"
+
+// multiple styles getter util
+const getStyles = getModuleStylesMethod(styles)
 
 
 const Contributor: FC<{
     user: MinifiedUserType,
-    removeContributor: (id: string) => unknown
-}> = ({user: {_id, Username, Profile_Pic}, removeContributor}) => {
+    removeContributor: (id: string) => unknown,
+    setSelected?: [string, (val: string) => unknown]
+}> = ({user: {_id, Username, Profile_Pic, Fname, Sname}, removeContributor, setSelected}) => {
+    // states
+    const isSelected = setSelected?.[0] === _id
+    // handlers
+    const onClick = () => {
+        // setSelected?.[1](isSelected ? null : _id)
+        setSelected?.[1](_id)
+    }
     return (
-        <div className={styles["User"]} title={Username}>
+        <div className={getStyles(`User ${setSelected ? 'clickable' : ''} ${isSelected ? 'selected' : ''}`)} 
+            title={`${Fname + ' ' + Sname} - ${Username}`} onClick={onClick}>
             <img src={PUBLIC_SRC.PROFILE_PIC(Profile_Pic)} alt={Username} />
             <MdClose className={styles["close-btn"]} size={16} onClick={() => removeContributor(_id)} title={`Remove ${Username}`} />
         </div>
@@ -54,8 +67,9 @@ const UserOptions: FC<{
 
 const Contributors: FC<{
     list: ContributorType[],
-    setList: (vals: ContributorType[]) => unknown
-}> = ({list, setList}) => {
+    setList: (vals: ContributorType[]) => unknown,
+    setSelected?: [string, (val: string) => unknown]
+}> = ({list, setList, setSelected}) => {
     // states
     const {User: {_id}} = useAppSelector(userSelector)
     const input_ref = useRef(null)
@@ -83,7 +97,7 @@ const Contributors: FC<{
     return (
         <div className={styles[`list-wrapper`]}>
             <div className={styles[`list`]}>
-                {list.map((t,i) => <Contributor key={i} user={t} removeContributor={removeContributor} />)}
+                {list.map((t,i) => <Contributor key={i} user={t} removeContributor={removeContributor} setSelected={setSelected} />)}
                 <div className={styles["input-container"]}>
                     <input type="text" id="contributor" onChange={onChangeHandler} placeholder={`Add Members`} ref={input_ref} />
                     {/* select list */}

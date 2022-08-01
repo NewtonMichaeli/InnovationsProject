@@ -9,6 +9,7 @@ import { inventionSelector } from '../../../redux/features/invention'
 import Assets_EditSection from './Assets.editor'
 import Information_EditSection from './Information.editor'
 import Members_EditSection from './Members.editor'
+import Loading from '../../global/loading'
 
 
 /**
@@ -18,19 +19,15 @@ const EditorSection: FC = () => {
     // states
     const { query, push } = useRouter()
     const edit = query['edit'] as INVENTION_SECTIONS
-    const project_id = query['project_id'] as string
     const { InventionUserRole } = useAppSelector(inventionSelector)
 
     // -- determine & return section editor
     if (!edit) return <></>
+    else if (!InventionUserRole) return <Loading />
     else if (edit === 'information' && InventionUserRole !== INVENTION_USER_ROLES.OBSERVER) return <Information_EditSection />
     else if (edit === 'assets' && InventionUserRole !== INVENTION_USER_ROLES.OBSERVER) return <Assets_EditSection />
     else if (edit === 'members' && InventionUserRole === INVENTION_USER_ROLES.CREATOR) return <Members_EditSection />
-    else {
-        // -- invalid 'edit' query - return to original invention uri
-        push(CLIENT_URIS._INVENTION(project_id), null, {shallow: true})
-        return <></>
-    }
+    else return <></>
 }
 
 export default EditorSection

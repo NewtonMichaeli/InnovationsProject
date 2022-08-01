@@ -31,6 +31,9 @@ export type FormUserType = {
     Profile_Pic: number
 }
 
+// updating form-user type
+export type UpdateUserType = Partial<FormUserType>
+
 // user type
 export type UserType = {
     Fname: string,

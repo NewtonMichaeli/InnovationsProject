@@ -1,0 +1,159 @@
+/* styles for assets list viewer shared component */
+
+.AssetsListViewer {
+    background-color: #000000dd;
+    height: 100%;
+    width: 100%;
+    /* position */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.go-back-btn {
+    margin-left: 5rem;
+    margin-top: 1rem;
+    border-color: #fff;
+    color: #ccc;
+}
+
+/* the content */
+.AssetsListViewer .content {
+    height: 100%;
+    width: max-content;
+    max-width: calc(80% - 3rem);
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/* asset data */
+.content .asset-data {
+    width: max-content;
+    max-width: 100%;
+    position: relative;
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content .asset-data .file {
+    width: max-content;
+    min-width: 24rem;
+    max-width: 100%;
+    height: 24rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.content .asset-data .asset-description {
+    padding: .5rem 1rem 0 1rem;
+    width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    color: #fff;
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.3em;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.content .asset-data .asset-options {
+    width: max-content;
+    height: max-content;
+    color: #fff;
+    /* position */
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateX(135%);
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: .4rem 0;
+}
+
+.asset-options * {
+    cursor: pointer;
+    margin-bottom: .4rem;
+}
+
+/* asset controllers */
+.content .controllers {
+    height: 4rem;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.content .prev-asset,
+.content .next-asset {
+    height: 100%;
+    width: 3rem;
+    padding: 0.4rem;
+    cursor: pointer;
+    z-index: 2;
+    color: #fff;
+}
+
+.content .disabled {
+    opacity: .3;
+    pointer-events: none;
+}
+
+.content .assets {
+    height: 100%;
+    width: max-content;
+    width: 31rem;
+    mask-image: linear-gradient(to left, #00000044, #000, #000, #000, #000, #000, #000, #00000044);
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content .assets::-webkit-scrollbar {
+    height: 0;
+}
+
+.content .assets .list {
+    height: 100%;
+    width: max-content;
+    transition: margin .15s ease;
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content .assets .list .file-btn:not(:last-child) {
+    margin-right: -1.5rem;
+}
+
+.div-border {
+    height: 100%;
+    min-width: 12rem;
+}
+
+.content .assets .list .file-btn {
+    height: 150%;
+    cursor: pointer;
+    transform: scale(0.67);
+    width: max-content;
+    aspect-ratio: 1/1;
+}

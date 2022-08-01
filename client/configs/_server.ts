@@ -17,6 +17,9 @@ export const SERVER_URI__GET_USER_DATA = (username?: string) => `${SERVER_AUTH_A
 export const SERVER_URI__GET_ASSET = (project_id: string, filename: string) =>
     `${SERVER_ASSETS_API}/${project_id}/${filename}`
 
+export const SERVER_URI__DOWNLOAD_ASSET = (project_id: string, filename: string) =>
+    `${SERVER_ASSETS_API}/${project_id}/${filename}/download`
+
 // Follow/Unfollow user
 export const SERVER_URI__FOLLOW_USER = (action: 'add' | 'remove', target_user: string) =>
     `${SERVER_AUTH_API}/followings/${action}/${target_user}`
@@ -39,6 +42,12 @@ export const SERVER_URI__GET_INVENTION_DATA = (project_id?: string) => `${SERVER
 
 // Create new invention endpoint
 export const SERVER_URI__CREATE_INVENTION = () => SERVER_INVENTION_API
+
+// Create new invention endpoint
+export const SERVER_URI__UPDATE_INVENTION = (project_id: string) => `${SERVER_INVENTION_API}/${project_id}`
+
+// Create new invention endpoint
+export const SERVER_URI__UPLOAD_ASSET = (project_id: string) => `${SERVER_ASSETS_API}/${project_id}`
 
 // invite to project endpoint
 export const SERVER_URI__INVITE_TO_PROJECT = (project_id: string, action: 'add' | 'remove', user_id: string) =>

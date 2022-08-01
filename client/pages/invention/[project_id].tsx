@@ -65,7 +65,7 @@ const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
                 <Members_DataSection />
             </div>
             {/* section-editor component */}
-            {/* <EditorSection /> */}
+            <EditorSection />
         </main>
     )
     else if (isLoading) return <Loading />

@@ -1,7 +1,7 @@
 // user reducer cases
 
 import { WritableDraft } from "immer/dist/internal"
-import { createInvention, fetchUserData, follow, inviteToProject, login, register, updateUser } from "./user.actions"
+import { createInvention, fetchUserData, follow, inviteToProject, login, register, updateInvention, updateUser } from "./user.actions"
 import { UserStateType } from "./user.types"
 
 
@@ -83,13 +83,11 @@ export const updateUserCases = {
 }
 
 
-// signout cases:
+// signout case:
 
-export const signoutCases = {
-    success: (state: WritableUserStateType) => {
-        state.User = null
-        state.isAuthenticated = false
-    }
+export const signoutCase = (state: WritableUserStateType) => {
+    state.User = null
+    state.isAuthenticated = false
 }
 
 
@@ -113,4 +111,29 @@ export const inviteToProjectCases = {
         )
         console.log('pl: ', payload)
     }
+}
+
+
+// invite-to-project cases:
+
+export const updateInventionCase = (state: WritableUserStateType, { payload }: ReturnType<typeof updateInvention>) => {
+    if (payload.CreatorData._id !== state.User._id)
+        // -- update shared projects
+        state.User.Shared_Projects = state.User.Shared_Projects.map(sp => (sp.Project._id === payload.Project._id) ? payload : sp)
+    else
+        // -- update inventions
+        state.User.Inventions = state.User.Inventions.map(inv => (inv._id === payload.Project._id) ? payload.Project : inv)
+}
+
+
+// upload-asset case:
+
+// TODO: upload asset @ user state and finish the god-damn thing
+export const uploadAssetCase = (state: WritableUserStateType, { payload }: ReturnType<typeof updateInvention>) => {
+    if (payload.CreatorData._id !== state.User._id)
+        // -- update shared projects
+        state.User.Shared_Projects = state.User.Shared_Projects.map(sp => (sp.Project._id === payload.Project._id) ? payload : sp)
+    else
+        // -- update inventions
+        state.User.Inventions = state.User.Inventions.map(inv => (inv._id === payload.Project._id) ? payload.Project : inv)
 }

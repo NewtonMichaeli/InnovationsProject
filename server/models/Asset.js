@@ -5,10 +5,18 @@ const AssetSchema = new mongoose.Schema({
         type: String,
         reuired: true
     },
-    originalName: {
+    originalname: {
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required: true
+    },
+    src: {
+        type: String,
+        required: true
+    }
 })
 
 module.exports = AssetSchema

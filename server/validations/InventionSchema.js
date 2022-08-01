@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi')
-const Joi_AssetSchema = require('./AssetSchema')
+const { Joi_AssetSchema } = require('./AssetSchema')
 const Joi_ContributorSchema = require('./ContributorSchema')
 
 // Global invention schema

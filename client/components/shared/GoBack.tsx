@@ -13,14 +13,16 @@ import styles from '../../styles/components/shared/goBack.module.css'
  * @returns JSX component for going-back functionallity
  */
 const GoBack: FC<{
-    onClick?: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => unknown
-}> = ({onClick}) => {
+    onClick?: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => unknown,
+    className?: string
+}> = ({onClick, className}) => {
     // states
-    const { push } = useRouter()
-    const backToExplorePage = () => push(CLIENT_URIS.EXPLORE)
+    const { push, back } = useRouter()
+    const backToExplorePage = () => back()
+    // const backToExplorePage = () => push(CLIENT_URIS.EXPLORE)
     
     return (
-        <div className={styles["GoBack"]} title="Back" onClick={onClick ?? backToExplorePage}>
+        <div className={`${styles["GoBack"]} ${className ?? ''}`} title="Back" onClick={onClick ?? backToExplorePage}>
             <BiArrowBack size={28} />
         </div>
     )

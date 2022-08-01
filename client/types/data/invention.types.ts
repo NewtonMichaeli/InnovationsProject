@@ -12,8 +12,16 @@ export const STATUS_ENUM = {
 // assets type
 export type AssetType = {
     path?: string,
-    originalName: string,
+    originalname: string,
+    description: string,
+    src: MinifiedUserType,  // -- converted from user_id in server
     _id: string
+}
+
+// create-asset type
+export type UploadAssetType = {
+    file: File,
+    description: string
 }
 
 // contributors type (extends minified-user model)
@@ -32,6 +40,9 @@ export type FormInventionType = {
     Contributors: ContributorType[],
     Private: boolean
 }
+
+// updating form-invention type
+export type UpdateInventionType = Partial<FormInventionType>
 
 // invantions type
 export type InventionType = {

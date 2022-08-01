@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: flex-start;
 }
+
 .list {
     height: 1.8rem;
     /* layout */
@@ -18,14 +19,17 @@
     justify-content: flex-start;
     flex-wrap: wrap;
 }
+
 .list .input-container {
     height: 100%;
     position: relative;
 }
+
 .list .User,
 .list .input-container {
     margin-bottom: .4rem;
 }
+
 .list .input-container input[type=text] {
     height: 100%;
     font-size: .8rem;
@@ -50,14 +54,26 @@
     background-color: #ccc;
     position: relative;
 }
+
 .list .User:last-child {
     margin-right: .4rem;
 }
+
+/* <setSelected> exists */
+.User.clickable {
+    cursor: pointer;
+}
+
+.User.selected {
+    outline: 2px solid #4ef;
+}
+
 .User img {
     height: 100%;
     border-radius: 51%;
     margin-right: .1rem;
 }
+
 .User .close-btn {
     cursor: pointer;
 }
@@ -75,12 +91,17 @@
     border-radius: .6rem;
     padding: .4rem;
 }
-.select-users-frame .user-seperator:last-child {display: none;}
+
+.select-users-frame .user-seperator:last-child {
+    display: none;
+}
+
 .select-users-frame .user-seperator {
     margin: .2rem 0;
     height: .2px;
     background-color: #666;
 }
+
 .select-users-frame .UserOption {
     border-radius: .3rem;
     height: 3rem;
@@ -92,14 +113,17 @@
     align-items: center;
     padding: .4rem;
 }
+
 .select-users-frame .UserOption:hover {
     background-color: #ccc;
 }
+
 .UserOption img {
     height: 100%;
     border-radius: 51%;
     margin-right: .4rem;
 }
+
 .UserOption .data {
     /* layout */
     display: flex;
@@ -108,11 +132,13 @@
     justify-content: center;
     padding-right: 1.5rem;
 }
+
 .UserOption .data .name {
     font-size: 1.1rem;
     height: 1.35rem;
     color: #222;
 }
+
 .UserOption .data .username-x-email {
     font-size: .75rem;
 }

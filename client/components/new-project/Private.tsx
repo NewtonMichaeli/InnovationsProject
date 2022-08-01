@@ -7,13 +7,14 @@ import styles from '../../styles/components/new-project/private.module.css'
 
 
 const Private: FC<{
-    setIsPrivate: (is: boolean) => unknown
-}> = ({setIsPrivate}) => {
+    setIsPrivate: (is: boolean) => unknown,
+    isPrivate?: boolean
+}> = ({setIsPrivate, isPrivate}) => {
 
     return (    
        <div className={styles["input-field"]}>
             <div className={styles["radio-opt"]}>
-                <input type="radio" name="Private" id="Private-false" value={0} defaultChecked />
+                <input type="radio" name="Private" id="Private-false" value={0} defaultChecked={isPrivate ?? true} />
                 <div className={styles["label"]}>
                     <MdOutlinePublic size={26} />
                     <div className={styles["text"]}>

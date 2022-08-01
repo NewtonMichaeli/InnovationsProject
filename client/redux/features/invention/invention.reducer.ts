@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { storeInvention } from './invention.actions'
-import { storeInventionCase } from './invention.reducer-cases'
+import { storeInvention, updateInvention } from './invention.actions'
+import { storeInventionCase, updateInventionCases } from './invention.reducer-cases'
 import { InventionStateType } from './invention.types'
 
 
@@ -10,7 +10,9 @@ const initState: InventionStateType = {
 }
 
 export const inventionReducer = createReducer(initState, builder => {
-    // TODO: rejection-handler for every action -> pushing error messages to a custom notifications-reducer
     builder
+        // outcomes: store-invention
         .addCase(storeInvention, storeInventionCase)
+        // outcomes: update-invention-data
+        .addCase(updateInvention['fulfilled'], updateInventionCases.fulfilled)
 })

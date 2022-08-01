@@ -4,14 +4,18 @@ import { INVENTION_USER_ROLES } from '../../../configs/_client'
 // redux
 import { useAppSelector } from '../../../hooks/redux'
 import { inventionSelector } from '../../../redux/features/invention'
+import { userSelector } from '../../../redux/features/user'
 // styles
 import styles from '../../../styles/components/Invention/DataSections/aboutyou.module.css'
 
 
 const AboutYou_DataSection: FC = () => {
     // states
-    const { InventionUserRole } = useAppSelector(inventionSelector)
-    const roles = ['DevOps', 'UI/X', 'Database Maintainance', 'Design Manager', 'Design']
+    const { User } = useAppSelector(userSelector)
+    const { InventionUserRole, Invention } = useAppSelector(inventionSelector)
+    const roles = InventionUserRole === INVENTION_USER_ROLES.CONTRIBUTOR
+        ? (Invention?.Project.Contributors.find(({_id}) => _id === User?._id)?.Roles ?? [])     // -- contributor's roles
+        : (Invention.Project.Roles ?? [])   // -- creator's roles
 
     {/* show if either creator or contributor */}
     if (InventionUserRole !== INVENTION_USER_ROLES.OBSERVER) return (
@@ -28,7 +32,6 @@ const AboutYou_DataSection: FC = () => {
                 </div>
                 <div className={styles["data-group"]}>
                     <h5 className={styles['label']}>Roles:</h5>
-                    {/* {Invention.Project.Roles.length */}
                     {roles.length
                         ? <h3 className={styles['list']}>{roles.map((r,i) => <code key={i}>{r}</code>)}</h3>
                         : <h3 className={styles['data']}>None</h3>

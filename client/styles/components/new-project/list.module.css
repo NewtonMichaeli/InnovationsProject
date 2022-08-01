@@ -41,6 +41,10 @@
     background-color: #fff65599;
     border: 1px solid #81942399;
 }
+.list.roles .tag {
+    background-color: #f155ff99;
+    border: 1px solid #87239499;
+}
 /* END list styles */
 .list .tag:last-child {
     margin-right: 1rem;
