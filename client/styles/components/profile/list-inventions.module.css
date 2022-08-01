@@ -9,6 +9,7 @@
     clip-path: circle(0px);
     transition: clip-path 1s ease;
 }
+
 .list-inventions-wrapper.show {
     clip-path: circle(200vw);
 }
@@ -29,6 +30,7 @@
     background-color: #ccc;
     pointer-events: none;
 }
+
 .list-inventions-wrapper.show .list-inventions {
     background-color: var(--app-bg-color);
     pointer-events: visible;
@@ -56,6 +58,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .section-header .title {
     height: 100%;
     /* layout */
@@ -64,18 +67,22 @@
     align-items: center;
     padding: 0 1.5rem;
 }
+
 .section-header .title img {
     height: 100%;
     aspect-ratio: 1/1;
     margin-right: .9rem;
     border-radius: 51%;
 }
+
 .section-header .title .username {
     font-weight: 400;
 }
+
 .section-header .select-show-as {
     font-weight: 600;
 }
+
 .section-header .select-show-as::before {
     content: "Show as: ";
     font-weight: 400;

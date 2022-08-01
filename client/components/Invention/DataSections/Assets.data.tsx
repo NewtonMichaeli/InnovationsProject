@@ -1,7 +1,7 @@
 // types
 import { FC } from 'react'
 import { AssetType } from '../../../redux/features/user/user.types'
-import { INVENTION_USER_ROLES } from '../../../configs/_client'
+import { CLIENT_URIS, INVENTION_USER_ROLES } from '../../../configs/_client'
 // redux
 import { useAppSelector } from '../../../hooks/redux'
 import { inventionSelector } from '../../../redux/features/invention'
@@ -12,17 +12,26 @@ import RenderFile from '../../shared/file-renderer'
 import EditSectionBtn from '../../shared/EditInventionSection'
 // styles
 import styles from '../../../styles/components/Invention/DataSections/assets.module.css'
+import Link from 'next/link'
 
 
 // components:
 
-const NoAssets: FC = () => (
+const NoAssets: FC = () => {
     // -- load when no assets exist
-    <div className={styles["no-assets"]}>
-        <h4 className={styles["title"]}>This project doesn't have any Assets.</h4>
-        <h3 className={styles["add-asset"]}>+ Add an asset</h3>
-    </div>
-)
+    const {Invention, InventionUserRole} = useAppSelector(inventionSelector)
+    const isAuthorized = InventionUserRole !== INVENTION_USER_ROLES.OBSERVER ?? false
+
+    return (
+        <div className={styles["no-assets"]}>
+            <h4 className={styles["title"]}>This project doesn't have any Assets.</h4>
+            {isAuthorized && 
+                <Link href={CLIENT_URIS._INVENTION_EDIT_TAB(Invention.Project._id, 'assets')}>
+                    <h3 className={styles["add-asset"]}>+ Add an asset</h3>
+                </Link>}
+        </div>
+    )
+}
 const EmptyCells: FC<{amount: number}> = ({amount}) =>  (amount ? <>{
     // -- load when less the 4 assets are rendered - fill all blank spots
     Array.apply(null, Array(amount)).map((v,i) => <span key={i} className={styles["empty-cell"]}></span>)

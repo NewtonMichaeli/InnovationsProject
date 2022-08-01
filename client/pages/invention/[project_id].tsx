@@ -23,6 +23,7 @@ import InventionNotFound from "../../components/global/404/inventionNotFound"
 import styles from '../../styles/pages/project.module.css'
 import EditorSection from "../../components/Invention/EditSections"
 import { CLIENT_URIS, PUBLIC_SRC } from "../../configs/_client"
+import Link from "next/link"
 
 
 const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
@@ -48,7 +49,9 @@ const ProjectViewer: FC<InventionPageProps> = ({Invention}) => {
                 <BsArrowLeftShort className={styles['leave']} size={48} onClick={() => push(CLIENT_URIS._USER(Invention.CreatorData.Username))} title="Go back" />
                 <img className={styles['owner-profile-pic']} src={PUBLIC_SRC.PROFILE_PIC(Invention.CreatorData.Profile_Pic)} alt={Invention.CreatorData.Username} />
                 <div className={styles['username-x-projectname']}>
-                    <code className={styles['username']}>{Invention.CreatorData.Username}</code>
+                    <Link href={CLIENT_URIS._USER(InventionState.CreatorData.Username)}>
+                        <code className={styles['username']}>{Invention.CreatorData.Username}</code>
+                    </Link>
                     &nbsp;/&nbsp;
                     <code className={styles['projectname']}>{Invention.Project.Name}</code>
                 </div>

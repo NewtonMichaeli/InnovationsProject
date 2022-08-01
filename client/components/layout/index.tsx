@@ -9,9 +9,9 @@ import { CLIENT_URIS, isAccessingSecuredUri } from "../../configs/_client"
 import Menu from "./Menu"
 import Navbar from "./Navbar"
 import Loading from "../global/loading"
+import UINotifications from "./Ui"
 // styles
 import styles from '../../styles/components/layout/index.module.css'
-import UINotifications from "./Ui"
 
 
 const Layout: FC<{children: JSX.Element[]}> = ({children}) => {

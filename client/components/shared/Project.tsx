@@ -9,6 +9,7 @@ import { SharedProjectsResponseType } from "../../types/data/invention.types"
 // styles
 import styles from '../../styles/components/shared/project.module.css'
 import { getModuleStylesMethod } from "../../utils/styles.utils"
+import formatTime from "../../utils/others/formatTime"
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -80,8 +81,10 @@ const RenderProjects: FC<{
             {!Inventions?.length
                 // ? <code className={styles["no-inventions"]}>You have no Inventions yet</code>
                 ? <></>
-                : Inventions.sort((a, b) => b.Project.DoC - a.Project.DoC).map(inv => 
-                    <Project key={inv.Project._id} invention={inv} />)}
+                : [...Inventions]
+                    .sort((a, b) => b.Project.DoC - a.Project.DoC)
+                    .map(inv => 
+                        <Project key={inv.Project._id} invention={inv} />)}
         </div>
     )
 }

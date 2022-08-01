@@ -40,7 +40,7 @@ const ListInventions: FC<{
                         <div className={styles["section-header"]}>
                             <div className={styles["title"]}>
                                 <img src={PUBLIC_SRC.PROFILE_PIC(UserData.Profile_Pic)} alt={UserData.Username} />
-                                <h2 className={styles["username"]}>{UserData.Username}'s Inventions</h2>
+                                <h2 className={styles["username"]}>{UserData.Username}'s Inventions:</h2>
                             </div>
                         </div>
                         {/* render inventions */}
@@ -51,7 +51,7 @@ const ListInventions: FC<{
                         <div className={styles["section-header"]}>
                             <div className={styles["title"]}>
                                 <img src={PUBLIC_SRC.PROFILE_PIC(UserData.Profile_Pic)} alt={UserData.Username} />
-                                <h2 className={styles["username"]}>{UserData.Username}'s Shared Inventions</h2>
+                                <h2 className={styles["username"]}>{UserData.Username}'s Shared Inventions:</h2>
                             </div>
                         </div>
                         {/* render shared-projects */}

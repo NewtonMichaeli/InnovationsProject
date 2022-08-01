@@ -50,6 +50,10 @@ const updateInvention = async (user_id, project_id, data) => {
             invention[prop[0]] = prop[1]
     })
 
+    // -- update DoF
+    if (data?.Status === 'finished') invention.DoF = new Date().getTime()
+    else if (data?.Status === 'open' || 'in development') invention.DoF = undefined
+
     // save new invention
     const result = await invention.save()
     return {
