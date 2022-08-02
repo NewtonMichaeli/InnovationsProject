@@ -43,11 +43,14 @@ export const SERVER_URI__GET_INVENTION_DATA = (project_id?: string) => `${SERVER
 // Create new invention endpoint
 export const SERVER_URI__CREATE_INVENTION = () => SERVER_INVENTION_API
 
-// Create new invention endpoint
+// Update invention endpoint
 export const SERVER_URI__UPDATE_INVENTION = (project_id: string) => `${SERVER_INVENTION_API}/${project_id}`
 
-// Create new invention endpoint
+// Upload assets endpoint
 export const SERVER_URI__UPLOAD_ASSET = (project_id: string) => `${SERVER_ASSETS_API}/${project_id}`
+
+// Delete assets endpoint
+export const SERVER_URI__DELETE_ASSET = (project_id: string, asset_id: string) => `${SERVER_ASSETS_API}/${project_id}/${asset_id}`
 
 // invite to project endpoint
 export const SERVER_URI__INVITE_TO_PROJECT = (project_id: string, action: 'add' | 'remove', user_id: string) =>

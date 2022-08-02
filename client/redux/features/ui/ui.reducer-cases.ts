@@ -1,11 +1,13 @@
 // ui reducer cases
 
 import { WritableDraft } from "immer/dist/internal"
-import { pushFeedback } from "./ui.actions";
+// types
 import { UiStateType } from "./ui.types";
+// actions
+import { pushFeedback } from "./ui.actions";
+
 
 type WritableUiStateType = WritableDraft<UiStateType>
-
 
 // push feedback case
 

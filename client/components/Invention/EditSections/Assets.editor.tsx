@@ -1,6 +1,6 @@
 import Head from 'next/head'
 // types
-import { ChangeEvent, Dispatch, FC, MouseEvent, SetStateAction, useState } from 'react'
+import { FC, MouseEvent, SetStateAction, useState } from 'react'
 import { AssetType, UploadAssetType } from '../../../types/data/invention.types'
 // redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
@@ -8,10 +8,10 @@ import { inventionActions, inventionSelector } from '../../../redux/features/inv
 // icons
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { BsArrowRight } from 'react-icons/bs'
+import { IoMdClose } from 'react-icons/io'
 // components
 import RenderFile from '../../shared/file-renderer'
 import GoBack from '../../shared/GoBack'
-import AssetsListViewer from '../../shared/asset-viewer'
 // styles
 import styles from '../../../styles/components/Invention/EditSections/assets.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
@@ -26,9 +26,13 @@ const AssetItem: FC<{
 }> = ({Asset, idx}) => {
     // states
     const dispatch = useAppDispatch()
-    const { Invention, ViewAssetsIdx } = useAppSelector(inventionSelector)
+    const { Invention } = useAppSelector(inventionSelector)
     // handlers
     const setIdx = () => dispatch(inventionActions.viewAssetsIdx(idx))
+    const deleteAssetHandler = async (e: MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation()
+        await dispatch(inventionActions.deleteAsset({asset_id: Asset._id, project_id: Invention.Project._id}))
+    }
 
     return (
         <div className={styles["Asset"]} title="Open Asset" onClick={setIdx}>
@@ -39,6 +43,9 @@ const AssetItem: FC<{
                 <h4 className={styles["uploader"]}>{Asset.src.Username}</h4>
                 <p className={styles["description"]}>{Asset.description}</p>
             </div>
+            <div className={styles["delete-asset"]} title="Delete asset" onClick={deleteAssetHandler}>
+                <IoMdClose size={28} color="#222" />
+            </div>
         </div>
     )
 }
@@ -47,18 +54,19 @@ const AssetItem: FC<{
 const Assets_EditSection: FC = () => {
     // states
     const dispatch = useAppDispatch()
-    const { ViewAssetsIdx, Invention } = useAppSelector(inventionSelector)
-    const [sliceIdx, setSliceIdx] = useState(5)
+    const { Invention } = useAppSelector(inventionSelector)
+    const [sliceIdx, setSliceIdx] = useState(6)
     // data
     const [data, setData] = useState<UploadAssetType>({
         file: null,
         description: ''
     })
     // handlers
-    const submitHandler = (e: MouseEvent<HTMLInputElement>) => {
+    const submitHandler = async (e: MouseEvent<HTMLInputElement>) => {
         e.preventDefault()
         try {
-            dispatch(inventionActions.uploadAsset({data, project_id: Invention.Project._id}))
+            await dispatch(inventionActions.uploadAsset({data, project_id: Invention.Project._id}))
+            setData({description: '', file: null})    // -- reset data
         }
         catch (err) {
             dispatch(pushFeedback({status: false, msg: err.message ?? "An error has occured"}))
@@ -101,7 +109,7 @@ const Assets_EditSection: FC = () => {
                         .slice(0, sliceIdx)
                         .map((a,i) => <AssetItem key={a._id} Asset={a} idx={i} />)}
                     {sliceIdx < Invention.Project.Assets.length &&
-                        <span className={styles["show-more-assets-btn"]} onClick={() => setSliceIdx(s => s + 5)}>Show more</span>}
+                        <span className={styles["show-more-assets-btn"]} onClick={() => setSliceIdx(s => s + 6)}>Show more</span>}
                 </div>
             </div>
         </section>

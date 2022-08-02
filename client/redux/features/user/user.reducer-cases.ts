@@ -1,8 +1,10 @@
 // user reducer cases
 
 import { WritableDraft } from "immer/dist/internal"
-import { assetActions, createInvention, fetchUserData, follow, inviteToProject, login, register, updateInvention, updateUser } from "./user.actions"
+// types
 import { UserStateType } from "./user.types"
+// actions
+import { assetActions, createInvention, fetchUserData, follow, inviteToProject, login, register, updateInvention, updateUser } from "./user.actions"
 
 
 type WritableUserStateType = WritableDraft<UserStateType>
@@ -126,18 +128,31 @@ export const updateInventionCase = (state: WritableUserStateType, { payload }: R
 }
 
 
-// upload-asset case:
+// asset-action cases:
 
-// TODO: upload asset @ user state and finish the god-damn thing
 export const assetActionCases = {
     upload: (state: WritableUserStateType, { payload }: ReturnType<typeof assetActions['upload']>) => {
-        if (state.User.Inventions.some(inv => inv._id === payload.project_id))
+        if (state.User.Inventions.some(inv => inv._id === payload.project_id)) {
             // -- update invention assets
             state.User.Inventions = state.User.Inventions.map(inv => (inv._id === payload.project_id)
                 ? { ...inv, Assets: payload.data } : inv)
-        else
+        }
+        else {
             // -- update shared-project assets
             state.User.Shared_Projects = state.User.Shared_Projects.map(sp => (sp.Project._id === payload.project_id)
                 ? { ...sp, Project: { ...sp.Project, Assets: payload.data } } : sp)
+        }
+    },
+    delete: (state: WritableUserStateType, { payload }: ReturnType<typeof assetActions['delete']>) => {
+        if (state.User.Inventions.some(inv => inv._id === payload.project_id)) {
+            // -- update invention assets
+            state.User.Inventions = state.User.Inventions.map(inv => (inv._id === payload.project_id)
+                ? { ...inv, Assets: inv.Assets.filter(a => a._id !== payload.asset_id) } : inv)
+        }
+        else {
+            // -- update shared-project assets
+            state.User.Shared_Projects = state.User.Shared_Projects.map(sp => (sp.Project._id === payload.project_id)
+                ? { ...sp, Project: { ...sp.Project, Assets: sp.Project.Assets.filter(a => a._id !== payload.asset_id) } } : sp)
+        }
     }
 }

@@ -1,6 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit'
+// types
 import { UserStateType } from './user.types'
+// actions
 import { fetchUserData, follow, login, register, signout, updateUser, createInvention, inviteToProject, updateInvention, assetActions } from './user.actions'
+// action cases
 import { assetActionCases, createInventionCases, fetchUserDataCases, followCases, inviteToProjectCases, loginCases, registerCases, signoutCase, updateInventionCase, updateUserCases } from './user.reducer-cases'
 
 
@@ -39,6 +42,7 @@ export const userReducer = createReducer(initState, builder => {
         .addCase(inviteToProject.fulfilled, inviteToProjectCases.fulfilled)
         // -- outcomes: update-invention
         .addCase(updateInvention, updateInventionCase)
-        // -- outcomes: upload-asset
+        // -- outcomes: asset-actions (upload, delete)
         .addCase(assetActions.upload, assetActionCases.upload)
+        .addCase(assetActions.delete, assetActionCases.delete)
 })

@@ -1,11 +1,14 @@
 // actions file for user
+
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import * as userAPI from '../../../utils/api/requests/user.api'
 // types
+import { CLIENT_URIS } from '../../../configs/_client'
 import { REGIONS_ENUM, UpdateUserType } from '../../../types/data/user.types'
 import { AssetType, ContributorType, FormInventionType, SharedProjectsResponseType } from '../../../types/data/invention.types'
+// actions (from other reducers)
 import { pushFeedback } from '../ui/ui.actions'
-import { CLIENT_URIS } from '../../../configs/_client'
+// api
+import * as userAPI from '../../../utils/api/requests/user.api'
 
 
 // async action: fetch user data
@@ -128,7 +131,8 @@ export const updateInvention = createAction<SharedProjectsResponseType>('user/up
 
 // action: update-invention
 export const assetActions = {
-    upload: createAction<{ data: AssetType[], project_id: string }>('user/uploadAsset')
+    upload: createAction<{ data: AssetType[], project_id: string }>('user/uploadAsset'),
+    delete: createAction<{ asset_id: string, project_id: string }>('user/deleteAsset')
 }
 
 export type inviteToProject__type = { project_id: string, action: 'add' | 'remove', user_id: string, roles?: ContributorType['Roles'] }

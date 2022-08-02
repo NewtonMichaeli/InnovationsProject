@@ -1,9 +1,11 @@
 // invention reducer cases
 
+// types
 import { WritableDraft } from "immer/dist/internal"
 import { getInventionUserRole } from "../../../utils/inventions.utils"
-import { storeInvention, updateInvention, uploadAsset, viewAssetsIdx } from "./invention.actions"
 import { InventionStateType } from "./invention.types"
+// actions
+import { deleteAsset, storeInvention, updateInvention, uploadAsset, viewAssetsIdx } from "./invention.actions"
 
 
 type WritableInventionStateType = WritableDraft<InventionStateType>
@@ -39,6 +41,11 @@ export const assetActionCases = {
     upload: {
         fulfilled: (state: WritableInventionStateType, { payload }: ReturnType<typeof uploadAsset['fulfilled']>) => {
             state.Invention.Project.Assets = payload
+        }
+    },
+    delete: {
+        fulfilled: (state: WritableInventionStateType, { payload }: ReturnType<typeof deleteAsset['fulfilled']>) => {
+            state.Invention.Project.Assets = state.Invention.Project.Assets.filter(a => a._id !== payload)
         }
     }
 }

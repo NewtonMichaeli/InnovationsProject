@@ -1,7 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { popFeedback, pushFeedback } from './ui.actions'
-import { popFeedbackCase, pushFeedbackCase } from './ui.reducer-cases'
+// types
 import { UiStateType } from './ui.types'
+// actions
+import { popFeedback, pushFeedback } from './ui.actions'
+// action cases
+import { popFeedbackCase, pushFeedbackCase } from './ui.reducer-cases'
 
 
 const initState: UiStateType = {

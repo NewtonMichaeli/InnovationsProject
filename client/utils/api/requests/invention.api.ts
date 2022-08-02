@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { SERVER_URI__GET_INVENTION_DATA, SERVER_URI__UPDATE_INVENTION, SERVER_URI__UPLOAD_ASSET } from '../../../configs/_server'
+import { SERVER_URI__DELETE_ASSET, SERVER_URI__GET_INVENTION_DATA, SERVER_URI__UPDATE_INVENTION, SERVER_URI__UPLOAD_ASSET } from '../../../configs/_server'
 // types
-import { fetchInventionData_type, updateInvention_type, uploadAsset_type } from '../types/invention.types'
+import { deleteAsset_type, fetchInventionData_type, updateInvention_type, uploadAsset_type } from '../types/invention.types'
 
 // -- create axios instance with default configs
 const axiosRequest = axios.create({
@@ -35,6 +35,15 @@ export const uploadAsset: uploadAsset_type = async ({ project_id, data }, header
     const res = await axiosRequest.post(
         SERVER_URI__UPLOAD_ASSET(project_id),
         formdata,
+        headers
+    )
+    return res.data
+}
+
+// inventionAPI: delete asset
+export const deleteAsset: deleteAsset_type = async ({ project_id, asset_id }, headers) => {
+    const res = await axiosRequest.delete(
+        SERVER_URI__DELETE_ASSET(project_id, asset_id),
         headers
     )
     return res.data
