@@ -11,6 +11,7 @@ import { uiActions } from '../../redux/features/ui'
 // styles
 import styles from '../../styles/components/shared/userItem.module.css'
 import { getModuleStylesMethod } from '../../utils/styles.utils'
+import { action } from '../../types/data/global.types'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -44,7 +45,7 @@ const InviteToProject: FC<{
 }
 
 
-export type followHandlerType = (action: 'add' | 'remove') => unknown
+export type followHandlerType = (action: action) => unknown
 export type inviteToProjectHandlerType = (project_id: string) => unknown
 /**
  * Component shorthandendly renders the social buttons of a user-item, or as an independant single-user-mode component
@@ -73,7 +74,7 @@ export const SocialButtons: FC<{
     // Handlers
     const handleFollowBtn = async (e: MouseEvent<any>) => {
         e.stopPropagation()
-        const action = isFollowing ? 'remove' : 'add'
+        const action: action = isFollowing ? 'remove' : 'add'
         await dispatch(userActions.follow({action, target_user: target_user_id}))
         singleUserModeCB?.[0]?.(action)             // call callback when on single-user-mode
     }

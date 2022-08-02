@@ -22,16 +22,9 @@ export const storeInventionCase = (state: WritableInventionStateType, { payload 
 // update-invention cases:
 
 export const updateInventionCases = {
-    // pending: (state: WritableInventionStateType) => {
-    //     state.isLoading = true
-    // },
     fulfilled: (state: WritableInventionStateType, { payload }: ReturnType<typeof updateInvention['fulfilled']>) => {
-        console.log('payloaf ', payload)
         state.Invention.Project = payload.Project
-    },
-    // rejected: (state: WritableUserStateType) => {
-    //     state.isLoading = false
-    // }
+    }
 }
 
 

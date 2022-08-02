@@ -1,5 +1,7 @@
 // configs file for server
 
+import { action } from "../types/data/global.types"
+
 // server uri - currently unsecured (http)
 export const SERVER_URI = 'http://localhost:8084'
 
@@ -21,7 +23,7 @@ export const SERVER_URI__DOWNLOAD_ASSET = (project_id: string, filename: string)
     `${SERVER_ASSETS_API}/${project_id}/${filename}/download`
 
 // Follow/Unfollow user
-export const SERVER_URI__FOLLOW_USER = (action: 'add' | 'remove', target_user: string) =>
+export const SERVER_URI__FOLLOW_USER = (action: action, target_user: string) =>
     `${SERVER_AUTH_API}/followings/${action}/${target_user}`
 
 // search by query
@@ -53,5 +55,5 @@ export const SERVER_URI__UPLOAD_ASSET = (project_id: string) => `${SERVER_ASSETS
 export const SERVER_URI__DELETE_ASSET = (project_id: string, asset_id: string) => `${SERVER_ASSETS_API}/${project_id}/${asset_id}`
 
 // invite to project endpoint
-export const SERVER_URI__INVITE_TO_PROJECT = (project_id: string, action: 'add' | 'remove', user_id: string) =>
+export const SERVER_URI__INVITE_TO_PROJECT = (project_id: string, action: action, user_id: string) =>
     `${SERVER_INVENTION_API}/contributors/${project_id}/${action}/${user_id}`

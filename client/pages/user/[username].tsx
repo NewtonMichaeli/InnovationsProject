@@ -16,6 +16,7 @@ import GoBack from '../../components/shared/GoBack'
 import DataLists from '../../components/shared/user-data-lists'
 // styles
 import styles from '../../styles/pages/user.module.css'
+import { action } from '../../types/data/global.types'
 
 
 /**
@@ -32,7 +33,7 @@ const User: FC<UserPageProps> = ({UserData}) => {
 
     // Handlers
     // -- follow handler - handle follow button when clicked
-    const followHandler: followHandlerType = (action: 'add' | 'remove') => {
+    const followHandler: followHandlerType = (action: action) => {
         // -- update InspectedUser (temp functionality)
         if (action === 'add') setInspectedUser(iu => ({...iu, Followers: [...iu.Followers, User]}))
         else setInspectedUser(iu => ({...iu, Followers: iu.Followers.filter(f => f._id !== User._id)}))

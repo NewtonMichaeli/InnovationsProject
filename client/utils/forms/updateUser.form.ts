@@ -1,14 +1,13 @@
 // form handler for register page
-import { updateUser__type } from "../../redux/features/user/user.actions"
+import { UserActionTypes } from "../../redux/features/user/user.types"
 import { FormUserType, UserType } from '../../types/data/user.types'
 
 
-type updateUserInputHandler_type = (ExistingUser: UserType, data: FormUserType) => updateUser__type
 // register form input handler
-export const updateUserInputHandler: updateUserInputHandler_type = (User, data) => {
+export const updateUserInputHandler = (User: UserType, data: FormUserType): UserActionTypes['updateUser'] => {
 
     // -- updated data objcwt with conditional keys
-    const updatedData: updateUser__type = {
+    const updatedData: UserActionTypes['updateUser'] = {
         ...(data.Fname !== User.Fname && { Fname: data.Fname }),
         ...(data.Sname !== User.Sname && { Sname: data.Sname }),
         ...(data.Email !== User.Email && { Email: data.Email }),

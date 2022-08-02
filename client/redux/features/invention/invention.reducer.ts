@@ -1,7 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { deleteAsset, storeInvention, updateInvention, uploadAsset, viewAssetsIdx } from './invention.actions'
-import { assetActionCases, storeInventionCase, updateInventionCases, viewAssetsIdxCase } from './invention.reducer-cases'
+// types
 import { InventionStateType } from './invention.types'
+// actions
+import { deleteAsset, storeInvention, updateInvention, uploadAsset, viewAssetsIdx } from './invention.actions'
+// action cases
+import { assetActionCases, storeInventionCase, updateInventionCases, viewAssetsIdxCase } from './invention.reducer-cases'
 
 
 const initState: InventionStateType = {

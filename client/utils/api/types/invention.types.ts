@@ -1,6 +1,6 @@
 import { RequestWithHeaders } from "."
-import { deleteAsset__type } from "../../../redux/features/invention/invention.actions"
-import { UploadAssetType, InventionType, SharedProjectsResponseType, UpdateInventionType, AssetType } from "../../../types/data/invention.types"
+import { InventionActionTypes } from "../../../redux/features/invention/invention.types"
+import { SharedProjectsResponseType, AssetType } from "../../../types/data/invention.types"
 
 // types for api request utilities
 
@@ -10,16 +10,16 @@ export type fetchInventionData_type = RequestWithHeaders<
 >
 
 export type updateInvention_type = RequestWithHeaders<
-    { project_id: string, data: UpdateInventionType },
+    InventionActionTypes['updateInvention'],
     { status: boolean, msg: string, data: SharedProjectsResponseType }
 >
 
 export type uploadAsset_type = RequestWithHeaders<
-    { project_id: string, data: UploadAssetType },
+    InventionActionTypes['asset']['upload'],
     { status: boolean, msg: string, data: AssetType[] }
 >
 
 export type deleteAsset_type = RequestWithHeaders<
-    deleteAsset__type,
+    InventionActionTypes['asset']['delete'],
     { status: boolean, msg: string }
 >

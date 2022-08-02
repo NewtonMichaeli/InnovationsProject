@@ -1,11 +1,10 @@
 // form handler for register page
 import { FormEvent } from "react"
-import { register__type } from "../../redux/features/user/user.actions"
+import { UserActionTypes } from "../../redux/features/user/user.types"
 
 
-type registerInputHandler_type = (e: FormEvent<HTMLFormElement>) => register__type
 // register form input handler
-export const registerInputHandler: registerInputHandler_type = e => {
+export const registerInputHandler = (e: FormEvent<HTMLFormElement>): UserActionTypes['register'] => {
     e.preventDefault()
     // extract data
     const { value: Fname } = e.target[0],

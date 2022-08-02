@@ -1,11 +1,10 @@
 // form handler for new-project page
-import { createInvention__type } from "../../redux/features/user/user.actions"
+import { UserActionTypes } from "../../redux/features/user/user.types"
 import { FormInventionType, STATUS_ENUM } from '../../types/data/invention.types'
 
 
-type newProjectInputHandler_type = (data: FormInventionType) => createInvention__type
 // login form input handler
-export const newProjectInputHandler: newProjectInputHandler_type = data => {
+export const newProjectInputHandler = (data: FormInventionType): UserActionTypes['createInvention'] => {
     // validation
     const { Name, Description, Status, Tags, Occupations, Roles, Contributors, Private = false } = data
 
@@ -23,6 +22,6 @@ export const newProjectInputHandler: newProjectInputHandler_type = data => {
         throw Error("Occupations max-length should be 12")
 
     return {
-        new_invention_data: { ...data, Roles: ['Hi'] }
+        data: { ...data, Roles: ['Hi'] }
     }
 }

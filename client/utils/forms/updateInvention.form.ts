@@ -1,11 +1,10 @@
 // form handler for register page
-import { updateInvention__type } from "../../redux/features/invention/invention.actions"
+import { InventionActionTypes } from "../../redux/features/invention/invention.types"
 import { UpdateInventionType } from "../../types/data/invention.types"
 
 
-type updateInventionInputHandler_type = (data: UpdateInventionType, project_id: string) => updateInvention__type
 // register form input handler
-export const updateInventionInputHandler: updateInventionInputHandler_type = (data, project_id) => {
+export const updateInventionInputHandler = (data: UpdateInventionType, project_id: string): InventionActionTypes['updateInvention'] => {
 
     // validate values
     if (data?.Name?.length < 2 || data?.Name?.length > 26)
@@ -18,8 +17,5 @@ export const updateInventionInputHandler: updateInventionInputHandler_type = (da
     //     throw Error('Invention &&& length must be between MIN and MAX')
 
     // return data
-    return {
-        updated_invention_data: data,
-        project_id
-    }
+    return { data, project_id }
 }
