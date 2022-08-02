@@ -3,8 +3,8 @@ import { FC } from 'react'
 import { AssetType } from '../../../types/data/invention.types'
 import { CLIENT_URIS, INVENTION_USER_ROLES } from '../../../configs/_client'
 // redux
-import { useAppSelector } from '../../../hooks/redux'
-import { inventionSelector } from '../../../redux/features/invention'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { inventionActions, inventionSelector } from '../../../redux/features/invention'
 // icons
 import { GrFormView } from 'react-icons/gr'
 // components
@@ -13,6 +13,7 @@ import EditSectionBtn from '../../shared/EditInventionSection'
 // styles
 import styles from '../../../styles/components/Invention/DataSections/assets.module.css'
 import Link from 'next/link'
+import AssetsListViewer from '../../shared/asset-viewer'
 
 
 // components:
@@ -77,25 +78,34 @@ const AssetsGrid: FC<{
 
 const Assets_DataSection: FC = () => {
     // states
+    const dispatch = useAppDispatch()
     const { Invention } = useAppSelector(inventionSelector)
+    // handlers
+    const viewFirstAsset = () => dispatch(inventionActions.viewAssetsIdx(0))
 
     return (
-        <section className={styles["assets-section"]}>
-            <div className={styles["section-header"]}>
-                <h3>Assets</h3>
-                {/* edit if either creator or contributor */}
-                <EditSectionBtn className={styles["edit"]} section='assets' excludeRole={INVENTION_USER_ROLES.OBSERVER} />
-            </div>
-            <div className={styles["content"]}>
-                <AssetsGrid Assets={Invention.Project.Assets} project_id={Invention.Project._id} />
-                {/* watch button (if at least 1 asset exists) */}
-                {
-                    Invention.Project.Assets.length
-                        ? <div className={styles["watch-btn"]} title="View Assets"><GrFormView size={28} /></div>
-                        : <></>
-                }
-            </div>
-        </section>
+        <>
+            <section className={styles["assets-section"]}>
+                <div className={styles["section-header"]}>
+                    <h3>Assets</h3>
+                    {/* edit if either creator or contributor */}
+                    <EditSectionBtn className={styles["edit"]} section='assets' excludeRole={INVENTION_USER_ROLES.OBSERVER} />
+                </div>
+                <div className={styles["content"]}>
+                    <AssetsGrid Assets={Invention.Project.Assets} project_id={Invention.Project._id} />
+                    {/* watch button (if at least 1 asset exists) */}
+                    {
+                        !Invention.Project.Assets.length
+                            ? <></>
+                            : <div className={styles["watch-btn"]} title="View Assets" onClick={viewFirstAsset}>
+                                <GrFormView size={28} />
+                            </div>
+                    }
+                </div>
+            </section>
+            {/* *floating wndow* - assets list viewer */}
+            <AssetsListViewer Assets={Invention.Project.Assets} project_id={Invention.Project._id} />
+        </>
     )
 }
 

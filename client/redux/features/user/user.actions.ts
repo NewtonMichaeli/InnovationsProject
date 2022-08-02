@@ -127,7 +127,9 @@ export const createInvention = createAsyncThunk('invention/newInvention', async 
 export const updateInvention = createAction<SharedProjectsResponseType>('user/updateInvention')
 
 // action: update-invention
-export const uploadAsset = createAction<AssetType[]>('user/uploadAsset')
+export const assetActions = {
+    upload: createAction<{ data: AssetType[], project_id: string }>('user/uploadAsset')
+}
 
 export type inviteToProject__type = { project_id: string, action: 'add' | 'remove', user_id: string, roles?: ContributorType['Roles'] }
 // async action: send new invention

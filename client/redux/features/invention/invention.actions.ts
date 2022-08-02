@@ -2,7 +2,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { UploadAssetType, SharedProjectsResponseType, UpdateInventionType } from '../../../types/data/invention.types'
 import { pushFeedback } from '../ui/ui.actions'
-import { updateInvention as updateUserInvention, uploadAsset as uploadUserInventionAsset } from '../user/user.actions'
+import { updateInvention as updateUserInvention, assetActions as assetUserActions } from '../user/user.actions'
 import * as inventionAPI from '../../../utils/api/requests/invention.api'
 import { CLIENT_URIS } from '../../../configs/_client'
 
@@ -45,12 +45,12 @@ export const uploadAsset = createAsyncThunk('invention/uploadAsset', async (data
     try {
         const res = await inventionAPI.uploadAsset({ project_id: data.project_id, data: data.data })
         // -- update user state with updated assets
-        options.dispatch(uploadUserInventionAsset(res.data))
+        options.dispatch(assetUserActions.upload({ data: res.data, project_id: data.project_id }))
         // -- push success feedback
         options.dispatch(pushFeedback({
             status: true,
             msg: res.msg,
-            redirect: { uri: CLIENT_URIS.DASHBOARD, shallow: true }
+            redirect: { uri: CLIENT_URIS._INVENTION(data.project_id), shallow: true }
         }))
         return res.data
     }
@@ -63,3 +63,5 @@ export const uploadAsset = createAsyncThunk('invention/uploadAsset', async (data
         return options.rejectWithValue({})
     }
 })
+
+export const viewAssetsIdx = createAction<number>('invention/viewAssetsIdx')

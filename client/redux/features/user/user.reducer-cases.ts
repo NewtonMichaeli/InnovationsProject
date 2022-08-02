@@ -1,7 +1,7 @@
 // user reducer cases
 
 import { WritableDraft } from "immer/dist/internal"
-import { createInvention, fetchUserData, follow, inviteToProject, login, register, updateInvention, updateUser } from "./user.actions"
+import { assetActions, createInvention, fetchUserData, follow, inviteToProject, login, register, updateInvention, updateUser } from "./user.actions"
 import { UserStateType } from "./user.types"
 
 
@@ -129,11 +129,15 @@ export const updateInventionCase = (state: WritableUserStateType, { payload }: R
 // upload-asset case:
 
 // TODO: upload asset @ user state and finish the god-damn thing
-export const uploadAssetCase = (state: WritableUserStateType, { payload }: ReturnType<typeof updateInvention>) => {
-    if (payload.CreatorData._id !== state.User._id)
-        // -- update shared projects
-        state.User.Shared_Projects = state.User.Shared_Projects.map(sp => (sp.Project._id === payload.Project._id) ? payload : sp)
-    else
-        // -- update inventions
-        state.User.Inventions = state.User.Inventions.map(inv => (inv._id === payload.Project._id) ? payload.Project : inv)
+export const assetActionCases = {
+    upload: (state: WritableUserStateType, { payload }: ReturnType<typeof assetActions['upload']>) => {
+        if (state.User.Inventions.some(inv => inv._id === payload.project_id))
+            // -- update invention assets
+            state.User.Inventions = state.User.Inventions.map(inv => (inv._id === payload.project_id)
+                ? { ...inv, Assets: payload.data } : inv)
+        else
+            // -- update shared-project assets
+            state.User.Shared_Projects = state.User.Shared_Projects.map(sp => (sp.Project._id === payload.project_id)
+                ? { ...sp, Project: { ...sp.Project, Assets: payload.data } } : sp)
+    }
 }

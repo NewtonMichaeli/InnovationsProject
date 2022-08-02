@@ -29,9 +29,12 @@ export const updateInvention: updateInvention_type = async ({ project_id, data }
 
 // inventionAPI: upload asset
 export const uploadAsset: uploadAsset_type = async ({ project_id, data }, headers) => {
-    const res = await axiosRequest.patch(
+    const formdata = new FormData()
+    formdata.append('description', data.description)
+    formdata.append('file', data.file)
+    const res = await axiosRequest.post(
         SERVER_URI__UPLOAD_ASSET(project_id),
-        data,
+        formdata,
         headers
     )
     return res.data

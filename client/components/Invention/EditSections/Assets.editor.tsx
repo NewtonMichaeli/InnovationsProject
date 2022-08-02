@@ -15,6 +15,7 @@ import AssetsListViewer from '../../shared/asset-viewer'
 // styles
 import styles from '../../../styles/components/Invention/EditSections/assets.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
+import { pushFeedback } from '../../../redux/features/ui/ui.actions'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
@@ -22,11 +23,15 @@ const getStyles = getModuleStylesMethod(styles)
 const AssetItem: FC<{
     Asset: AssetType,
     idx: number,
-    setIdx: Dispatch<SetStateAction<number>>
-}> = ({Asset, idx, setIdx}) => {
-    const { Invention } = useAppSelector(inventionSelector)
+}> = ({Asset, idx}) => {
+    // states
+    const dispatch = useAppDispatch()
+    const { Invention, ViewAssetsIdx } = useAppSelector(inventionSelector)
+    // handlers
+    const setIdx = () => dispatch(inventionActions.viewAssetsIdx(idx))
+
     return (
-        <div className={styles["Asset"]} title="Open Asset" onClick={() => setIdx(idx)}>
+        <div className={styles["Asset"]} title="Open Asset" onClick={setIdx}>
             <div className={styles["file"]}>
                 <RenderFile project_id={Invention.Project._id} file={Asset} />
             </div>
@@ -42,8 +47,7 @@ const AssetItem: FC<{
 const Assets_EditSection: FC = () => {
     // states
     const dispatch = useAppDispatch()
-    const { Invention } = useAppSelector(inventionSelector)
-    const [assetIdx, setAssetIdx] = useState<number>(null)
+    const { ViewAssetsIdx, Invention } = useAppSelector(inventionSelector)
     const [sliceIdx, setSliceIdx] = useState(5)
     // data
     const [data, setData] = useState<UploadAssetType>({
@@ -54,7 +58,10 @@ const Assets_EditSection: FC = () => {
     const submitHandler = (e: MouseEvent<HTMLInputElement>) => {
         e.preventDefault()
         try {
-            dispatch(inventionActions.updateInvention())
+            dispatch(inventionActions.uploadAsset({data, project_id: Invention.Project._id}))
+        }
+        catch (err) {
+            dispatch(pushFeedback({status: false, msg: err.message ?? "An error has occured"}))
         }
     }
 
@@ -74,7 +81,7 @@ const Assets_EditSection: FC = () => {
                 {/* upload assets form */}
                 <form className={styles["upload-asset-form"]}>
                     <div className={getStyles(`input-file ${data.file ? 'valid' : ''}`)}>
-                        <AiOutlineCloudUpload size={40} />
+                        <AiOutlineCloudUpload className={styles["icon"]} size={40} />
                         <p>Drag & Drop your Asset here</p>
                         <input type="file" name="file" id="File" onChange={e => setData({...data, file: e.target.files?.[0]})} />
                     </div>
@@ -92,13 +99,10 @@ const Assets_EditSection: FC = () => {
                 <div className={styles["assets-list"]}>
                     {Invention.Project.Assets
                         .slice(0, sliceIdx)
-                        .map((a,i) => <AssetItem key={a._id} Asset={a} idx={i} setIdx={setAssetIdx} />)}
+                        .map((a,i) => <AssetItem key={a._id} Asset={a} idx={i} />)}
                     {sliceIdx < Invention.Project.Assets.length &&
                         <span className={styles["show-more-assets-btn"]} onClick={() => setSliceIdx(s => s + 5)}>Show more</span>}
                 </div>
-                {/* *floating wndow* - assets list viewer */}
-                <AssetsListViewer Assets={Invention.Project.Assets} 
-                    idx={assetIdx} setIdx={setAssetIdx} project_id={Invention.Project._id} />
             </div>
         </section>
     )

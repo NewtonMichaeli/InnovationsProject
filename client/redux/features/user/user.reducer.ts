@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { UserStateType } from './user.types'
-import { fetchUserData, follow, login, register, signout, updateUser, createInvention, inviteToProject, updateInvention, uploadAsset } from './user.actions'
-import { createInventionCases, fetchUserDataCases, followCases, inviteToProjectCases, loginCases, registerCases, signoutCase, updateInventionCase, updateUserCases } from './user.reducer-cases'
+import { fetchUserData, follow, login, register, signout, updateUser, createInvention, inviteToProject, updateInvention, assetActions } from './user.actions'
+import { assetActionCases, createInventionCases, fetchUserDataCases, followCases, inviteToProjectCases, loginCases, registerCases, signoutCase, updateInventionCase, updateUserCases } from './user.reducer-cases'
 
 
 const initState: UserStateType = {
@@ -40,5 +40,5 @@ export const userReducer = createReducer(initState, builder => {
         // -- outcomes: update-invention
         .addCase(updateInvention, updateInventionCase)
         // -- outcomes: upload-asset
-        .addCase(uploadAsset,)
+        .addCase(assetActions.upload, assetActionCases.upload)
 })
