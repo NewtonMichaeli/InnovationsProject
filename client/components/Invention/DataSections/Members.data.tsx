@@ -20,13 +20,13 @@ const Members_DataSection: FC = () => {
     return (
         <section className={styles["members-section"]}>
             <div className={styles["section-header"]}>
-                <h3>Members:</h3>
+                <h3>Members</h3>
                 {/* edit if creator */}
                 <EditSectionBtn className={styles["edit"]} section='members' includeRole={INVENTION_USER_ROLES.CREATOR} />
             </div>
             <div className={styles["content"]}>
                 <code className={styles['counter-title']}>
-                    {Invention.Project.Contributors.length} Member{Invention.Project.Contributors.length!==1?'s':''}
+                    {Invention.Project.Contributors.length} Contributor{Invention.Project.Contributors.length!==1?'s':''}
                 </code>
                 <UsersList isFollowing={mid => User?.Following.some(f => f._id === mid)} Users={Invention.Project.Contributors} isSelf={mid => User?._id === mid} />
             </div>

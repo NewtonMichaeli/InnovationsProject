@@ -36,9 +36,14 @@ const RenderFile: FC<{
     // methods
     const onError = () => setHasError(true)
     const getTextData = async () => {
-        const result = await fetch(SERVER_URI__GET_ASSET(project_id, filename))
-        const text = await result.text()
-        setTextData(text)
+        try {
+            const result = await fetch(SERVER_URI__GET_ASSET(project_id, filename), {credentials: "include"})
+            const text = await result.text()
+            setTextData(text)
+        }
+        catch (err) {
+            setHasError(true)
+        }
     }
     // components
     const NormalFileRender: FC = () => (

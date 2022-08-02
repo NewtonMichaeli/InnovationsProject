@@ -9,7 +9,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    overflow-x: hidden;
+    overflow: hidden;
     position: relative;
     padding-bottom: 2rem;
 }

@@ -132,6 +132,7 @@
     mask-image: linear-gradient(to left, #00000044, #000, #000, #000, #000, #000, #000, #00000044);
     overflow-x: auto;
     overflow-y: hidden;
+    scrollbar-width: none;
     /* layout */
     display: flex;
     align-items: center;

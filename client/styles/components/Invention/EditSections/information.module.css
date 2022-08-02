@@ -7,7 +7,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: VAR(--app-bg-color);
+    background-color: var(--app-bg-color);
     /* layout */
     display: flex;
     flex-direction: column;
@@ -15,6 +15,7 @@
     align-items: center;
     padding: 3rem 0;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* the content */

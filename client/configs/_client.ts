@@ -3,7 +3,7 @@
 import { STATUS_ENUM } from "../types/data/invention.types"
 
 // invention sections, currently 3/4 are editable
-export type INVENTION_SECTIONS = 'members' | 'information' | 'assets'
+export type INVENTION_SECTIONS = 'members' | 'information' | 'assets' | 'aboutyou'
 
 // all client URIs
 // underscore-prefix: methods for concatonating url params

@@ -34,6 +34,7 @@ const Information_EditSection: FC = () => {
         Contributors: Invention.Project.Contributors,
         Roles: Invention.Project.Roles
     })
+    console.log('1: ', data)
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {

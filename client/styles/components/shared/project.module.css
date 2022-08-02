@@ -117,13 +117,14 @@
 }
 .invention .tags .innovation-tags .items {
     margin: 0 1.2rem;
+    mask-image: linear-gradient(to right, #000, #000, #000, #000, #000, #000, #000, #000, #00000088);
     /* layout */
     display: flex;
     align-items: center;
     justify-content: flex-start;
     overflow-x: auto;
     overflow-y: hidden;
-    mask-image: linear-gradient(to right, #000, #000, #000, #000, #000, #000, #000, #000, #00000088);
+    scrollbar-width: none;
 }
 .invention .tags .innovation-tags .items::-webkit-scrollbar {
     height: 0;

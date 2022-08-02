@@ -31,7 +31,7 @@ const EditSectionBtn: FC<{
     if ((includeRole && InventionUserRole === includeRole) || (excludeRole && InventionUserRole !== excludeRole)) 
         return (
             <Link href={CLIENT_URIS._INVENTION_EDIT_TAB(project_id as string, section)} shallow>
-                <FiEdit3 className={className} size={20} />
+                <FiEdit3 className={className} size={20} style={{cursor: 'pointer'}} />
             </Link>
         )
     else return <></>

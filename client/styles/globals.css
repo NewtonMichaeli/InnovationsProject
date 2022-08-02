@@ -9,7 +9,9 @@
   margin: 0;
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
+  scrollbar-width: thin;
 }
+
 /* selection for all elements */
 *::selection {
   background-color: transparent;
@@ -22,7 +24,9 @@ input[type=text]::selection {
 }
 
 /* remove unwanted tapping animation, only when specifically required */
-*, *:active, *:focus {
+*,
+*:active,
+*:focus {
   /* -- previously refered to <a> tags, required changing */
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
@@ -34,10 +38,12 @@ input[type=text]::selection {
 *::-webkit-scrollbar {
   width: 5px;
 }
+
 *::-webkit-scrollbar-thumb {
   background-color: #555;
   border-radius: 20px;
 }
+
 /* -- END : scrollbar styles */
 
 /* css variables */

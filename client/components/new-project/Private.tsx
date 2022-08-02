@@ -10,11 +10,12 @@ const Private: FC<{
     setIsPrivate: (is: boolean) => unknown,
     isPrivate?: boolean
 }> = ({setIsPrivate, isPrivate}) => {
+    const _isPrivate = typeof isPrivate === 'boolean' ? isPrivate : false
 
     return (    
        <div className={styles["input-field"]}>
             <div className={styles["radio-opt"]}>
-                <input type="radio" name="Private" id="Private-false" value={0} defaultChecked={isPrivate ?? true} />
+                <input type="radio" name="Private" id="Private-false" value={0} defaultChecked={!_isPrivate} />
                 <div className={styles["label"]}>
                     <MdOutlinePublic size={26} />
                     <div className={styles["text"]}>
@@ -24,7 +25,8 @@ const Private: FC<{
                 </div>
             </div>
             <div className={styles["radio-opt"]}>
-                <input type="radio" name="Private" id="Private-true" value={1} onChange={e => setIsPrivate(e.target.checked)} />
+                <input type="radio" name="Private" id="Private-true" value={1} onChange={e => setIsPrivate(e.target.checked)} 
+                    defaultChecked={_isPrivate} />
                 <div className={styles["label"]}>
                     <MdOutlineLock size={26} />
                     <div className={styles["text"]}>

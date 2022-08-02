@@ -17,16 +17,16 @@ export const storeInvention = createAction<InventionActionTypes['storeInvention'
 
 // async action: update invention data
 export const updateInvention = createAsyncThunk('invention/updateInvention',
-    async ({ project_id, data }: InventionActionTypes['updateInvention'], options) => {
+    async (data: InventionActionTypes['updateInvention'], options) => {
         try {
-            const res = await inventionAPI.updateInvention({ project_id, data })
+            const res = await inventionAPI.updateInvention(data)
             // -- update user state with updated invention
             options.dispatch(updateUserInvention(res.data))
             // -- push success feedback
             options.dispatch(pushFeedback({
                 status: true,
                 msg: res.msg,
-                redirect: { uri: CLIENT_URIS.DASHBOARD, shallow: true }
+                redirect: { uri: CLIENT_URIS._INVENTION(data.project_id), shallow: true }
             }))
             return res.data
         }

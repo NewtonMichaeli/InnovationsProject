@@ -16,6 +16,7 @@
     transform: translateY(-15%);
     opacity: 0;
 }
+
 .section-header {
     width: 100%;
     height: 2rem;
@@ -25,9 +26,11 @@
     align-items: center;
     padding: 0 .7rem;
 }
+
 .section-header .edit {
     cursor: pointer;
 }
+
 .content {
     background-color: #888;
     width: 100%;
@@ -42,6 +45,7 @@
     padding: .8rem 1rem .6rem 1rem;
     overflow-y: auto;
 }
+
 .content .counter-title {
     padding: 0 1.1rem;
     font-size: .7rem;

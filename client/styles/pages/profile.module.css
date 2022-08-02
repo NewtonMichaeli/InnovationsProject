@@ -1,7 +1,6 @@
 /* styles for profile page */
 
 .Profile {
-    /* background-color: rebeccapurple; */
     width: 100%;
     height: 100%;
     /* layout */
@@ -33,20 +32,24 @@
     align-items: center;
     justify-content: flex-start;
 }
+
 .Profile .profile-header img {
     width: 11rem;
     border-radius: 51%;
     margin-bottom: .7rem;
 }
+
 .Profile .profile-header .fullname {
     font-size: 1.5rem;
     margin-bottom: .1rem;
 }
+
 .Profile .profile-header .username-x-email {
     color: #00000090;
     font-size: .9rem;
     font-weight: 500;
 }
+
 .Profile .profile-header .btn-edit-profile {
     border: 2px solid #8b8b8b;
     background-color: #c3c3c3;

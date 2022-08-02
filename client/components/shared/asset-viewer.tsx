@@ -61,6 +61,13 @@ const AssetsListViewer: FC<{
     const { ViewAssetsIdx } = useAppSelector(inventionSelector)
     // handlers
     const setAssetIdx = (res: number) => dispatch(inventionActions.viewAssetsIdx(res))
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLDivElement>) => {
+        switch (e.key) {
+            case 'ArrowRight': return setAssetIdx(ViewAssetsIdx + 1)
+            case 'ArrowLeft': return setAssetIdx(ViewAssetsIdx - 1)
+            case 'Escape': return setAssetIdx(null)
+        }
+    }
 
     // effects
     useEffect(() => {
@@ -71,7 +78,7 @@ const AssetsListViewer: FC<{
     }, [assets_list_ref, ViewAssetsIdx])
 
     return (
-        <div className={getStyles(`AssetsListViewer ${ViewAssetsIdx === null ? 'hide' : ''}`)}>
+        <div className={getStyles(`AssetsListViewer ${ViewAssetsIdx === null ? 'hide' : ''}`)} tabIndex={0} onKeyDown={onKeyDownHandler}>
             {/* go-back */}
             <GoBack className={styles["go-back-btn"]} onClick={() => setAssetIdx(null)} />
             <div className={styles["content"]}>

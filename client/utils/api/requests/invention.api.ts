@@ -21,7 +21,7 @@ export const fetchInventionData: fetchInventionData_type = async ({ project_id }
 export const updateInvention: updateInvention_type = async ({ project_id, data }, headers) => {
     const res = await axiosRequest.patch(
         SERVER_URI__UPDATE_INVENTION(project_id),
-        { ...data, Contributors: data.Contributors.map(c => ({ user_id: c._id, roles: c.Roles })) },
+        { ...data, Contributors: data.Contributors?.map(c => ({ user_id: c._id, roles: c.Roles })) },
         headers
     )
     return res.data
