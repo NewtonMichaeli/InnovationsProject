@@ -57,18 +57,18 @@ export const viewAssetsIdxCase = (state: WritableInventionStateType, { payload }
 // view assets-idx cases:
 
 export const searchByQueryCases = {
-    pending: (state: WritableInventionStateType, { payload }: ReturnType<typeof searchByQuery['pending']>) => {
+    pending: (state: WritableInventionStateType) => {
         state.SearchData.isLoading = true
     },
     fulfilled: (state: WritableInventionStateType, { payload }: ReturnType<typeof searchByQuery['fulfilled']>) => {
         state.SearchData = {
             query: payload.query,
             Data: payload.data,
-            eol: payload.data.length < DEF_SEARCH_LIMIT && state.SearchData.query.length > 0,
+            eol: payload.eol,
             isLoading: false
         }
     },
-    rejected: (state: WritableInventionStateType, { payload }: ReturnType<typeof searchByQuery['rejected']>) => {
+    rejected: (state: WritableInventionStateType) => {
         state.SearchData.isLoading = false
     }
 }

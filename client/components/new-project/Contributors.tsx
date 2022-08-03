@@ -3,7 +3,7 @@ import { FC, Fragment, KeyboardEvent, useRef, useState } from "react"
 import { ContributorType } from "../../types/data/invention.types"
 import { MinifiedUserType } from "../../types/data/user.types"
 // utils
-import { searchByQuery } from "../../utils/api/requests/user.api"
+import { searchByQuery } from "../../utils/api/requests/invention.api"
 import { PUBLIC_SRC } from "../../configs/_client"
 // redux
 import { useAppSelector } from "../../hooks/redux"

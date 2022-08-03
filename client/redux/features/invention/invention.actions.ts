@@ -2,7 +2,7 @@
 
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 // types
-import { CLIENT_URIS } from '../../../configs/_client'
+import { CLIENT_URIS, DEF_SEARCH_LIMIT } from '../../../configs/_client'
 import { InventionActionTypes } from './invention.types'
 import { RootState } from '../../store'
 // actions (from other reducers)
@@ -104,7 +104,11 @@ export const searchByQuery = createAsyncThunk('invention/searchWithQuery',
             const res = await inventionAPI.searchByQuery({ ...data, excludeUsers })
             // -- if <loadMore> - append new data, overwrite otherwise
             const new_data = data.loadMore ? [...SearchData.Data, ...res.data] : res.data
-            return { data: new_data, query: data.query }
+            return {
+                data: new_data,
+                query: data.query,
+                eol: res.data.length < DEF_SEARCH_LIMIT && data.query.length > 0
+            }
         }
         catch (err) {
             options.dispatch(pushFeedback({ status: false, msg: err.response?.data.msg ?? "Couldn't search" }))
