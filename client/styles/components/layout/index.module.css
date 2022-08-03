@@ -57,3 +57,18 @@
     align-items: center;
     overflow: auto;
 }
+
+
+/* responsive */
+
+@media screen and (max-width: 1000px) {
+    .app-body {
+        width: calc(100% - 5.5rem);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .app-body {
+        width: calc(100% - 4.5rem);
+    }
+}

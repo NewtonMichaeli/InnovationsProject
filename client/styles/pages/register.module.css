@@ -9,9 +9,11 @@
     align-items: center;
     padding-bottom: 2rem;
 }
+
 .Register * {
     font-family: 'Poppins', sans-serif;
 }
+
 /* register form */
 .Register .register-form {
     width: 24rem;
@@ -38,9 +40,11 @@
     justify-content: center;
     color: #fff;
 }
+
 .form-header h1 {
     font-weight: 500;
 }
+
 .form-header h6 {
     font-weight: 300;
 }
@@ -57,6 +61,7 @@
     justify-content: space-between;
     /* padding: .5rem 0; */
 }
+
 .register-form .form-body .input-text-container {
     width: 80%;
     height: max-content;
@@ -67,15 +72,18 @@
     align-items: flex-start;
     justify-content: center;
 }
+
 .form-body .input-text-container label {
     font-size: .7rem;
     color: #fff;
     font-weight: 300;
     margin: 0 0 .05rem .25rem;
 }
+
 .form-body .input-text-container select option {
     background-color: #380245;
 }
+
 .form-body .input-text-container select,
 .form-body .input-text-container input {
     height: 2.2rem;
@@ -87,6 +95,7 @@
     background-color: transparent;
     outline: none;
 }
+
 /* input name container */
 .form-body .input-name-text-container {
     /* height: 2.2rem; */
@@ -95,9 +104,11 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .form-body .input-name-text-container .input-text-container {
     width: 48%;
 }
+
 /* Agree With Terms Of Use */
 .form-body .input-terms-of-use {
     font-weight: 300;
@@ -110,9 +121,11 @@
     justify-content: flex-start;
     margin-top: .4rem;
 }
+
 .form-body .input-terms-of-use label {
     margin-left: .4rem;
 }
+
 .form-body .input-terms-of-use label span {
     color: #175CC5;
 }
@@ -130,6 +143,7 @@
     justify-content: center;
     padding: .1rem 0 .4rem 0;
 }
+
 .form-footer input[type=submit] {
     width: 80%;
     height: 2.4rem;
@@ -142,11 +156,22 @@
     font-size: .8rem;
     font-weight: 600;
 }
+
 .form-footer .register-link {
     font-size: .75rem;
     color: #fff;
     font-weight: 300;
 }
+
 .form-footer .register-link span {
     color: #175CC5;
+}
+
+
+/* responsive */
+
+@media screen and (max-width: 500px) {
+    .register-form {
+        transform: scale(.85);
+    }
 }

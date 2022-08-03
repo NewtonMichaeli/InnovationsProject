@@ -9,9 +9,11 @@
     align-items: center;
     padding-bottom: 2rem;
 }
+
 .Login * {
     font-family: 'Poppins', sans-serif;
 }
+
 /* login form */
 .Login .login-form {
     width: 24rem;
@@ -38,9 +40,11 @@
     justify-content: center;
     color: #fff;
 }
+
 .form-header h1 {
     font-weight: 500;
 }
+
 .form-header h6 {
     font-weight: 300;
 }
@@ -56,6 +60,7 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .login-form .form-body .input-text-container {
     width: 80%;
     height: max-content;
@@ -66,12 +71,14 @@
     align-items: flex-start;
     justify-content: center;
 }
+
 .form-body .input-text-container label {
     font-size: .7rem;
     color: #fff;
     font-weight: 300;
     margin: 0 0 .05rem .25rem;
 }
+
 .form-body .input-text-container input {
     height: 2.4rem;
     width: 100%;
@@ -82,6 +89,7 @@
     background-color: transparent;
     outline: none;
 }
+
 .form-body .rememberme-container {
     width: 80%;
     height: max-content;
@@ -92,14 +100,17 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .rememberme-container .input-container label {
     font-weight: 300;
     margin-left: .3rem;
 }
+
 .rememberme-container .input-container input {
     width: .9rem;
     height: .9rem;
 }
+
 .rememberme-container code {
     font-size: .78rem;
     font-weight: 300;
@@ -117,6 +128,7 @@
     justify-content: center;
     padding: .4rem 0;
 }
+
 .form-footer input[type=submit] {
     width: 80%;
     height: 2.4rem;
@@ -129,11 +141,22 @@
     font-size: .8rem;
     font-weight: 600;
 }
+
 .form-footer .register-link {
     font-size: .75rem;
     color: #fff;
     font-weight: 300;
 }
+
 .form-footer .register-link span {
     color: #175CC5;
+}
+
+
+/* responsive */
+
+@media screen and (max-width: 500px) {
+    .login-form {
+        transform: scale(.85);
+    }
 }

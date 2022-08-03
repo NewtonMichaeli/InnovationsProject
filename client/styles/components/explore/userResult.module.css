@@ -4,6 +4,7 @@
 .result-user:hover::before {
     opacity: 1;
 }
+
 .result-user::before {
     content: '';
     top: 0;
@@ -15,38 +16,43 @@
     opacity: 0;
     transition: opacity .2s ease;
 }
+
 .result-user {
     position: relative;
     transition: all .3s ease;
     min-width: fit-content;
-    width: 36rem;
+    max-width: 36rem;
+    width: 100%;
     height: 10rem;
     cursor: pointer;
     /* layout */
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 1rem;
+    padding: 1rem .3rem;
 }
+
 .result-user:not(:last-child) {
     border-bottom: 1px solid #666;
 }
 
 /* profile-pic section */
-.result-user .profile-pic,
-.result-user .profile-pic img {
+.result-user .profile-pic {
     height: 85%;
-    margin-right: .8rem;
+    margin-right: 2rem;
 }
+
 .result-user .profile-pic img {
     height: 100%;
     border-radius: 51%;
 }
+
 /* user-data section */
 .result-user .user-data .name {
     font-size: 2rem;
     font-weight: 500;
 }
+
 .result-user .user-data .username-x-email {
     font-size: .8rem;
     color: #000000bb;
@@ -57,4 +63,35 @@
     height: 2px;
     width: 36rem;
     margin: 1rem 0;
+}
+
+
+/* repsonsive */
+
+@media screen and (max-width: 800px) {
+    .result-user {
+        height: 6.5rem;
+    }
+
+    .result-user .user-data .name {
+        font-size: 1.8rem;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .result-user {
+        height: 6.5rem;
+    }
+
+    .result-user .profile-pic {
+        margin-right: 1rem;
+    }
+
+    .result-user .user-data .name {
+        font-size: 1.4rem;
+    }
+
+    .result-user .user-data .username-x-email {
+        font-size: .7rem;
+    }
 }

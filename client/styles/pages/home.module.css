@@ -38,6 +38,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .home-header .home-description .inventions-info {
     color: #666;
     font-weight: 400;
@@ -45,6 +46,7 @@
     text-align: center;
     margin: 0 1rem;
 }
+
 .home-header .home-description .link-my-projects {
     color: #0038FF;
 }
@@ -55,15 +57,18 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .apps .app {
     text-align: center;
     margin: 0 .7rem;
     cursor: pointer;
     transition: transform .15s ease;
 }
+
 .apps .app:hover {
     transform: scale(1.03);
 }
+
 .apps .app .app-icon-container {
     background-color: #d9d9d966;
     border: 3px solid #ccc;
@@ -75,4 +80,39 @@
     justify-content: center;
     align-items: center;
     margin-bottom: .2rem;
+}
+
+
+/* responsive */
+
+@media screen and (max-width: 732px) {
+    .Home .home-title {
+        font-size: 2.5rem;
+    }
+
+    .Home .home-description .inventions-info {
+        width: 80%;
+        margin-bottom: .5rem;
+    }
+
+    .Home .apps {
+        flex-wrap: wrap;
+        width: 20rem;
+        justify-content: center;
+    }
+
+    .apps .app {
+        margin-top: .7rem;
+    }
+
+    .apps .app .app-icon-container {
+        width: 4.5rem;
+        height: 4.5rem;
+        padding: 1.1rem;
+        margin-bottom: .1rem;
+    }
+
+    .apps .app .app-title {
+        font-size: .84rem;
+    }
 }

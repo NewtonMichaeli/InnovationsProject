@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { FC } from "react"
 import { CLIENT_URIS, PUBLIC_SRC } from "../../configs/_client"
-import { MinifiedUserType } from "../../redux/features/user/user.types"
+import { MinifiedUserType } from "../../types/data/user.types"
 // styles
 import styles from '../../styles/components/explore/userResult.module.css'
 

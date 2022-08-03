@@ -21,6 +21,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .Explore .explore-input-wrapper .explore-input {
     background-color: #eeeeeeaa;
     border: 2px solid #666;
@@ -32,6 +33,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .Explore .explore-input-wrapper .explore-input input {
     width: 18rem;
     height: 100%;
@@ -40,6 +42,7 @@
     border: none;
     background-color: transparent;
 }
+
 .Explore .explore-input-wrapper .explore-input .icon-search {
     background-color: transparent;
     height: 100%;
@@ -67,4 +70,23 @@
     padding: 1rem 4rem 0 4rem;
     overflow-y: auto;
     mask-image: linear-gradient(to top, #00000088, #000, #000, #000, #000, #000, #00000088);
+}
+
+/* user-results @ seperated component */
+
+/* repsonsive */
+
+@media screen and (max-width: 800px) {
+    .Explore .content {
+        padding: 1rem 2.5rem 0 2.5rem;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .Explore .content {
+        padding: 1rem 1.5rem 0 1.5rem;
+    }
+    .Explore .explore-input-wrapper .explore-input input {
+        width: 12rem;
+    }
 }
