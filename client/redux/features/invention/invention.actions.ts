@@ -4,11 +4,13 @@ import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 // types
 import { CLIENT_URIS } from '../../../configs/_client'
 import { InventionActionTypes } from './invention.types'
+import { RootState } from '../../store'
 // actions (from other reducers)
 import { updateInvention as updateUserInvention, assetActions as assetUserActions } from '../user/user.actions'
 import { pushFeedback } from '../ui/ui.actions'
-// api
+// utils
 import * as inventionAPI from '../../../utils/api/requests/invention.api'
+import { isValidString } from '../../../utils/others/validateString'
 
 
 // action: store invention
@@ -86,4 +88,26 @@ export const deleteAsset = createAsyncThunk('invention/deleteAsset',
     })
 
 
+// change current-displaying-asset idx
 export const viewAssetsIdx = createAction<number>('invention/viewAssetsIdx')
+
+
+// search by query (explore)
+export const searchByQuery = createAsyncThunk('invention/searchWithQuery',
+    async (data: InventionActionTypes['searchWithQuery'], options) => {
+        const { SearchData } = (options.getState() as RootState).invention
+        // validate query
+        if (!isValidString(data.query, { noSpaces: true, compare: data.loadMore ? data.query : '' }))
+            return options.rejectWithValue({})
+        try {
+            const excludeUsers = data.loadMore ? SearchData.Data.map(d => d._id) : undefined
+            const res = await inventionAPI.searchByQuery({ ...data, excludeUsers })
+            // -- if <loadMore> - append new data, overwrite otherwise
+            const new_data = data.loadMore ? [...SearchData.Data, ...res.data] : res.data
+            return { data: new_data, query: data.query }
+        }
+        catch (err) {
+            options.dispatch(pushFeedback({ status: false, msg: err.response?.data.msg ?? "Couldn't search" }))
+            return options.rejectWithValue({})
+        }
+    })

@@ -15,11 +15,6 @@ export type follow_type = RequestWithHeaders<
     { status: boolean, msg: string, data: MinifiedUserType }
 >
 
-export type searchByQuery_type = RequestWithHeaders<
-    { query: string, limit: number, excludeUsers?: string[] },
-    { status: boolean, msg: string, data: MinifiedUserType[] }
->
-
 export type login_type = RequestWithHeaders<
     UserActionTypes['login'],
     { status: boolean, msg: string, data: UserType }

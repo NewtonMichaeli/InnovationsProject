@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { SERVER_URI__DELETE_ASSET, SERVER_URI__GET_INVENTION_DATA, SERVER_URI__UPDATE_INVENTION, SERVER_URI__UPLOAD_ASSET } from '../../../configs/_server'
+import { DEF_SEARCH_LIMIT } from '../../../configs/_client'
+import { SERVER_URI__DELETE_ASSET, SERVER_URI__GET_INVENTION_DATA, SERVER_URI__SEARCH_BY_QUERY, SERVER_URI__UPDATE_INVENTION, SERVER_URI__UPLOAD_ASSET } from '../../../configs/_server'
 // types
-import { deleteAsset_type, fetchInventionData_type, updateInvention_type, uploadAsset_type } from '../types/invention.types'
+import { deleteAsset_type, fetchInventionData_type, searchByQuery_type, updateInvention_type, uploadAsset_type } from '../types/invention.types'
 
 // -- create axios instance with default configs
 const axiosRequest = axios.create({
@@ -13,6 +14,16 @@ export const fetchInventionData: fetchInventionData_type = async ({ project_id }
     const res = await axiosRequest.get(
         SERVER_URI__GET_INVENTION_DATA(project_id),
         headers
+    )
+    return res.data
+}
+
+// userAPI: search (users/inventions) by query
+export const searchByQuery: searchByQuery_type = async ({ query, limit = DEF_SEARCH_LIMIT, excludeUsers }, headers) => {
+    const res = await axiosRequest.post(
+        SERVER_URI__SEARCH_BY_QUERY(query, limit),
+        { excludeUsers },
+        headers,
     )
     return res.data
 }

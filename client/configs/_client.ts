@@ -52,3 +52,6 @@ export const PUBLIC_SRC = {
     PROFILE_PIC: (n: number) => `/profile-pics/${n}.jpeg`,
     INVENTION_STATUS: (status: keyof typeof STATUS_ENUM) => `/invention-status-icons/${status.replace(' ', '-')}.svg`
 }
+
+// default search limit (explore)
+export const DEF_SEARCH_LIMIT = 5

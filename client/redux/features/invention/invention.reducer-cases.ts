@@ -5,7 +5,8 @@ import { WritableDraft } from "immer/dist/internal"
 import { getInventionUserRole } from "../../../utils/inventions.utils"
 import { InventionStateType } from "./invention.types"
 // actions
-import { deleteAsset, storeInvention, updateInvention, uploadAsset, viewAssetsIdx } from "./invention.actions"
+import { deleteAsset, searchByQuery, storeInvention, updateInvention, uploadAsset, viewAssetsIdx } from "./invention.actions"
+import { DEF_SEARCH_LIMIT } from "../../../configs/_client"
 
 
 type WritableInventionStateType = WritableDraft<InventionStateType>
@@ -50,4 +51,24 @@ export const viewAssetsIdxCase = (state: WritableInventionStateType, { payload }
     if (payload >= 0 && payload < state.Invention.Project.Assets.length)
         // -- change asset indicator only when within bounds
         state.ViewAssetsIdx = payload
+}
+
+
+// view assets-idx cases:
+
+export const searchByQueryCases = {
+    pending: (state: WritableInventionStateType, { payload }: ReturnType<typeof searchByQuery['pending']>) => {
+        state.SearchData.isLoading = true
+    },
+    fulfilled: (state: WritableInventionStateType, { payload }: ReturnType<typeof searchByQuery['fulfilled']>) => {
+        state.SearchData = {
+            query: payload.query,
+            Data: payload.data,
+            eol: payload.data.length < DEF_SEARCH_LIMIT && state.SearchData.query.length > 0,
+            isLoading: false
+        }
+    },
+    rejected: (state: WritableInventionStateType, { payload }: ReturnType<typeof searchByQuery['rejected']>) => {
+        state.SearchData.isLoading = false
+    }
 }
