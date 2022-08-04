@@ -1,5 +1,8 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import { AiOutlineMenu } from 'react-icons/ai'
+// redux
+import { useAppSelector } from "../../../hooks/redux"
+import { userSelector } from "../../../redux/features/user"
 // components
 import MenuLinks from './MenuLinks'
 // styles
@@ -17,19 +20,22 @@ const Menu: FC = () => {
 
     // States
     const [isMenuExpanded, setIsMenuExpanded] = useState(false)
-
-    // effects
-    useEffect(() => {
-        // -- control menu-width-variable with the <isMenuExpanded> state
-        window.document.documentElement.style
-        .setProperty('--menu-width', isMenuExpanded ? '18rem' : '5.5rem')
-    }, [isMenuExpanded])
-
+    const { isLoading } = useAppSelector(userSelector)
+    // Handlers
+    const expandMenuHandler = () => {
+        if (!isLoading) {
+            // -- control menu-width-variable with the <isMenuExpanded> state
+            window.document.documentElement.style
+                .setProperty('--menu-width', !isMenuExpanded ? '18rem' : '5.5rem')
+            setIsMenuExpanded(!isMenuExpanded)
+        }
+    }
+    
     return (
         <div className={getStyles(`Menu ${isMenuExpanded ? '' : 'menu-closed'}`)}>
             <div className={styles["menu-header"]}>
                 <h4 className={styles["menu-title"]}>Menu</h4>
-                <AiOutlineMenu className={styles["menu-icon"]} size={32} onClick={() => setIsMenuExpanded(s=>!s)} />
+                <AiOutlineMenu className={styles["menu-icon"]} size={32} onClick={expandMenuHandler} />
             </div>
             {/* links */}
             <MenuLinks />
