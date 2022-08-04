@@ -1,15 +1,17 @@
-// types
 import { FC, useState } from 'react'
+// types
 import { INVENTION_USER_ROLES } from '../../../configs/_client'
 // redux
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { inventionActions, inventionSelector } from '../../../redux/features/invention'
 import { pushFeedback } from '../../../redux/features/ui/ui.actions'
-// styles
-import styles from '../../../styles/components/Invention/EditSections/aboutyou.module.css'
+// utils
 import { updateInventionInputHandler } from '../../../utils/forms/updateInvention.form'
+// components
 import List from '../../new-project/List'
 import GoBack from '../../shared/GoBack'
+// styles
+import styles from '../../../styles/components/Invention/EditSections/aboutyou.module.css'
 
 
 const AboutYou_EditSection: FC = () => {

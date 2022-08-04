@@ -7,6 +7,7 @@ const { authInventionPrivacy, allowPrivileges } = require('../middlewares/authIn
 const { checkValidObjectIdParams } = require('../middlewares/globals')
 // multer setup:
 const upload = require('../utils/uploads-setup')
+const { checkUserData } = require('../middlewares/checkUserData')
 
 
 // Routes:  /api/inventions/assets/
@@ -26,6 +27,7 @@ router.post(
     '/:project_id',
     checkValidObjectIdParams,
     authInventionPrivacy,
+    checkUserData,
     allowPrivileges(PRIVILEGES.CREATOR, PRIVILEGES.CONTRIBUTOR),
     upload,
     assetsController.uploadAsset,

@@ -20,6 +20,7 @@ import { getModuleStylesMethod } from '../../../utils/styles.utils'
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
 
+
 const Information_EditSection: FC = () => {
     // states
     const dispatch = useAppDispatch()
@@ -34,7 +35,6 @@ const Information_EditSection: FC = () => {
         Contributors: Invention.Project.Contributors,
         Roles: Invention.Project.Roles
     })
-    console.log('1: ', data)
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {

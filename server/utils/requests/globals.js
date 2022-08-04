@@ -152,4 +152,4 @@ const getDetailedInvention = async (Invention) => {
 }
 
 
-module.exports = {getDetailedUser, _getDetailedUsersByArray, getDetailedInvention}
+module.exports = {getDetailedUser, _getDetailedUsersByArray, getDetailedInvention, _getDetailedAssetUploadersByArray}

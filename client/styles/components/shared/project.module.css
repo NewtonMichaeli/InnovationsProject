@@ -207,6 +207,7 @@
     .my-projects-list {
         grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
     }
+
     .invention {
         min-width: 23rem;
         aspect-ratio: 14/11.5;

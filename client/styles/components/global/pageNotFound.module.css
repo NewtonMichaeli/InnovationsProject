@@ -1,0 +1,46 @@
+/* styles for 404-page-not-found page component */
+
+.PageNotFound {
+    width: 100%;
+    height: 100%;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 3.5rem;
+}
+
+.PageNotFound .text {
+    width: max-content;
+    height: max-content;
+}
+
+.PageNotFound .text h1 {
+    font-size: 7rem;
+    color: #f55;
+    text-shadow: -2px -1px 2px #000;
+    height: 7.7rem;
+    /* init values & animations */
+    opacity: 0;
+    transform: translateX(-4rem);
+    animation: onSlideShow .5s 0s ease forwards;
+}
+
+.PageNotFound .text h4 {
+    text-align: center;
+    letter-spacing: 3px;
+    /* init values & animations */
+    opacity: 0;
+    transform: translateX(4rem);
+    animation: onSlideShow .5s .1s ease forwards;
+}
+
+
+/* animations */
+
+@keyframes onSlideShow {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

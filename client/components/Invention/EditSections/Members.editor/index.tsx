@@ -1,19 +1,19 @@
 import Head from 'next/head'
 import { FC, useState } from 'react'
 // types
-import { ContributorType } from '../../../types/data/invention.types'
+import { ContributorType } from '../../../../types/data/invention.types'
 // redux
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { inventionActions } from '../../../redux/features/invention'
-import { inventionSelector } from '../../../redux/features/invention'
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
+import { inventionActions } from '../../../../redux/features/invention'
+import { inventionSelector } from '../../../../redux/features/invention'
 // utils
-import { updateInventionInputHandler } from '../../../utils/forms/updateInvention.form'
+import { updateInventionInputHandler } from '../../../../utils/forms/updateInvention.form'
 // components
-import List from '../../new-project/List'
-import GoBack from '../../shared/GoBack'
-import Contributors from '../../new-project/Contributors'
+import GoBack from '../../../shared/GoBack'
+import Contributors from '../../../new-project/Contributors'
+import MemberRoles from './MemberRoles'
 // styles
-import styles from '../../../styles/components/Invention/EditSections/members.module.css'
+import styles from '../../../../styles/components/Invention/EditSections/members.module.css'
 
 
 const Contributors_EditSection: FC = () => {
@@ -34,21 +34,7 @@ const Contributors_EditSection: FC = () => {
             console.log(err)    // -- temp
         }
     }
-    // components
-    const MemberRoles: FC<{
-        Contributor?: ContributorType
-    }> = ({Contributor}) => {
     
-        if (!Contributor) return <></>
-        else return (
-            <div className={styles["MemberRoles"]}>
-                <h4 className={styles["title"]}>{Contributor.Fname}'s Roles</h4>
-                <List list={Contributor.Roles} mode='roles'
-                    setList={(vals) => setContributors(s => s.map(c => c._id === Contributor._id ? {...c, Roles: vals} : c))} />
-            </div>
-        )
-    }
-
     return (
         <section className={styles["Members"]}>
             <Head>
@@ -70,7 +56,8 @@ const Contributors_EditSection: FC = () => {
                     <Contributors list={contributors} setList={setContributors} 
                         setSelected={[selectedContributor, setSelectedContributor]} />
                     {/* member roles */}
-                    <MemberRoles Contributor={contributors.find(({_id}) => selectedContributor === _id)} />
+                    <MemberRoles Contributor={contributors.find(({_id}) => selectedContributor === _id)} 
+                        setContributors={setContributors} />
                     {/* submit */}
                     <div className={styles["btn-submit"]}>
                         <input type="submit" value="Save Changes" onClick={submitHandler} />

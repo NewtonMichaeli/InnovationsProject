@@ -4,6 +4,7 @@ const {ASSETS_FOLDER_PATH, ASSETS_FOLDER_NAME} = require('../../configs/_server'
 const User = require('../../models/User')
 const Invention = require('../../models/Invention')
 const fs = require('fs')
+const { _getDetailedAssetUploadersByArray } = require('./globals')
 
 
 // Upload asset and save asset-related data (path, etc)
@@ -13,11 +14,14 @@ const uploadAsset = async (project_id, data) => {
     const invention = await Invention.findById(project_id)
     if (!invention) return false
 
-    // insert file data to database
-    const new_data = {...data, path: data.path.replace(`${ASSETS_FOLDER_NAME}\\`, '')}
-    invention.Assets.push(new_data)
+    // insert file data into database
+    invention.Assets.push({...data, path: data.path.replace(`${ASSETS_FOLDER_NAME}\\`, '')})
+    
     const result = await invention.save()
-    return {status: result ? true : false, data: result.Assets}
+    return {
+        status: result ? true : false, 
+        data: await _getDetailedAssetUploadersByArray(result.Assets)
+    }
 }
 
 

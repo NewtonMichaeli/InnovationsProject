@@ -19,7 +19,6 @@
 
 /* the content */
 .Assets .content {
-    /* max-width: 50rem; */
     width: 100%;
     height: max-content;
     /* layout */
@@ -50,13 +49,97 @@
     height: max-content;
     /* layout */
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: .8rem 0 1.4rem 0;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .arrow-step-indicator {
     margin: 0 1rem;
+}
+
+/* BEGIN responsive styling - uploads */
+/* steps-progress-track - rsponsive only (display: none) */
+.resp-steps-progress {
+    display: none;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+}
+
+.resp-steps-progress::before {
+    content: "•";
+    position: absolute;
+    top: 85%;
+    right: .9rem;
+    font-weight: 300;
+    transition: right .15s ease;
+    color: #2aa9b5;
+}
+
+.upload-asset-form.step-1 .resp-steps-progress::before {
+    right: 5.1rem;
+}
+
+.upload-asset-form.step-2 .resp-steps-progress::before {
+    right: 3rem;
+}
+
+.resp-steps-progress span {
+    margin-right: .2rem;
+    background-color: #2aa9b5;
+    opacity: .6;
+    font-size: .9rem;
+    padding: .15rem .35rem;
+    transition: background-color .15s ease;
+    cursor: default;
+    color: #fff;
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.resp-steps-progress .back {
+    cursor: pointer;
+}
+
+.resp-steps-progress span.move-next {
+    cursor: pointer;
+}
+
+.resp-steps-progress span.current-step {
+    cursor: pointer;
+    opacity: 1;
+}
+
+.resp-steps-progress span.valid {
+    cursor: pointer;
+    background-color: #34d0de;
+    opacity: 1;
+}
+
+
+.resp-steps-progress span:nth-child(2) {
+    border-radius: .3rem 0 0 .3rem;
+    margin-left: .3rem;
+}
+
+.resp-steps-progress span:nth-child(4) {
+    border-radius: 0 .3rem .3rem 0;
+    background-color: #0d0;
+    opacity: .8;
+}
+
+/* END responsive styling - uploads */
+
+/* form inputs container - wrapping input elements */
+.upload-asset-form .inputs-container {
+    padding: .8rem 0 1.4rem 0;
+    /* layout */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 /* form item - file input */
@@ -138,12 +221,12 @@
     /* layout */
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 }
 
 /* asset items */
 .Asset {
-    min-width: 26rem;
+    min-width: 22rem;
     width: 100%;
     height: 6rem;
     border-radius: .8rem;
@@ -247,9 +330,20 @@
         aspect-ratio: 1/1;
     }
 
+    .inputs-container {
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .inputs-container::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+
     .upload-asset-form .input-file {
         height: 7rem;
         width: 11rem;
+        min-width: 11rem;
     }
 
     .upload-asset-form .input-file p {
@@ -270,4 +364,46 @@
     }
 }
 
-/* 780px */
+@media screen and (max-width: 780px) {
+    .resp-steps-progress {
+        display: flex;
+    }
+
+    .upload-asset-form .inputs-container {
+        position: relative;
+        overflow-x: auto;
+        width: 11rem;
+        height: 10rem;
+    }
+
+    .upload-asset-form .inputs-container>* {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform .25s ease, opacity .1s ease;
+    }
+
+    .inputs-container .input-description .arrow-step-indicator,
+    .inputs-container .input-submit .arrow-step-indicator {
+        display: none;
+    }
+
+    /* steps */
+
+    .upload-asset-form.step-1 .inputs-container .input-file,
+    .upload-asset-form.step-2 .inputs-container .input-description,
+    .upload-asset-form.step-3 .inputs-container .input-submit {
+        transform: translate(-50%, -50%);
+        pointer-events: visible;
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .Assets {
+        padding: 4rem 1.5rem;
+    }
+}

@@ -9,7 +9,7 @@ const responseHandler = require('../utils/responses')
 const uploadAsset = async (req, res) => {
 
     // extract req data
-    const { user, file } = req, { project_id } = req.params, { description } = req.body
+    const { user_id, file } = req, { project_id } = req.params, { description } = req.body
 
     // validate path variables
     if (!file || !file?.path?.length || !file?.originalname?.length) return responseHandler.failedUploadingFile(res)
@@ -19,7 +19,7 @@ const uploadAsset = async (req, res) => {
     // extract file data
     const { path, originalname } = file
 
-    const result = await requestHandler.uploadAsset(project_id, {path, originalname, description, src: user._id.toString()})
+    const result = await requestHandler.uploadAsset(project_id, {path, originalname, description, src: user_id})
     if (result.status) responseHandler.fileUploadedSuccessfully(res, result.data)
     else responseHandler.failedUploadingFile(res)
 }

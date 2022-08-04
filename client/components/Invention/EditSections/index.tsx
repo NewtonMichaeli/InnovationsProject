@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 // types
-import { CLIENT_URIS, INVENTION_SECTIONS, INVENTION_USER_ROLES } from '../../../configs/_client'
+import { INVENTION_SECTIONS, INVENTION_USER_ROLES } from '../../../configs/_client'
 // redux
 import { useAppSelector } from '../../../hooks/redux'
 import { inventionSelector } from '../../../redux/features/invention'

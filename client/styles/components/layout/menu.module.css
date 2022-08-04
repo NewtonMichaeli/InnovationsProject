@@ -93,8 +93,9 @@
 }
 
 /* animative link */
-.menu-link .highlighted-link-animate-top,
-.menu-link .highlighted-link-animate-bottom {
+.menu-link::before,
+.menu-link::after {
+    content: ' ';
     display: block;
     position: absolute;
     width: 1rem;
@@ -107,18 +108,18 @@
     transition: all .3s ease;
 }
 
-.menu-link .highlighted-link-animate-bottom {
+.menu-link::after {
     top: 100%;
     transform: translateY(0);
 }
 
 /* highlighted animation */
-.menu-link.highlighted .highlighted-link-animate-top {
+.menu-link.highlighted::before {
     border-bottom-right-radius: 1rem;
     box-shadow: 0 1rem 0 var(--app-bg-color);
 }
 
-.menu-link.highlighted .highlighted-link-animate-bottom {
+.menu-link.highlighted::after {
     border-top-right-radius: 1rem;
     box-shadow: 0 -1rem 0 var(--app-bg-color);
 }
