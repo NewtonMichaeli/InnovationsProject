@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .user-data .data-item {
     width: 7rem;
     aspect-ratio: 4/3;
@@ -19,16 +20,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* clip */
 }
+
+/* data-item counter */
 .user-data .data-item h1 {
-    /* data-item counter */
     font-size: 1.8rem;
     font-weight: 400;
     height: 2.25rem;
 }
+
+/* data-item title */
 .user-data .data-item h5 {
-    /* data-item title */
     color: #00000096;
 }
 

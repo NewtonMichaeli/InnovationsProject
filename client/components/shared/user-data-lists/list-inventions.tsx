@@ -1,18 +1,19 @@
 // types
 import {FC} from 'react'
 import { UserType } from '../../../types/data/user.types'
+import { PUBLIC_SRC } from '../../../configs/_client'
 // utils
 import { seperateSharedProjectsFormattedInventions } from '../../../utils/inventions.utils'
 // components
 import GoBack from '../GoBack'
 import RenderProjects from '../Project'
 // styles
-import styles from '../../../styles/components/profile/list-inventions.module.css'
+import styles from '../../../styles/components/shared/user-data-lists/list-inventions.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
-import { PUBLIC_SRC } from '../../../configs/_client'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
+
 
 const ListInventions: FC<{
     show: boolean,

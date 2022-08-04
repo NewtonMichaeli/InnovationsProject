@@ -9,6 +9,7 @@
     clip-path: circle(0px);
     transition: clip-path 1s ease;
 }
+
 .list-followers-wrapper.show {
     clip-path: circle(200vw);
 }
@@ -29,6 +30,7 @@
     background-color: #ccc;
     pointer-events: none;
 }
+
 .list-followers-wrapper.show .list-followers {
     background-color: var(--app-bg-color);
     pointer-events: visible;
@@ -42,6 +44,7 @@
     border-radius: 1.85rem;
     padding: 1rem;
 }
+
 /* content header */
 .content .content-header {
     width: 100%;
@@ -53,6 +56,7 @@
     justify-content: space-between;
     padding-bottom: 1rem;
 }
+
 .content-header .profile-pic {
     height: 100%;
     cursor: pointer;
@@ -61,10 +65,12 @@
     align-items: center;
     justify-content: flex-start;
 }
+
 .content-header .profile-pic img {
     height: 100%;
     border-radius: 51%;
 }
+
 .content-header .input-search-followers {
     background-color: #ddd;
     border: 2.5px solid #200E32;
@@ -76,11 +82,13 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .content-header .input-search-followers .icon-search {
     height: 100%;
     width: 2.4rem;
     padding: .3rem;
 }
+
 .content-header .input-search-followers input {
     background-color: transparent;
     outline: none;
@@ -90,6 +98,7 @@
     padding: 0 .15rem;
     padding-top: .15rem;
 }
+
 /* content followers-list */
 .content .content-followers-list {
     width: 100%;
@@ -100,3 +109,25 @@
 }
 
 /* follower (user-item) @ shared components */
+
+/* responsive */
+
+@media screen and (max-width: 610px) {
+    .content {
+        min-width: 22rem;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    .content {
+        transform: scale(.85);
+    }
+
+    .content-header .input-search-followers {
+        width: 65%;
+    }
+
+    .content-header .input-search-followers input {
+        font-size: .78rem;
+    }
+}

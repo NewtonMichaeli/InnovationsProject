@@ -6,7 +6,7 @@ import ListFollowers from './list-followers'
 import ListFollowings from './list-following'
 import ListInventions from './list-inventions'
 // styles
-import styles from '../../../styles/components/shared/dataLists.module.css'
+import styles from '../../../styles/components/shared/user-data-lists/index.module.css'
 
 
 // display status for each data item - default is false

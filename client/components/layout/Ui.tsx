@@ -12,11 +12,13 @@ import { getModuleStylesMethod } from '../../utils/styles.utils'
 const getStyles = getModuleStylesMethod(styles)
 
 
-// Render Notification
+/**
+ * @param notification  the notification to render
+ * @returns a rendered notification component from a given notification
+ */
 const Notification: React.FC<{
-  notification: UiStateType['Notifications'][0],
-  isLast?: boolean
-}> = ({notification, isLast}) => {
+  notification: UiStateType['Notifications'][0]
+}> = ({notification}) => {
   // states
   const { push } = useRouter()
   // -- redirect if <notification.redirect> exists
@@ -35,6 +37,9 @@ const Notification: React.FC<{
 }
 
 
+/**
+ * @returns a rendered (dynamic) notifications list - notifications appear and disappear by their order
+ */
 const UINotifications: FC = () => {
   // States
   const dispatch = useAppDispatch()
@@ -54,5 +59,6 @@ const UINotifications: FC = () => {
     </div>
   )
 }
+
 
 export default UINotifications

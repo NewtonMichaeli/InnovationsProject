@@ -237,6 +237,7 @@
     justify-content: flex-start;
     align-items: center;
     overflow: hidden;
+    outline: 1px solid #666;
 }
 
 .show-more-assets-btn {
@@ -348,7 +349,6 @@
 
     .upload-asset-form .input-file p {
         font-size: .7rem;
-        /* font-weight: 600; */
         text-align: center;
     }
 

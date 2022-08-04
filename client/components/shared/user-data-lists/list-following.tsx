@@ -1,19 +1,20 @@
-// types
 import {FC, useState} from 'react'
+// types
 import { UserType } from '../../../types/data/user.types'
+import { PUBLIC_SRC } from '../../../configs/_client'
 // redux
 import { useAppSelector } from '../../../hooks/redux'
 import { userSelector } from '../../../redux/features/user'
+// utils
+import { filterUsersByQuery } from '../../../utils/others/filterUsersByQuery'
 // icons
 import { BsArrowLeftShort } from 'react-icons/bs'
 import { AiOutlineSearch } from 'react-icons/ai'
 // components
 import UsersList from '../UsersList'
 // styles
-import styles from '../../../styles/components/profile/list-following.module.css'
+import styles from '../../../styles/components/shared/user-data-lists/list-following.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
-import { PUBLIC_SRC } from '../../../configs/_client'
-import { filterUsersByQuery } from '../../../utils/others/filterUsersByQuery'
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)

@@ -3,6 +3,9 @@ import { useRouter } from "next/router"
 // types
 import { FC } from "react"
 import { CLIENT_URIS } from "../../../configs/_client"
+// redux
+import { useAppSelector } from "../../../hooks/redux"
+import { userSelector } from "../../../redux/features/user"
 // icons
 import { AiOutlineHome, AiOutlineLogin, AiOutlineSearch, AiOutlineSetting } from 'react-icons/ai'
 import { BiStats, BiUser } from 'react-icons/bi'
@@ -15,8 +18,10 @@ import { getModuleStylesMethod } from "../../../utils/styles.utils";
 const getStyles = getModuleStylesMethod(styles)
 
 
-// Render menu-links for an Unauthorized user
-export const MenuLinks_UnauthorizedUser: FC = () => {
+/**
+ * @returns a rendered component, with menu-links for an unauthorized user
+ */
+const MenuLinks_UnauthorizedUser: FC = () => {
     // states
     const { pathname } = useRouter()
     // shorthand method for checking current path:
@@ -45,7 +50,9 @@ export const MenuLinks_UnauthorizedUser: FC = () => {
 }
 
 
-// Render menu-links for an Authorized user
+/**
+ * @returns a rendered component, with menu-links for an authorized user
+ */
 export const MenuLinks_AuthorizedUser: FC = () => {
     // states
     const { pathname } = useRouter()
@@ -93,8 +100,10 @@ export const MenuLinks_AuthorizedUser: FC = () => {
 }
 
 
-// Render loading-links-animation while loading
-export const MenuLinks_LoadingUser: FC = () => {
+/**
+ * @returns a rendered component, with loading-links-animation while loading
+ */
+const MenuLinks_LoadingUser: FC = () => {
     return <>{
         Array.apply(null, Array(5)).map((v,i) => (
             <div key={i} className={styles["menu-link-loading"]}>
@@ -103,3 +112,17 @@ export const MenuLinks_LoadingUser: FC = () => {
         ))
     }</>
 }
+
+
+/**
+ * @returns the appropriate menu-links for a user
+ */
+const MenuLinks: FC = () => {
+    const { isLoading, isAuthenticated } = useAppSelector(userSelector)
+    if (isLoading) return <MenuLinks_LoadingUser/>
+    else if (isAuthenticated) return <MenuLinks_AuthorizedUser/>
+    else return <MenuLinks_UnauthorizedUser/>
+}
+
+
+export default MenuLinks

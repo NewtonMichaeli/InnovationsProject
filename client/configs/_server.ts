@@ -20,7 +20,7 @@ export const SERVER_URI__GET_ASSET = (project_id: string, filename: string) =>
     `${SERVER_ASSETS_API}/${project_id}/${filename}`
 
 export const SERVER_URI__DOWNLOAD_ASSET = (project_id: string, filename: string) =>
-    `${SERVER_ASSETS_API}/${project_id}/${filename}/download`
+    `${SERVER_ASSETS_API}/${project_id}/${filename}/d`
 
 // Follow/Unfollow user
 export const SERVER_URI__FOLLOW_USER = (action: action, target_user: string) =>

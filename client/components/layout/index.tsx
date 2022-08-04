@@ -1,8 +1,8 @@
 import { useRouter } from "next/router"
-import { FC } from "react"
+import { FC, useEffect } from "react"
 // redux
-import { useAppSelector } from "../../hooks/redux"
-import { userSelector } from "../../redux/features/user"
+import { useAppDispatch, useAppSelector } from "../../hooks/redux"
+import { userActions, userSelector } from "../../redux/features/user"
 // utils
 import { CLIENT_URIS, isAccessingSecuredUri } from "../../configs/_client"
 // components
@@ -14,16 +14,27 @@ import UINotifications from "./Ui"
 import styles from '../../styles/components/layout/index.module.css'
 
 
+/**
+ * Layout middleware component - adds menu, navigation-bar, ui-notification-bar
+ * @param children  children to render within the layout content-container
+ * @returns the entire app-tree structured with a layout
+ */
 const Layout: FC<{children: JSX.Element[]}> = ({children}) => {
     // states
-    const { isLoading, isAuthenticated, User } = useAppSelector(userSelector)
+    const dispatch = useAppDispatch()
     const { push, pathname } = useRouter()
     const IsAccessingSecuredUri = isAccessingSecuredUri(pathname)
-
+    const { isLoading, isAuthenticated, User } = useAppSelector(userSelector)
+    
     // check authorization
     if (!isLoading && !isAuthenticated && IsAccessingSecuredUri)
         push(CLIENT_URIS.LOGIN, null, {shallow: true})
-
+    
+    // fetch user data on first load
+    useEffect(() => {
+        if (!User) dispatch(userActions.fetchUserData())
+    }, [])
+    
     return (
         <div className={styles['App']}>
             {/* main-menu */}

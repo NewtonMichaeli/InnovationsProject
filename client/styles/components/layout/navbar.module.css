@@ -9,9 +9,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    /* z-index: 1; */
+    padding: 0 2.5rem;
 }
 .Navbar .logo-home-link {
     cursor: pointer;
@@ -26,7 +24,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* z-index: 2; */
 }
 
 /* login button */
@@ -44,7 +41,6 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    /* z-index: 2; */
 }
 .profile-viewer-wrapper img.btn-view-profile {
     height: 60%;
@@ -137,4 +133,19 @@
     border: 2px solid #1C052B;
     color: #1C052B;
     background: transparent;
+}
+
+
+/* responsive */
+
+@media screen and (max-width: 430px) {
+    .Navbar {
+        padding: 0 1.5rem;
+    }
+    .Navbar .logo-home-link {
+        height: 28%;
+    }
+    .profile-viewer-wrapper img.btn-view-profile {
+        height: 50%;
+    }
 }

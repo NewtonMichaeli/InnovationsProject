@@ -3,21 +3,30 @@ import { FC, useState } from 'react'
 // types
 import { CLIENT_URIS, PUBLIC_SRC } from '../../../configs/_client'
 import { UserType } from '../../../types/data/user.types'
+import { deleteAuthTokenCookie } from '../../../configs/_token'
+// redux
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { signout } from '../../../redux/features/user/user.actions'
+import { userSelector } from '../../../redux/features/user'
+// components
+import Loading from '../../global/loading'
 // icons
 import { MdKeyboardArrowDown } from 'react-icons/md'
 // styles
 import styles from '../../../styles/components/layout/navbar.module.css'
 import { getModuleStylesMethod } from '../../../utils/styles.utils'
-import { deleteAuthTokenCookie } from '../../../configs/_token'
-import { useAppDispatch } from '../../../hooks/redux'
-import { signout } from '../../../redux/features/user/user.actions'
+
 
 // multiple styles getter util
 const getStyles = getModuleStylesMethod(styles)
 
 
-export const ProfileSection_UnauthorizedUser: FC = () => {
-
+/**
+ * Profile section for unauthorized user
+ * @returns a component, rendering a login link for the user
+ */
+const ProfileSection_UnauthorizedUser: FC = () => {
+    
     return (
         <Link href={CLIENT_URIS.LOGIN}>
             <a className={styles["btn-login"]}>Login</a>
@@ -26,18 +35,21 @@ export const ProfileSection_UnauthorizedUser: FC = () => {
 }
 
 
-export const ProfileSection_AuthorizedUser: FC<{
-    User: UserType
-}> = ({User}) => {
+/**
+ * Profile section for authorized user
+ * @returns a component, rendering a user-profile-window
+ */
+const ProfileSection_AuthorizedUser: FC = () => {
     // states
     const dispatch = useAppDispatch()
+    const { User } = useAppSelector(userSelector)
     const [viewProfile, setViewProfile] = useState(false)
     // handlers
     const logoutHandler = () => {
         document.cookie = deleteAuthTokenCookie()
         dispatch(signout())
     }
-
+    
     return (
         <div className={styles["profile-viewer-wrapper"]}>
             <img className={styles['btn-view-profile']} onClick={() => setViewProfile(!viewProfile)} 
@@ -64,3 +76,18 @@ export const ProfileSection_AuthorizedUser: FC<{
         </div>
     )
 }
+
+
+/**
+ * Profile-section-renderer component
+ * @returns the appropriate profile-section (checking user & authorization)
+ */
+const ProfileSection: FC = () => {
+    const { isLoading, isAuthenticated } = useAppSelector(userSelector)
+    if (isLoading) return <Loading width="1.2rem" />
+    else if (isAuthenticated) return <ProfileSection_AuthorizedUser />
+    else return <ProfileSection_UnauthorizedUser />
+}
+
+
+export default ProfileSection
