@@ -23,14 +23,9 @@ app.use(cors({
     credentials: true,
     // temp origins:
     origin: [
-        'http://127.0.0.1:8084', 
-        'http://127.0.0.1:3000', 
         'http://localhost:8084', 
-        'http://localhost:3000',
-        'http://192.168.1.17:8084',
-        'http://192.168.1.17:3000',
-        'http://192.168.1.18:8084',
-        'http://192.168.1.18:3000',
+        'http://localhost:3000', 
+        'http://localhost:4000',
     ]
 }))
 
