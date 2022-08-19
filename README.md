@@ -16,7 +16,7 @@ cd client && npm i
 cd ../server && npm i
 ```
 
-### 2. Run the application
+### 2. Launch the application
 
 * This project uses MongoDB as a primary database. Either install it on your computer, or use it's cloud version. You can modify the ```DB_CONNECTION``` connection string accordingly inside ```server/.env```.
 
