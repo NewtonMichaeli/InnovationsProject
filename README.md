@@ -16,16 +16,18 @@ cd client && npm i
 cd ../server && npm i
 ```
 
-### 2. Run the server
+### 2. Run the application
 
+* This project uses MongoDB as a primary database. Either install it on your computer, or use it's cloud version. You can modify the ```DB_CONNECTION``` connection string accordingly inside ```server/.env```.
+
+
+Start the server first:
 ```cmd
 cd server && npm run dev
 ```
 
-* This project uses MongoDB as a primary database. Either install it on your computer, or use it's cloud version. You can modify the ```DB_CONNECTION``` connection string accordingly inside ```server/.env```.
-
-### 3. Run the client
-
+Then run the client (in another command line):
 ```cmd
-cd ../client && npm run dev
+cd client && npm run dev
 ```
+Open [localhost:3000](http://localhost:3000) to see the application.
