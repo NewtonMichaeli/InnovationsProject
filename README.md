@@ -1,5 +1,7 @@
 # InnovationProject
 
+> * App is currently under development
+
 ```InnovationProject```, a project-sharing platform, allowing it's users to create inventions and join others to contribute to other inventions.
 
 ## Features:
