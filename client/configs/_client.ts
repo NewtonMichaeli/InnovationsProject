@@ -1,9 +1,27 @@
-// configs for client
+// config file for client url-endpoints, enums, etc
 
 import { STATUS_ENUM } from "../types/data/invention.types"
 
+
 // invention sections, currently 3/4 are editable
 export type INVENTION_SECTIONS = 'members' | 'information' | 'assets' | 'aboutyou'
+
+// invention user roles, 3 in total
+export enum INVENTION_USER_ROLES {
+    CREATOR = "CREATOR",
+    CONTRIBUTOR = "CONTRIBUTOR",
+    OBSERVER = "OBSERVER"
+}
+
+
+// default search limit (explore)
+export const DEF_SEARCH_LIMIT = 5
+
+// shorthand for getting assets from /public directory
+export const PUBLIC_SRC = {
+    PROFILE_PIC: (n: number) => `/profile-pics/${n}.jpeg`,
+    INVENTION_STATUS: (status: keyof typeof STATUS_ENUM) => `/invention-status-icons/${status.replace(' ', '-')}.svg`
+}
 
 // all client URIs
 // underscore-prefix: methods for concatonating url params
@@ -25,15 +43,8 @@ export const CLIENT_URIS = {
     _DASHBOARD: (project_id: string) => `/my-projects/${project_id}`
 }
 
-export enum INVENTION_USER_ROLES {
-    CREATOR = "CREATOR",
-    CONTRIBUTOR = "CONTRIBUTOR",
-    OBSERVER = "OBSERVER"
-}
-
 // all unauthorized uris
-export const CLIENT_SECURED_URIS = [
-    // CLIENT_URIS.HOME,
+const CLIENT_SECURED_URIS = [
     CLIENT_URIS.PROFILE,
     CLIENT_URIS.PROFILE_REDIRECTED_FROM_EXPLORE_PAGE,
     CLIENT_URIS.SETTINGS,
@@ -45,13 +56,3 @@ export const CLIENT_SECURED_URIS = [
 // check unauthorized uri using the above array
 export const isAccessingSecuredUri = (pathname: string) =>
     pathname === CLIENT_URIS.HOME || CLIENT_SECURED_URIS.some(uri => pathname.startsWith(uri))
-
-
-// shorthand for getting assets from /public directory
-export const PUBLIC_SRC = {
-    PROFILE_PIC: (n: number) => `/profile-pics/${n}.jpeg`,
-    INVENTION_STATUS: (status: keyof typeof STATUS_ENUM) => `/invention-status-icons/${status.replace(' ', '-')}.svg`
-}
-
-// default search limit (explore)
-export const DEF_SEARCH_LIMIT = 5

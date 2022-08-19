@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SERVER_URI__CREATE_INVENTION, SERVER_URI__FOLLOW_USER, SERVER_URI__GET_USER_DATA, SERVER_URI__INVITE_TO_PROJECT, SERVER_URI__LOGIN, SERVER_URI__REGISTER, SERVER_URI__UPDATE_USER } from '../../../configs/_server'
+import { SERVER_API } from '../../../configs/_server'
 import { createInvention_type, inviteToProject_type } from '../types/user.types'
 // types
 import { fetchUserData_type, follow_type, register_type, login_type, updateUser_type } from '../types/user.types'
@@ -12,7 +12,7 @@ const axiosRequest = axios.create({
 // userAPI: fetch user data
 export const fetchUserData: fetchUserData_type = async ({ username }, headers) => {
     const res = await axiosRequest.get(
-        SERVER_URI__GET_USER_DATA(username),
+        SERVER_API.auth.get_user_data(username),
         headers
     )
     return res.data
@@ -21,7 +21,7 @@ export const fetchUserData: fetchUserData_type = async ({ username }, headers) =
 // userAPI: follow/unfollow given user
 export const follow: follow_type = async ({ action, target_user }, headers) => {
     const res = await axiosRequest.patch(
-        SERVER_URI__FOLLOW_USER(action, target_user),
+        SERVER_API.auth.follow_user(action, target_user),
         headers
     )
     return res.data
@@ -30,7 +30,7 @@ export const follow: follow_type = async ({ action, target_user }, headers) => {
 // userAPI: send login data
 export const login: login_type = async (data, headers) => {
     const res = await axiosRequest.post(
-        SERVER_URI__LOGIN(),
+        SERVER_API.auth.login(),
         data,
         headers
     )
@@ -40,7 +40,7 @@ export const login: login_type = async (data, headers) => {
 // userAPI: send register data
 export const register: register_type = async (data, headers) => {
     const res = await axiosRequest.post(
-        SERVER_URI__REGISTER(),
+        SERVER_API.auth.register(),
         data,
         headers
     )
@@ -50,7 +50,7 @@ export const register: register_type = async (data, headers) => {
 // userAPI: send update data
 export const updateUser: updateUser_type = async (data, headers) => {
     const res = await axiosRequest.patch(
-        SERVER_URI__UPDATE_USER(),
+        SERVER_API.auth.update_user(),
         data,
         headers
     )
@@ -60,7 +60,7 @@ export const updateUser: updateUser_type = async (data, headers) => {
 // inventionAPI: create new invention
 export const createInvention: createInvention_type = async ({ data }, headers) => {
     const res = await axiosRequest.post(
-        SERVER_URI__CREATE_INVENTION(),
+        SERVER_API.invention.create_invention(),
         { ...data, Contributors: data.Contributors.map(c => ({ user_id: c._id, roles: c.Roles })) },
         headers
     )
@@ -70,7 +70,7 @@ export const createInvention: createInvention_type = async ({ data }, headers) =
 // inventionAPI: invite to project
 export const inviteToProject: inviteToProject_type = async ({ action, project_id, user_id, roles }, headers) => {
     const res = await axiosRequest.patch(
-        SERVER_URI__INVITE_TO_PROJECT(project_id, action, user_id),
+        SERVER_API.invention.invite_to_project(project_id, action, user_id),
         { roles },
         headers
     )

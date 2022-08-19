@@ -2,7 +2,7 @@ import Link from 'next/link'
 import {Dispatch, FC, useRef, KeyboardEvent, SetStateAction, useEffect} from 'react'
 // types
 import { AssetType } from '../../types/data/invention.types'
-import { SERVER_URI__DOWNLOAD_ASSET, SERVER_URI__GET_ASSET } from '../../configs/_server'
+import { SERVER_API } from '../../configs/_server'
 // redux
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { uiActions } from '../../redux/features/ui'
@@ -29,7 +29,7 @@ const AssetDataSection: FC<{
     const dispatch = useAppDispatch()
     // handlers
     const copyAssetLink = async () => {
-        await navigator.clipboard.writeText(SERVER_URI__GET_ASSET(project_id, Asset.path))
+        await navigator.clipboard.writeText(SERVER_API.assets.get_asset(project_id, Asset.path))
         dispatch(uiActions.pushFeedback({status: true, msg: 'Asset copied to your clipboard!'}))
     }
 
@@ -42,7 +42,7 @@ const AssetDataSection: FC<{
             {/* asset options */}
             <div className={styles["asset-options"]}>
                 <HiOutlineLink size={26} title="Copy asset link" onClick={copyAssetLink} />
-                <Link target={'_blank'} href={SERVER_URI__DOWNLOAD_ASSET(project_id, Asset.path)}>
+                <Link target={'_blank'} href={SERVER_API.assets.download_asset(project_id, Asset.path)}>
                     <HiOutlineDownload size={26} title="Download asset" />
                 </Link>
             </div>

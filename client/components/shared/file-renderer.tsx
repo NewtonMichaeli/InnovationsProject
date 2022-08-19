@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 // types
-import { SERVER_URI__GET_ASSET } from "../../configs/_server";
+import { SERVER_API } from "../../configs/_server";
 import { AssetType } from "../../types/data/invention.types"
 // icons
 import { TbFileText } from 'react-icons/tb'
@@ -37,7 +37,7 @@ const RenderFile: FC<{
     const onError = () => setHasError(true)
     const getTextData = async () => {
         try {
-            const result = await fetch(SERVER_URI__GET_ASSET(project_id, filename), {credentials: "include"})
+            const result = await fetch(SERVER_API.assets.get_asset(project_id, filename), {credentials: "include"})
             const text = await result.text()
             setTextData(text)
         }
@@ -71,7 +71,7 @@ const RenderFile: FC<{
     else if (allowedFileExtensions._image.includes(file_ext)) {
         return <img 
             className={styles['image-asset']} 
-            src={SERVER_URI__GET_ASSET(project_id, filename)} 
+            src={SERVER_API.assets.get_asset(project_id, filename)} 
             alt={filename} onError={onError} />
     }
 
@@ -79,7 +79,7 @@ const RenderFile: FC<{
     else if (allowedFileExtensions._video.includes(file_ext)) {
         return <video 
             className={styles['video-asset']} 
-            src={SERVER_URI__GET_ASSET(project_id, filename)} 
+            src={SERVER_API.assets.get_asset(project_id, filename)} 
             controls={detailed}
             autoPlay={detailed}
             onError={onError} />

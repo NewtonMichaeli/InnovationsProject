@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { DEF_SEARCH_LIMIT } from '../../../configs/_client'
-import { SERVER_URI__DELETE_ASSET, SERVER_URI__GET_INVENTION_DATA, SERVER_URI__SEARCH_BY_QUERY, SERVER_URI__UPDATE_INVENTION, SERVER_URI__UPLOAD_ASSET } from '../../../configs/_server'
+import { SERVER_API } from '../../../configs/_server'
 // types
 import { deleteAsset_type, fetchInventionData_type, searchByQuery_type, updateInvention_type, uploadAsset_type } from '../types/invention.types'
 
@@ -12,7 +12,7 @@ const axiosRequest = axios.create({
 // inventionAPI: fetch invention data
 export const fetchInventionData: fetchInventionData_type = async ({ project_id }, headers) => {
     const res = await axiosRequest.get(
-        SERVER_URI__GET_INVENTION_DATA(project_id),
+        SERVER_API.invention.get_invention_data(project_id),
         headers
     )
     return res.data
@@ -21,7 +21,7 @@ export const fetchInventionData: fetchInventionData_type = async ({ project_id }
 // userAPI: search (users/inventions) by query
 export const searchByQuery: searchByQuery_type = async ({ query, limit = DEF_SEARCH_LIMIT, excludeUsers }, headers) => {
     const res = await axiosRequest.post(
-        SERVER_URI__SEARCH_BY_QUERY(query, limit),
+        SERVER_API.auth.search_by_query(query, limit),
         { excludeUsers },
         headers,
     )
@@ -31,7 +31,7 @@ export const searchByQuery: searchByQuery_type = async ({ query, limit = DEF_SEA
 // inventionAPI: update invention
 export const updateInvention: updateInvention_type = async ({ project_id, data }, headers) => {
     const res = await axiosRequest.patch(
-        SERVER_URI__UPDATE_INVENTION(project_id),
+        SERVER_API.invention.update_invention(project_id),
         { ...data, Contributors: data.Contributors?.map(c => ({ user_id: c._id, roles: c.Roles })) },
         headers
     )
@@ -44,7 +44,7 @@ export const uploadAsset: uploadAsset_type = async ({ project_id, data }, header
     formdata.append('description', data.description)
     formdata.append('file', data.file)
     const res = await axiosRequest.post(
-        SERVER_URI__UPLOAD_ASSET(project_id),
+        SERVER_API.assets.upload_asset(project_id),
         formdata,
         headers
     )
@@ -54,7 +54,7 @@ export const uploadAsset: uploadAsset_type = async ({ project_id, data }, header
 // inventionAPI: delete asset
 export const deleteAsset: deleteAsset_type = async ({ project_id, asset_id }, headers) => {
     const res = await axiosRequest.delete(
-        SERVER_URI__DELETE_ASSET(project_id, asset_id),
+        SERVER_API.assets.delete_asset(project_id, asset_id),
         headers
     )
     return res.data
