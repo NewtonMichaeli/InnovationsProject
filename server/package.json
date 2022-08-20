@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "client": "npm run dev --prefix ../client",
+    "api": "nodemon index.js",
+    "dev": "concurrently \"npm run api\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +25,7 @@
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
+    "concurrently": "^7.3.0",
     "nodemon": "^2.0.18"
   }
 }

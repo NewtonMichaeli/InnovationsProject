@@ -23,13 +23,9 @@ cd ../server && npm i
 * This project uses MongoDB as a primary database. Either install it on your computer, or use it's cloud version. You can modify the ```DB_CONNECTION``` connection string accordingly inside ```server/.env```.
 
 
-Start the server first:
+Start the application:
 ```cmd
 cd server && npm run dev
 ```
 
-Then run the client (in another command line):
-```cmd
-cd client && npm run dev
-```
-Open [localhost:3000](http://localhost:3000) to see the application.
+Open [localhost:4000](http://localhost:3000) to see the application.
